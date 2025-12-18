@@ -903,6 +903,16 @@ export function createSettingsTheme(theme: { ColorPalette: IColorPalette; TextTh
     ...settingsTheme,
     groupBackground: theme.ColorPalette.brand.secondaryBackground,
     iconColor: theme.ColorPalette.brand.text,
+    newSettingColors: {
+      bgColorUp: '#D9D9D933',
+      bgColorDown: '#E0E0F5',
+      headerTitle: '#424242',
+      buttonColor: '#6666CC',
+      bgSection: '#FFFFFF66',
+      textColor: '#7C7C7C',
+      textBody: '#1B1B1B',
+      deleteBtn: '#F35242',
+    },
   }
 }
 export const SettingsTheme = createSettingsTheme({ ColorPalette, TextTheme })

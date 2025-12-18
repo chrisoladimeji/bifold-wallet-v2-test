@@ -386,11 +386,23 @@ export interface IHomeTheme {
   link: TextStyle & ITextThemeStyle & { color: string }
 }
 
+export interface INewSettingColors {
+  bgColorUp: string
+  bgColorDown: string
+  headerTitle: string
+  buttonColor: string
+  bgSection: string
+  textColor: string
+  textBody: string
+  deleteBtn: string
+}
+
 export interface ISettingsTheme {
   groupHeader: TextStyle & ITextThemeStyle & { marginBottom: number }
   text: TextStyle & ITextThemeStyle & { color: string }
   groupBackground: string
   iconColor: string
+  newSettingColors: INewSettingColors
 }
 
 export interface IChatTheme {

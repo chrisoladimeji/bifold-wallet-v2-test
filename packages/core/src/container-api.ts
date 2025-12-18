@@ -32,6 +32,7 @@ import { AgentSetupReturnType } from './hooks/useBifoldAgentSetup'
 import { OnboardingStackProps } from './navigators/OnboardingStack'
 import { AgentBridge } from './services/AgentBridge'
 import { IRefreshOrchestrator } from './modules/openid/refresh/types'
+import { IWorkflowRegistry } from './modules/workflow/types'
 
 export type FN_ONBOARDING_DONE = (
   dispatch: React.Dispatch<ReducerAction<unknown>>,
@@ -143,6 +144,7 @@ export const UTILITY_TOKENS = {
   UTIL_APP_VERSION_MONITOR: 'utility.app-version-monitor',
   UTIL_AGENT_BRIDGE: 'utility.agent-bridge',
   UTIL_REFRESH_ORCHESTRATOR: 'utility.refresh-orchestrator',
+  UTIL_WORKFLOW_REGISTRY: 'utility.workflow-registry',
 } as const
 
 export const CONFIG_TOKENS = {
@@ -232,6 +234,7 @@ export type TokenMapping = {
   [TOKENS.COMPONENT_CONNECTION_ALERT]: React.FC<{ connectionLabel?: string }>
   [TOKENS.UTIL_AGENT_BRIDGE]: AgentBridge
   [TOKENS.UTIL_REFRESH_ORCHESTRATOR]: IRefreshOrchestrator
+  [TOKENS.UTIL_WORKFLOW_REGISTRY]: IWorkflowRegistry
 }
 
 export interface Container {

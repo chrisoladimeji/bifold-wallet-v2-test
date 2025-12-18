@@ -1,0 +1,76 @@
+/**
+ * GradientBackgroundRenderer
+ *
+ * Renders a gradient background for the chat screen.
+ * Ported from bifold-wallet-dc.
+ */
+
+import React from 'react'
+import { View, ViewStyle } from 'react-native'
+
+import { useTheme } from '../../../contexts/theme'
+import { IChatBackgroundRenderer } from '../types'
+
+// Note: LinearGradient from react-native-linear-gradient may need to be installed
+// If not available, falls back to View with background color
+let LinearGradient: any
+try {
+  LinearGradient = require('react-native-linear-gradient').default
+} catch {
+  LinearGradient = null
+}
+
+interface GradientBackgroundProps {
+  children: React.ReactNode
+  style?: ViewStyle
+}
+
+/**
+ * Gradient background component
+ */
+export const GradientBackground: React.FC<GradientBackgroundProps> = ({ children, style }) => {
+  const theme = useTheme()
+
+  // Try to get gradient config, fallback to solid color if not available
+  const gradientConfig = (theme.OnboardingTheme as any).gradientBackground
+
+  if (LinearGradient && gradientConfig) {
+    const { colors, start, end } = gradientConfig
+    return (
+      <LinearGradient colors={colors} start={start} end={end} style={[{ flex: 1 }, style]}>
+        {children}
+      </LinearGradient>
+    )
+  }
+
+  // Fallback to simple View with background color
+  return (
+    <View style={[{ flex: 1, backgroundColor: theme.ColorPalette.brand.primaryBackground }, style]}>
+      {children}
+    </View>
+  )
+}
+
+/**
+ * Gradient background renderer class implementing IChatBackgroundRenderer
+ */
+export class GradientBackgroundRenderer implements IChatBackgroundRenderer {
+  private style?: ViewStyle
+
+  constructor(style?: ViewStyle) {
+    this.style = style
+  }
+
+  render(children: React.ReactNode): React.ReactElement {
+    return <GradientBackground style={this.style}>{children}</GradientBackground>
+  }
+}
+
+/**
+ * Factory function to create a GradientBackgroundRenderer
+ */
+export function createGradientBackgroundRenderer(style?: ViewStyle): GradientBackgroundRenderer {
+  return new GradientBackgroundRenderer(style)
+}
+
+export default GradientBackground

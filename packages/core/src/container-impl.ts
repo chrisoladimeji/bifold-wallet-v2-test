@@ -29,6 +29,17 @@ import { IHistoryManager } from './modules/history'
 import HistoryManager from './modules/history/context/historyManager'
 import { RefreshOrchestrator } from './modules/openid/refresh/refreshOrchestrator'
 import { IRefreshOrchestrator } from './modules/openid/refresh/types'
+import {
+  WorkflowRegistry,
+  createCredentialHandler,
+  createProofHandler,
+  createBasicMessageHandler,
+  createActionMenuHandler,
+  createChatScreenConfig,
+} from './modules/workflow'
+import BellIcon from './assets/img/bell-icon.svg'
+import InfoIcon from './assets/img/info-icon.svg'
+import Logomark from './assets/img/Logomark.svg'
 import OnboardingStack from './navigators/OnboardingStack'
 import { DefaultScreenLayoutOptions } from './navigators/defaultLayoutOptions'
 import { DefaultScreenOptionsDictionary } from './navigators/defaultStackOptions'
@@ -250,6 +261,31 @@ export class MainContainer implements Container {
     )
 
     this._container.registerInstance(TOKENS.UTIL_REFRESH_ORCHESTRATOR, orchestrator)
+
+    // Register Workflow Registry with default handlers
+    const workflowRegistry = new WorkflowRegistry()
+    workflowRegistry.register(createCredentialHandler())
+    workflowRegistry.register(createProofHandler())
+    workflowRegistry.register(createBasicMessageHandler())
+    workflowRegistry.register(createActionMenuHandler())
+
+    // Configure default chat screen with bell icon, info icon, and VD-style credentials
+    workflowRegistry.setChatScreenConfig(
+      createChatScreenConfig({
+        header: {
+          LogoComponent: Logomark,
+          BellIconComponent: BellIcon,
+          InfoIconComponent: InfoIcon,
+        },
+        useVDCredentialRenderer: true,
+        features: {
+          showMenuButton: true,
+          showInfoButton: true,
+        },
+      })
+    )
+
+    this._container.registerInstance(TOKENS.UTIL_WORKFLOW_REGISTRY, workflowRegistry)
 
     return this
   }

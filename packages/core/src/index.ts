@@ -78,6 +78,7 @@ import { CredentialListFooterProps } from './types/credential-list-footer'
 import { QrCodeScanError } from './types/error'
 import { RefreshOrchestrator } from './modules/openid/refresh/refreshOrchestrator'
 import { AgentBridge } from './services/AgentBridge'
+import * as workflow from './modules/workflow'
 
 export { animatedComponents } from './animated-components'
 export { EventTypes, LocalStorageKeys } from './constants'
@@ -172,6 +173,10 @@ export type { ScanCameraProps } from './components/misc/ScanCamera'
 export type { DismissiblePopupModalProps } from './components/modals/DismissiblePopupModal'
 export type { BannerSectionProps } from './components/views/Banner'
 export type { IRefreshOrchestrator } from './modules/openid/refresh/types'
+
+// Workflow module exports
+export * from './modules/workflow'
+export { workflow }
 
 export {
   AbstractBifoldLogger,
