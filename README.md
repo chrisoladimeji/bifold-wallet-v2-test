@@ -1,393 +1,688 @@
-# Bifold README.md
+# DigiCred Wallet v2 - Test Repository
 
-# Summary
+> **QA Testing Suite for DigiCred Wallet Reskinning Project**
+> 
+> This repository contains all test artifacts, automation scripts, and quality assurance documentation for the DigiCred Wallet v2 reskinning initiative.
 
-The Bifold Wallet is an open-source project designed to enhance the way we interact with digital identities, making the process both secure and user-friendly. It is based on React Native, which lets it run smoothly on different devices and platforms, such as iOS, and Android. It is a leading example of digital wallets, with a focus on making verifiable credentials (VCs) simple and convenient for everyone. Our mission is to create a collaborative community that enhances the way digital credentials are handled, making them accessible and straightforward for all.
+---
 
-**Key Features and Benefits:**
+## Table of Contents
 
-- **Unified Digital Identity Management:** Emphasizing security and user-friendliness, Bifold excels in consolidating and managing digital identities across various standards like AnonCreds and W3C VC Data Model. This capability positions Bifold as a pivotal resource for secure and private handling of digital identities, accessible to all.
+1. [Project Overview](#project-overview)
+2. [Test Scope & Objectives](#test-scope--objectives)
+3. [Prerequisites & Environment Setup](#prerequisites--environment-setup)
+4. [Repository Structure](#repository-structure)
+5. [Test Framework Setup](#test-framework-setup)
+6. [Running Tests](#running-tests)
+7. [Test Artifacts](#test-artifacts)
+8. [Defect Management](#defect-management)
+9. [Contributing](#contributing)
 
-- **Seamless Multi-Platform Use:** Thanks to its React Native architecture, Bifold delivers a smooth experience on any device, enabling users to manage their digital identities whether they are using a phone or a tablet. This cross-platform flexibility means that developers can create applications once and deploy them on both iOS and Android, ensuring a consistent and accessible user experience.
-
-- **Community-Driven Development:** Bifold is more than a tool; it's a community initiative aimed at fostering collaboration and sharing innovations. By bringing together diverse groups, from organizations to individuals, Bifold encourages the pooling of resources and knowledge to facilitate the broader adoption and understanding of verifiable credentials.
-
-- **Widespread Adoption and Trust:** With a growing list of users around the globe, including governmental bodies in Canada and teams in Brazil, Bifold has proven its reliability and relevance. Its international use showcases the platform's adaptability to various needs and its role in advancing digital identity management on a global scale.
-
-- **Adaptability to Diverse Needs:** Bifold's design caters to a wide range of project types and complexities, offering tailored solutions for managing digital identities. This adaptability ensures that users can streamline their processes related to verifiable credentials, improving efficiency and simplification in digital identity initiatives.
-
-# Current Status
-
-Currently, we're updating Bifold's architecture to make it easier to maintain and customize for various use cases. Check out our [design roadmap issue](https://github.com/openwallet-foundation/bifold-wallet/issues/754) for more information, and we welcome your feedback.
-
-## Architecture & Credential Lifecycle (OpenID4VC)
-
-For a deeper look into how Bifold manages credential validity, refresh, and lifecycle automation, check out the [OpenID Credential Refresh Lifecycle Architecture](./docs/cred-lifecycle-arc.md).  
-This document contains diagrams and explanations of wallet-side flows such as:
-
-- Status list verification for SD-JWT credentials
-- Automated refresh with stored refresh tokens
-- User and background triggers
-- UX integration and fallback strategies
-
-## Contributing
-
-We warmly welcome contributions to the Bifold project! If you're interested in joining our community, please start by reading our [Contributor's Guide][contributor-guide].
-
-## Community
-
-Joining the Bifold community on OpenWallet Foundation Discord is a breeze:
-
-1. Head to https://discord.gg/openwalletfoundation
-2. Click on 'Accept the invite'
-3. Dive into the various channels!
-
-`#bifold` is our main discussion channel for everything Bifold wallet related. And since Bifold uses Credo (formerly Aries Framework Javascript) extensively, you might also want to join the `#credo` channel for deeper technical conversations. We can't wait to see you there!
-
-Additionally, we hold a bi-weekly user group meeting. You can find the updated schedule, past agendas, and meeting recordings on this [wiki page](https://wiki.openwallet.foundation/display/BIFOLD/).
-
-Please note, being part of the OpenWallet Foundation, we expect all interactions to adhere to the [Antitrust Policy](https://wiki.hyperledger.org/download/attachments/29034696/Antitrustnotice.png?version=1&modificationDate=1581695654000&api=v2) and [Code of Conduct][code-of-conduct].
-
-# Developers Guide
-
-The following document is intended to help developers get started with the Bifold project. It includes information on how to set up your development environment, build the project, and run the app in an emulator.
+---
 
 ## Project Overview
 
-The Bifold Wallet is a user-friendly mobile agent that is built with React Native and uses Credo to exchange verifiable credentials with other agents. While Credo handles the heavy lifting of verifiable credential work, Bifold focuses on user experience and interactions with these credentials.
+The DigiCred Wallet is a React Native mobile application built on the Bifold Wallet framework from the OpenWallet Foundation. This test repository supports the **reskinning project** which involves UI/UX changes, branding updates, and ensuring functional integrity across the wallet application.
 
-Key points to note:
+**Key Technologies:**
+- React Native (Cross-platform mobile)
+- Credo (formerly Aries Framework JavaScript)
+- Verifiable Credentials (AnonCreds, W3C VC)
+- TypeScript
 
-- Bifold uses the Credo library, which in turn uses Rust libraries.
-- Credo uses the HTTP protocol to communicate with Aries agents and WebSockets for messaging via a mediator.
-- Bifold relies on a mediator because mobile devices don't have a fixed IP address and often don't accept inbound network connections. The mediator, a service that runs on a server with a fixed IP address, relays messages between an agent and Bifold. The mediator is configured within the Bifold app.
+**Source Repository:** [DigiCred-Holdings/bifold-wallet-v2](https://github.com/DigiCred-Holdings/bifold-wallet-v2)
 
-### Registering DID Method Resolvers
+---
 
-When creating a themed wallet based on Bifold, you need to explicitly register DID method resolvers in your agent configuration. While Credo core provides resolvers for several DID methods (such as `did:web`, `did:key`, `did:jwk`, and `did:peer`), they must be explicitly registered in the `DidsModule` configuration. Any additional DID methods from other Credo packages (such as `did:webvh`) must also be explicitly registered.
+## Test Scope & Objectives
 
-This configuration is done in the `getAgentModules` function, typically located in `packages/core/src/utils/agent.ts`:
+### In Scope
+- ✅ UI/UX Testing (Visual regression, layout, responsiveness)
+- ✅ Functional Testing (Wallet operations, credential flows)
+- ✅ Compatibility Testing (Android/iOS, various screen sizes)
+- ✅ Data Migration Testing (Existing user data integrity)
+- ✅ QR Scanner Component Testing
+- ✅ Navigation Flow Testing
+- ✅ Offline Simulation Testing
+
+### Out of Scope
+- ❌ Backend/Server-side testing (covered separately)
+- ❌ Performance/Load testing at scale
+- ❌ Security penetration testing
+
+### Test Objectives
+1. Validate all reskinned UI components render correctly
+2. Ensure no regression in existing wallet functionality
+3. Verify cross-platform compatibility (Android & iOS)
+4. Confirm data migration preserves user credentials
+5. Achieve minimum 80% test coverage on critical paths
+
+---
+
+## Prerequisites & Environment Setup
+
+### System Requirements
+
+| Requirement | Version | Notes |
+|-------------|---------|-------|
+| Node.js | ≥18.x | LTS recommended |
+| npm/yarn | Latest | yarn preferred |
+| Java JDK | 17+ | For Android builds |
+| Android Studio | Latest | With SDK 33+ |
+| Xcode | 15+ | macOS only, for iOS |
+| Ruby | 2.x | For iOS CocoaPods |
+| Git | Latest | Version control |
+
+### Step 1: Clone the Repository
+
+```bash
+# Clone the test repository
+git clone https://github.com/chrisoladimeji/bifold-wallet-v2-test.git
+
+# Navigate to project directory
+cd bifold-wallet-v2-test
+```
+
+### Step 2: Install Global Dependencies
+
+```bash
+# Install Node.js dependencies
+npm install -g yarn jest playwright appium
+
+# Verify installations
+node --version
+yarn --version
+jest --version
+npx playwright --version
+appium --version
+```
+
+### Step 3: Install Project Dependencies
+
+```bash
+# Install project dependencies
+yarn install
+
+# For iOS (macOS only)
+cd ios && pod install && cd ..
+```
+
+### Step 4: Configure Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Test Environment Configuration
+TEST_ENV=staging
+MEDIATOR_URL=<your-mediator-url>
+OCA_URL=<your-oca-url>
+
+# Appium Configuration
+APPIUM_HOST=localhost
+APPIUM_PORT=4723
+
+# Device Farm (Optional)
+BROWSERSTACK_USER=<your-username>
+BROWSERSTACK_KEY=<your-access-key>
+```
+
+### Step 5: Appium Mobile Environment Setup
+
+```bash
+# Install Appium drivers
+appium driver install uiautomator2  # Android
+appium driver install xcuitest       # iOS
+
+# Install Appium Doctor for diagnostics
+npm install -g appium-doctor
+
+# Run diagnostics
+appium-doctor --android
+appium-doctor --ios  # macOS only
+
+# Start Appium server
+appium --allow-insecure chromedriver_autodownload
+```
+
+### Step 6: Android Emulator Setup
+
+```bash
+# List available AVDs
+emulator -list-avds
+
+# Create new AVD (if needed)
+sdkmanager "system-images;android-33;google_apis;x86_64"
+avdmanager create avd -n test_device -k "system-images;android-33;google_apis;x86_64"
+
+# Start emulator
+emulator -avd test_device
+```
+
+### Step 7: Build the Application
+
+```bash
+# Build Android debug APK
+yarn android:build:debug
+
+# Build iOS (macOS only)
+yarn ios:build:debug
+```
+
+---
+
+## Repository Structure
+
+```
+bifold-wallet-v2-test/
+├── __tests__/                    # Test suites root
+│   ├── unit/                     # Unit tests (Jest)
+│   │   ├── components/           # React component tests
+│   │   │   ├── QRScanner.test.ts
+│   │   │   ├── CredentialCard.test.ts
+│   │   │   └── Navigation.test.ts
+│   │   └── utils/                # Utility function tests
+│   │
+│   ├── integration/              # Integration tests
+│   │   ├── wallet-operations.test.ts
+│   │   └── credential-flow.test.ts
+│   │
+│   ├── e2e/                      # End-to-end tests
+│   │   ├── playwright/           # Playwright web tests
+│   │   │   ├── navigation.spec.ts
+│   │   │   └── credential-issuance.spec.ts
+│   │   │
+│   │   └── appium/               # Appium mobile tests
+│   │       ├── android/
+│   │       │   ├── onboarding.spec.ts
+│   │       │   └── scan-qr.spec.ts
+│   │       └── ios/
+│   │           ├── onboarding.spec.ts
+│   │           └── scan-qr.spec.ts
+│   │
+│   └── offline/                  # Offline simulation tests
+│       └── offline-mode.test.ts
+│
+├── test-data/                    # Test data management
+│   ├── factory/                  # Test data factory
+│   │   ├── credential.factory.ts
+│   │   ├── connection.factory.ts
+│   │   └── user.factory.ts
+│   ├── mocks/                    # Mock data & servers
+│   │   ├── mock-server.ts
+│   │   └── fixtures/
+│   └── migrations/               # Data migration test sets
+│
+├── test-cases/                   # Manual test documentation
+│   ├── TC_UI_UX/                 # UI/UX test cases
+│   ├── TC_FUNCTIONAL/            # Functional test cases
+│   ├── TC_COMPATIBILITY/         # Compatibility test cases
+│   └── TC_DATA_MIGRATION/        # Data migration test cases
+│
+├── reports/                      # Test execution reports
+│   ├── coverage/                 # Code coverage reports
+│   ├── allure-results/           # Allure report data
+│   └── screenshots/              # Failure screenshots
+│
+├── docs/                         # Documentation
+│   ├── TEST_PLAN.md              # Master test plan
+│   ├── TEST_STRATEGY.md          # Test strategy document
+│   ├── DEFECT_TEMPLATE.md        # Defect reporting template
+│   └── TEST_CASE_MATRIX.xlsx     # Traceability matrix
+│
+├── config/                       # Configuration files
+│   ├── jest.config.js
+│   ├── playwright.config.ts
+│   ├── appium.config.ts
+│   └── wdio.conf.js
+│
+├── scripts/                      # Utility scripts
+│   ├── run-tests.sh
+│   ├── generate-report.sh
+│   └── setup-emulator.sh
+│
+├── .github/                      # CI/CD workflows
+│   └── workflows/
+│       └── test.yml
+│
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+---
+
+## Test Framework Setup
+
+### Jest Configuration (Unit Tests)
+
+Create `config/jest.config.js`:
+
+```javascript
+module.exports = {
+  preset: 'react-native',
+  testEnvironment: 'node',
+  roots: ['<rootDir>/__tests__/unit'],
+  testMatch: ['**/*.test.ts', '**/*.test.tsx'],
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  collectCoverage: true,
+  coverageDirectory: '<rootDir>/reports/coverage',
+  coverageReporters: ['text', 'lcov', 'html'],
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+  },
+  setupFilesAfterEnv: ['<rootDir>/config/jest.setup.js'],
+};
+```
+
+### Playwright Configuration (E2E Web)
+
+Create `config/playwright.config.ts`:
 
 ```typescript
-dids: new DidsModule({
-  resolvers: [
-    new WebvhDidResolver(),  // From @credo-ts/webvh package
-    new WebDidResolver(),     // Core resolver
-    new JwkDidResolver(),     // Core resolver
-    new KeyDidResolver(),     // Core resolver
-    new PeerDidResolver(),    // Core resolver
+import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './__tests__/e2e/playwright',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: [
+    ['html', { outputFolder: 'reports/playwright' }],
+    ['allure-playwright'],
   ],
-}),
+  use: {
+    baseURL: 'http://localhost:8081',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+  },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] },
+    },
+  ],
+});
 ```
 
-**Important:** When new DID method resolvers are added to Credo packages, they must be explicitly registered in themed wallets. This ensures that your wallet can resolve DIDs using those methods. Keep track of new DID methods added to Credo and update your resolver configuration accordingly.
+### Appium Configuration (Mobile E2E)
 
-## Setup
+Create `config/appium.config.ts`:
 
-The setup for Bifold is similar to other React Native projects. The following sections will walk you through the process of setting up your development environment, installing dependencies, and running the app in an emulator.
+```typescript
+export const androidCapabilities = {
+  platformName: 'Android',
+  'appium:automationName': 'UiAutomator2',
+  'appium:deviceName': 'Android Emulator',
+  'appium:app': './apps/digicred-wallet.apk',
+  'appium:appPackage': 'com.digicred',
+  'appium:appActivity': '.MainActivity',
+  'appium:noReset': false,
+  'appium:fullReset': false,
+  'appium:newCommandTimeout': 240,
+};
 
-### Prerequisites
+export const iosCapabilities = {
+  platformName: 'iOS',
+  'appium:automationName': 'XCUITest',
+  'appium:deviceName': 'iPhone 14',
+  'appium:platformVersion': '16.0',
+  'appium:app': './apps/DigiCredWallet.app',
+  'appium:bundleId': 'com.digicred.wallet',
+  'appium:noReset': false,
+};
 
-[Android Studio](https://developer.android.com/studio)
-[Apple Xcode](https://developer.apple.com/xcode/)
-
-Since this is a mobile development project, this project is primarily developed on MacOS, support for Windows/Linux is quite limited
-
-## Suggested Setup
-
-1.  Install [Homebrew](https://brew.sh/)
-
-    ```
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    ```
-
-    Follow post installation instructions. The following should be added to your `~/.zshrc`
-
-    ```sh
-    # Set PATH, MANPATH, etc., for Homebrew.
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-    ```
-
-    IMPORTANT: close and start a new terminal session
-
-2.  Install Watchman
-
-    ```
-    brew install watchman
-    ```
-
-3.  Install NVM
-    ```
-    brew install nvm
-    ```
-    Follow post installation instructions. The following should be added to your `~/.zshrc`
-    ```sh
-    source $(brew --prefix nvm)/nvm.sh
-    ```
-4.  Install Node (use the version from the GitHub Actions)
-
-    ```sh
-    nvm install 20.19.2
-    ```
-
-    Activate node version by adding the following to your `~/.zshrc`
-
-    ```sh
-    source $(brew --prefix nvm)/nvm.sh
-    nvm use 20.19.2
-    ```
-
-5.  Install Yarn
-    ```sh
-    corepack enable
-    corepack prepare yarn@4.9.2 --activate
-    ```
-    IMPORTANT: Check `packageManager` for the exact and up-todate version in the root [package.json](./package.json)
-6.  Manually Download and Install Android Studio as per documentation:
-    https://developer.android.com/studio
-
-        1. Setup Android SDK by adding the following to your `~/.zshrc`
-            ```sh
-            # The ordering is important!!!
-            export ANDROID_HOME=$HOME/Library/Android/sdk
-            export PATH=$PATH:$ANDROID_HOME/emulator
-            export PATH=$PATH:$ANDROID_HOME/tools
-            export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-            export PATH=$PATH:$ANDROID_HOME/tools/bin
-            export PATH=$PATH:$ANDROID_HOME/platform-tools
-            ```
-            IMPORTANT: close and start a new terminal session
-        2. Install additional build tools
-            ```sh
-            sdkmanager --install "emulator" "build-tools;31.0.0" "cmake;3.22.1" "platforms;android-31" "ndk;25.1.8937393" "system-images;android-31;google_apis;arm64-v8a"
-            ```
-        3. Setup Build Tools
-            ```sh
-            export PATH=$PATH:$ANDROID_HOME/cmake/3.22.1/bin
-            ```
-        4. Create Android Virtual Device (AVD)
-            ```sh
-            avdmanager --verbose create avd --force --name Pixel_6_API_31 --device "pixel_6" --package "system-images;android-31;google_apis;arm64-v8a" --tag "google_apis" --abi "arm64-v8a"
-            ```
-        5. Start Emulator (AVD)
-            ```sh
-            emulator -avd Pixel_6_API_31 -netdelay none -netspeed full
-            ```
-
-7.  Install and Activate Java
-    1. Install Java
-       ```sh
-       brew install --cask zulu@17
-       ```
-    1. Activate Java by adding the following to your `~/.zshrc`
-       ```sh
-       # check output of /usr/libexec/java_home -V
-       alias java17="export JAVA_HOME=\"/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home\""
-       java17 # optional if you want to have Java 17 always enabled by default
-       ```
-       IMPORTANT: close and start a new terminal session
-
-**ProTip 🤓**
-
-You can use [mise-en-place](https://mise.jdx.dev/getting-started.html) to easily configure the development tools for this project. Once mise is setup simply run
-
-```sh
-mise install
+export const appiumServerConfig = {
+  host: process.env.APPIUM_HOST || 'localhost',
+  port: parseInt(process.env.APPIUM_PORT || '4723'),
+  path: '/',
+};
 ```
 
-### Configuration for All Platforms
+---
 
-Start by cloning the repository:
+## Running Tests
 
-```sh
-git clone https://github.com/openwallet-foundation/bifold-wallet.git bifold \ &&
-cd bifold
+### Unit Tests (Jest)
+
+```bash
+# Run all unit tests
+yarn test:unit
+
+# Run with coverage
+yarn test:unit --coverage
+
+# Run specific test file
+yarn test:unit __tests__/unit/components/QRScanner.test.ts
+
+# Run in watch mode
+yarn test:unit --watch
 ```
 
-Install all the package dependencies by running the following command from the root of the cloned repository:
+### E2E Tests - Playwright (Web)
 
-```sh
-yarn install
+```bash
+# Run all Playwright tests
+yarn test:e2e:web
+
+# Run with UI mode
+yarn test:e2e:web --ui
+
+# Run specific test
+yarn test:e2e:web navigation.spec.ts
+
+# Generate report
+yarn playwright show-report
 ```
 
-Some packages need to be built (transpiled) before they can be used from the app. Do this with the following command:
+### E2E Tests - Appium (Mobile)
 
-```sh
-yarn run build
+```bash
+# Start Appium server (separate terminal)
+appium
+
+# Run Android tests
+yarn test:e2e:android
+
+# Run iOS tests (macOS only)
+yarn test:e2e:ios
+
+# Run specific mobile test
+yarn test:e2e:android --spec __tests__/e2e/appium/android/onboarding.spec.ts
 ```
 
-As noted above Bifold requires a mediator to communicate with other Agents. For development purposes, this can be set by creating a `.env` file in the following directory:
+### Run All Tests
 
-```sh
-touch samples/app/.env
+```bash
+# Run complete test suite
+yarn test:all
+
+# Run with report generation
+yarn test:all --report
 ```
 
-Add a line to the `.env` file with the following content:
+### Generate Test Reports
 
-```text
-MEDIATOR_URL=https://us-east.public.mediator.indiciotech.io/message?oob=eyJAaWQiOiJlOTFkZmYxOC1mYzIwLTRkMjItYjljMi1jMzZhZDI0ZTYwODEiLCJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJoYW5kc2hha2VfcHJvdG9jb2xzIjpbImh0dHBzOi8vZGlkY29tbS5vcmcvZGlkZXhjaGFuZ2UvMS4wIl0sInNlcnZpY2VzIjpbeyJpZCI6IiNpbmxpbmUiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa2dTWUJNNjNpSE5laVQyVlNRdTdiYnRYaEdZQ1FyUEo4dUVHdXJiZkdiYmdFIl0sInNlcnZpY2VFbmRwb2ludCI6Imh0dHBzOi8vdXMtZWFzdC5wdWJsaWMubWVkaWF0b3IuaW5kaWNpb3RlY2guaW8vbWVzc2FnZSJ9LHsiaWQiOiIjaW5saW5lIiwidHlwZSI6ImRpZC1jb21tdW5pY2F0aW9uIiwicmVjaXBpZW50S2V5cyI6WyJkaWQ6a2V5Ono2TWtnU1lCTTYzaUhOZWlUMlZTUXU3YmJ0WGhHWUNRclBKOHVFR3VyYmZHYmJnRSJdLCJzZXJ2aWNlRW5kcG9pbnQiOiJ3c3M6Ly93cy51cy1lYXN0LnB1YmxpYy5tZWRpYXRvci5pbmRpY2lvdGVjaC5pby93cyJ9XSwiYWNjZXB0IjpbImRpZGNvbW0vYWlwMSIsImRpZGNvbW0vYWlwMjtlbnY9cmZjMTkiXSwibGFiZWwiOiJDbG91ZCBNZWRpYXRvciJ9
+```bash
+# Generate Allure report
+yarn report:allure
+
+# Open coverage report
+yarn report:coverage
+
+# Generate combined dashboard
+yarn report:dashboard
 ```
 
-You can use the above mentioned public mediator hosted by Indecio or set up your own mediator. See [Aries Mediator](https://github.com/hyperledger/aries-mediator-service) for more information.
+---
 
-### Custom Mediators in Bifold
+## Test Artifacts
 
-Bifold wallet supports using custom mediators. To succesfully add a mediator to the wallet for use, the mediator invitation must contain a goal code field with the value:
+### Test Plan Document
+Location: `docs/TEST_PLAN.md`
 
-```text
-"aries.vc.mediate"
+Includes:
+- Scope & objectives
+- Test environment setup
+- Test data strategy
+- Entry/exit criteria
+- Defect management workflow
+- Reporting cadence
+
+### Test Case Matrix
+Location: `docs/TEST_CASE_MATRIX.xlsx`
+
+Traceability matrix mapping:
+- User Stories → Test Cases
+- Requirements → Test Coverage
+- Defects → Test Cases
+
+### Test Case Categories
+
+| Category | Prefix | Location |
+|----------|--------|----------|
+| UI/UX | TC_UI_ | `test-cases/TC_UI_UX/` |
+| Functional | TC_FUNC_ | `test-cases/TC_FUNCTIONAL/` |
+| Compatibility | TC_COMPAT_ | `test-cases/TC_COMPATIBILITY/` |
+| Data Migration | TC_DM_ | `test-cases/TC_DATA_MIGRATION/` |
+
+### Sample Test Case Format
+
+```markdown
+## TC_UI_001: Verify Splash Screen Display
+
+**Module:** Onboarding
+**Priority:** High
+**Type:** UI/UX
+
+### Preconditions
+- Fresh app installation
+- Device connected to network
+
+### Test Steps
+1. Launch the DigiCred Wallet application
+2. Observe the splash screen
+
+### Expected Results
+- Splash screen displays within 2 seconds
+- DigiCred logo is centered and properly scaled
+- Brand colors match design specifications (#XXXXXX)
+- Animation plays smoothly (if applicable)
+
+### Test Data
+- N/A
+
+### Screenshots
+- [Attach reference screenshots]
 ```
 
-Currently the way to add a custom mediator is by scanning a QR code containing the invitation URL. This will take you to a settings screen in the developer options allowing you to select which mediator to connect to.
+---
 
-# Running Bifold
+## Defect Management
 
-## Running Bifold on an Android Device or Emulator
+### Defect Template
+Location: `docs/DEFECT_TEMPLATE.md`
 
-The simplest way to run Bifold on Android is via Android Studio. Here's how:
+### Defect Severity Levels
 
-1. Open Android Studio.
-2. Select `File -> Open` and navigate to the `samples/app/android` directory. This will load the project into Android Studio.
-3. Run the app on a connected device or emulator by selecting one from the list and clicking the green 'Play' button.
+| Severity | Description | Example |
+|----------|-------------|---------|
+| Critical | App crash, data loss | Wallet crashes on credential scan |
+| High | Major feature broken | Cannot issue new credentials |
+| Medium | Feature works with workaround | QR scanner slow to focus |
+| Low | Minor visual issues | Pixel misalignment on button |
 
-If you prefer using the command line interface (CLI), follow these steps:
+### JIRA Integration
 
-### For Linux
+Defects should be logged in JIRA with:
+- **Project:** DIGICRED
+- **Issue Type:** Bug
+- **Labels:** `reskin`, `wallet-v2`
+- **Components:** Based on affected area
 
-(Note: The following instructions assume you have Android Studio and the Android SDK installed in your home directory. If your setup is different, adjust the paths accordingly.)
+### Defect Workflow
 
-#### Android SDK
-
-You will need to have the Android SDK installed. You can install it using your package manager or download it from the [Android Studio](https://developer.android.com/studio) website.
-
-Then make sure you have ANDROID_HOME environment variable set to the Android SDK directory:
-
-```sh
-export ANDROID_HOME=~/Android/Sdk
+```
+New → Triaged → In Progress → In Review → Verified → Closed
+                    ↓
+                 Reopened
 ```
 
-For more detailed information how to setup android SDK in react native, please refer to the [React Native Android SDK Setup](https://reactnative.dev/docs/set-up-your-environment#android-sdk) documentation.
+---
 
-#### OpenJDK17
+## CI/CD Integration
 
-You will need to have OpenJDK 17 installed. You can install it using your package manager.
+### GitHub Actions Workflow
 
-##### Manual Installation
+Create `.github/workflows/test.yml`:
 
-Some linux distros, such as Kali, might not have OpenJDK 17 available. The instructions below mentions `zulu-17.jdk`, which is a OpenJDK 17 distribution that can be downloaded from [Zulu OpenJDK](https://www.azul.com/downloads/?package=jdk#zulu). You can then run `sudo dpkg -i zulu17.58.21-ca-jdk17.0.15-linux_amd64.deb
-` to install it.
+```yaml
+name: DigiCred Wallet Tests
 
-If you have more than one version installed, you can run the following command to pick openJDK17 version:
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
 
-```sh
-sudo update-alternatives --config java
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: yarn install
+      - run: yarn test:unit --coverage
+      - uses: codecov/codecov-action@v3
+
+  e2e-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: yarn install
+      - run: npx playwright install --with-deps
+      - run: yarn test:e2e:web
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: reports/playwright/
+
+  e2e-android:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - run: yarn install
+      - run: yarn test:e2e:android
 ```
 
-1. List the available emulators:
+---
 
-   ```sh
-   ~/Android/Sdk/emulator/emulator -list-avds
-   ```
+## Package.json Scripts
 
-   If no emulators are listed, check the Android Studio documentation to set up an emulator.
+Add to `package.json`:
 
-**ProTip 🤓**
-
-Don't use the emulator located at `~/Android/Sdk/tools/emulator` its older, deprecated, and will probably complain about missing the x86 emulator for newer SDK versions.
-
-2. Start an emulator from the list:
-
-   ```sh
-   ~/Android/Sdk/emulator/emulator -avd Pixel_5_API_25 -netdelay none -netspeed full
-   ```
-
-**ProTip 🤓**
-
-Use `-partition-size 1024` to increase the size of the emulator's data partition. This is useful if you're running the app in the emulator for an extended period of time.
-
-3. Start Metro, the React Native packager:
-
-   ```sh
-   cd samples/app
-   yarn start
-   ```
-
-4. Make sure you have the `JAVA_HOME` environment variable set correctly:
-
-   ```sh
-   export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
-   ```
-
-5. Allow the Android emulator to communicate with Metro on port `tcp:8097`:
-
-   ```sh
-   ~/Android/Sdk/platform-tools/adb reverse tcp:8081 tcp:8081
-   ```
-
-6. Finally, run the app in the emulator:
-
-   ```sh
-   cd samples/app
-   yarn run android
-   ```
-
-This will launch Bifold on your selected Android emulator for development and testing.
-
-## Running Bifold on an iOS Device
-
-To develop for iOS, you'll need a Mac with Xcode installed and potentially a developer team membership to execute Bifold on your device.
-
-The easiest way to run Bifold on an iOS device is through Xcode, as outlined below:
-
-1. Install the [Cocoapods](https://cocoapods.org/) package manager. You can use brew or any method you prefer:
-
-```sh
-brew install cocoapods
+```json
+{
+  "scripts": {
+    "test:unit": "jest --config config/jest.config.js",
+    "test:e2e:web": "playwright test --config config/playwright.config.ts",
+    "test:e2e:android": "wdio run config/wdio.android.conf.js",
+    "test:e2e:ios": "wdio run config/wdio.ios.conf.js",
+    "test:all": "yarn test:unit && yarn test:e2e:web",
+    "test:offline": "jest --config config/jest.config.js --testPathPattern=offline",
+    "report:allure": "allure generate reports/allure-results -o reports/allure-report --clean && allure open reports/allure-report",
+    "report:coverage": "open reports/coverage/lcov-report/index.html",
+    "lint:tests": "eslint __tests__/**/*.ts",
+    "mock:server": "node test-data/mocks/mock-server.js"
+  }
+}
 ```
 
-2. Install the necessary dependencies:
+---
 
-```sh
-cd samples/app/ios
-pod install
+## Test Data Strategy
+
+### Test Data Factory
+
+Location: `test-data/factory/`
+
+```typescript
+// credential.factory.ts
+export const createMockCredential = (overrides = {}) => ({
+  id: `cred-${Date.now()}`,
+  type: 'UniversityDegreeCredential',
+  issuer: 'did:example:issuer123',
+  issuanceDate: new Date().toISOString(),
+  credentialSubject: {
+    degree: 'Bachelor of Science',
+    name: 'Test User',
+  },
+  ...overrides,
+});
 ```
 
-3. Open the workspace (not the project file) in Xcode:
+### Mock Server
 
-```sh
-open samples/app/ios/AriesBifold.xcworkspace
+For offline/edge-case testing:
+
+```bash
+# Start mock server
+yarn mock:server
+
+# Mock server provides:
+# - Simulated mediator responses
+# - Offline mode simulation
+# - Error scenario injection
 ```
 
-4. In Xcode, select your device, development team, and (if necessary) your Bundle ID. Note: Detailing these steps is beyond the scope of this guide.
+---
 
-5. Run the app on your device by clicking the 'Play' button in Xcode. This will launch Bifold on your selected iOS device for development and testing. It will also launch Metro, the React Native packager, in a separate terminal window. If you prefer to do this manually use the following command:
+## Recommended Future Enhancements
 
-```sh
-cd samples/app
-yarn start
-```
+Based on test planning, consider implementing:
 
-## OpenID Credentials Refresh Lifecycle
+- [ ] Visual regression suite (Playwright + snapshots)
+- [ ] Performance baseline testing (splash timing, issuance timing)
+- [ ] Device farm integration (BrowserStack, AWS Device Farm)
+- [ ] Pre-release upgrade test suite
+- [ ] Automated accessibility testing
+- [ ] Security scanning integration
 
-Bifold now supports an **automated OpenID4VCI + SD-JWT credential refresh lifecycle**, enabling wallets to:
+---
 
-- Periodically check credential **status lists**.
-- Automatically use stored **refresh tokens** to obtain a new access token.
-- Request and replace credentials seamlessly when a credential becomes invalid or revoked.
+## Contributing
 
-For a detailed walkthrough of the flow, sequence diagrams, and implementation notes, see
+1. Create a feature branch from `develop`
+2. Follow test case naming conventions
+3. Ensure all tests pass locally
+4. Submit PR with test coverage report
+5. Request review from QA lead
 
-- [Cred Refresh Lifecycle Overview](docs/openid-refresh.md)
-- [Technical Diagram](docs/cred-lifecycle-arc.md)
+---
 
-# Success Stories
+## Contact
 
-The organizations or jurisdictions listed below have either deployed a project based on Bifold, are currently assessing the technology, or are actively developing a solution. If you want your organization to be included in this list, please submit a Pull Request against this README.md.
+**QA Lead:** Chris Oladimeji
+**Slack Channel:** #digicred-reskin-qa
+**JIRA Board:** DIGICRED-Wallet-Reskin
 
-- [BC Wallet](https://apps.apple.com/us/app/bc-wallet/id1587380443)
+---
 
-The BC Wallet is a digital wallet app developed by the Government of British Columbia.
+## References
 
-[contributor-guide]: ./CONTRIBUTING
-[developers-guide]: ./DEVELOPER.md
-[code-of-conduct]: ./CODE_OF_CONDUCT.md
+- [OpenWallet Foundation Bifold Wallet](https://github.com/openwallet-foundation/bifold-wallet)
+- [Aries Mobile Test Harness](https://github.com/openwallet-foundation/owl-mobile-wallet-test-harness)
+- [Jest Documentation](https://jestjs.io/docs/getting-started)
+- [Playwright Documentation](https://playwright.dev/docs/intro)
+- [Appium Documentation](https://appium.io/docs/en/latest/)
+
+---
+
+*Last Updated: December 24, 2024*
+*Version: 1.0.0*
