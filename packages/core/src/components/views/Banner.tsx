@@ -102,7 +102,7 @@ export const BannerSection: React.FC<BannerSectionProps> = ({
   expanded,
   onToggle,
 }) => {
-  const { Spacing, ColorPalette } = useTheme()
+  const { Spacing, ColorPalette, SettingsTheme } = useTheme()
   const styles = StyleSheet.create({
     container: {
       backgroundColor: ColorPalette.brand.primary,
@@ -130,18 +130,19 @@ export const BannerSection: React.FC<BannerSectionProps> = ({
     }
   }
 
+  // Use theme colors for status indicators
   const bannerColor = (type: string): string => {
     switch (type) {
       case 'error':
-        return '#CE3E39'
+        return SettingsTheme.newSettingColors.deleteBtn
       case 'warning':
-        return '#F8BB47'
+        return SettingsTheme.newSettingColors.warningColor || '#F8BB47'
       case 'info':
-        return '#2E5DD7'
+        return SettingsTheme.newSettingColors.buttonColor
       case 'success':
-        return '#42814A'
+        return SettingsTheme.newSettingColors.successColor || ColorPalette.semantic.success
       default:
-        return '#2E5DD7'
+        return SettingsTheme.newSettingColors.buttonColor
     }
   }
 

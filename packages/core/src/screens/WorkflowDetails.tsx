@@ -134,7 +134,7 @@ function flattenContextForDisplay(
 const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route, navigation }) => {
   const { instanceId } = route.params as { instanceId: string }
   const { t } = useTranslation()
-  const { ColorPalette } = useTheme()
+  const { ColorPalette, SettingsTheme } = useTheme()
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [formValues, setFormValues] = useState<Record<string, string>>({})
   const insets = useSafeAreaInsets()
@@ -179,19 +179,24 @@ const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route, navigation }) 
     }, [refresh]),
   })
 
-  // State configuration for icons and colors
+  // State configuration for icons and colors using theme
+  const successColor = SettingsTheme.newSettingColors.successColor || ColorPalette.semantic.success
+  const errorColor = SettingsTheme.newSettingColors.deleteBtn
+  const warningColor = SettingsTheme.newSettingColors.warningColor || '#FF9800'
+  const infoColor = SettingsTheme.newSettingColors.buttonColor
+
   const stateConfig: Record<string, { icon: string; color: string }> = useMemo(() => ({
-    pending: { icon: 'clock-outline', color: '#FF9800' },
+    pending: { icon: 'clock-outline', color: warningColor },
     in_progress: { icon: 'loading', color: ColorPalette.brand.primary },
-    awaiting_input: { icon: 'pencil', color: '#2196F3' },
-    completed: { icon: 'check-circle', color: '#4CAF50' },
-    done: { icon: 'check-circle', color: '#4CAF50' },
-    failed: { icon: 'close-circle', color: '#F44336' },
-    error: { icon: 'alert-circle', color: '#F44336' },
-    cancelled: { icon: 'cancel', color: '#9E9E9E' },
-    paused: { icon: 'pause-circle', color: '#FF9800' },
+    awaiting_input: { icon: 'pencil', color: infoColor },
+    completed: { icon: 'check-circle', color: successColor },
+    done: { icon: 'check-circle', color: successColor },
+    failed: { icon: 'close-circle', color: errorColor },
+    error: { icon: 'alert-circle', color: errorColor },
+    cancelled: { icon: 'cancel', color: ColorPalette.grayscale.mediumGrey },
+    paused: { icon: 'pause-circle', color: warningColor },
     default: { icon: 'state-machine', color: ColorPalette.brand.primary },
-  }), [ColorPalette])
+  }), [ColorPalette, successColor, errorColor, warningColor, infoColor])
 
   const { icon, color } = useMemo(() => {
     const statusValue = (status as any)?.status?.toLowerCase() ?? 'default'
@@ -491,7 +496,7 @@ const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route, navigation }) 
       textAlign: 'right',
     },
     completeCard: {
-      backgroundColor: '#4CAF5015',
+      backgroundColor: `${successColor}15`,
       borderRadius: 12,
       padding: 16,
       alignItems: 'center',
@@ -499,12 +504,12 @@ const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route, navigation }) 
       justifyContent: 'center',
       gap: 8,
       borderWidth: 1,
-      borderColor: '#4CAF5030',
+      borderColor: `${successColor}30`,
     },
     completeText: {
       fontSize: 14,
       fontWeight: '600',
-      color: '#4CAF50',
+      color: successColor,
     },
     actionsContainer: {
       paddingTop: 12,
@@ -711,7 +716,7 @@ const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route, navigation }) 
           {/* Completed State */}
           {isComplete && (
             <View style={styles.completeCard}>
-              <Icon name="check-circle" size={32} color="#4CAF50" />
+              <Icon name="check-circle" size={32} color={successColor} />
               <ThemedText style={styles.completeText}>Workflow Complete</ThemedText>
             </View>
           )}

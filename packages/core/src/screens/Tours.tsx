@@ -68,8 +68,8 @@ const Tours: React.FC = () => {
               <BouncyCheckbox
                 accessibilityLabel={value}
                 disableText
-                fillColor="#FFFFFFFF"
-                unfillColor="#FFFFFFFF"
+                fillColor={ColorPalette.grayscale.white}
+                unfillColor={ColorPalette.grayscale.white}
                 size={36}
                 innerIconStyle={{ borderColor: ColorPalette.brand.primary, borderWidth: 2 }}
                 ImageComponent={() => <Icon name="circle" size={18} color={ColorPalette.brand.primary}></Icon>}

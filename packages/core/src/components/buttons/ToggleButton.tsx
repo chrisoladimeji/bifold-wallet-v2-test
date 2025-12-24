@@ -74,7 +74,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
             width: 25,
             height: 25,
             borderRadius: 20,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: ColorPalette.grayscale.white,
             justifyContent: 'center',
             alignItems: 'center',
           }}

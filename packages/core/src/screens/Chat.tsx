@@ -46,7 +46,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
   const isFocused = useIsFocused()
   const { assertNetworkConnected, silentAssertConnectedNetwork } = useNetwork()
   const [showActionSlider, setShowActionSlider] = useState(false)
-  const { ChatTheme: theme, Assets } = useTheme()
+  const { ChatTheme: theme, Assets, ColorPalette } = useTheme()
   const [theirLabel, setTheirLabel] = useState(getConnectionName(connection, store.preferences.alternateContactNames))
   const headerHeight = useHeaderHeight()
 
@@ -124,7 +124,7 @@ const Chat: React.FC<ChatProps> = ({ route }) => {
                 accessibilityRole="button"
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               >
-                <Icon name="video" size={24} color="#007AFF" />
+                <Icon name="video" size={24} color={ColorPalette.brand.primary} />
               </TouchableOpacity>
             )}
             <InfoIcon connectionId={connection?.id as string} />

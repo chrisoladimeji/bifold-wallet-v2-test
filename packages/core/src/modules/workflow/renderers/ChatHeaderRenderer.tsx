@@ -6,10 +6,11 @@
  */
 
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import { ThemedText } from '../../../components/texts/ThemedText'
 import { useTheme } from '../../../contexts/theme'
 import { ChatHeaderIconButton, ChatHeaderProps, IChatHeaderRenderer } from '../types'
 
@@ -99,16 +100,16 @@ export const ChatHeader: React.FC<HeaderProps> = ({
             accessibilityRole="button"
             style={styles.backButton}
           >
-            <Text style={[styles.backArrow, { color: textColor }]}>{'‹'}</Text>
+            <ThemedText style={[styles.backArrow, { color: textColor }]}>{'‹'}</ThemedText>
           </TouchableOpacity>
         )}
       </View>
 
       {/* Center section - Title */}
       <View style={styles.centerSection}>
-        <Text style={[styles.title, { color: textColor }]} numberOfLines={1} ellipsizeMode="tail">
+        <ThemedText style={[styles.title, { color: textColor }]} numberOfLines={1} ellipsizeMode="tail">
           {title}
-        </Text>
+        </ThemedText>
       </View>
 
       {/* Right section - Action buttons */}

@@ -6,10 +6,11 @@
  */
 
 import React from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Platform } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
 import { useTheme } from '../../../../contexts/theme'
+import { ThemedText } from '../../../../components/texts/ThemedText'
 
 export interface CredentialButtonsProps {
   isProcessing: boolean
@@ -33,7 +34,7 @@ export const CredentialButtons: React.FC<CredentialButtonsProps> = ({
   isShare = false,
 }) => {
   const { t } = useTranslation()
-  const { SettingsTheme } = useTheme()
+  const { SettingsTheme, ColorPalette } = useTheme()
 
   return (
     <View style={isTranscript ? styles.groupButtonTran : styles.groupButton}>
@@ -47,7 +48,7 @@ export const CredentialButtons: React.FC<CredentialButtonsProps> = ({
           ]}
           disabled={isProcessing}
         >
-          <Text style={styles.declineText}>{t('Global.Decline')}</Text>
+          <ThemedText style={[styles.declineText, { color: ColorPalette.grayscale.white }]}>{t('Global.Decline')}</ThemedText>
         </TouchableOpacity>
 
         {isChangedBtn && (
@@ -59,9 +60,9 @@ export const CredentialButtons: React.FC<CredentialButtonsProps> = ({
               isTranscript && styles.btnTran,
             ]}
           >
-            <Text style={styles.declineText}>
+            <ThemedText style={[styles.declineText, { color: ColorPalette.grayscale.white }]}>
               {t('Global.Change' as any) as string} {t('Global.Credential' as any) as string}
-            </Text>
+            </ThemedText>
           </TouchableOpacity>
         )}
         <TouchableOpacity
@@ -73,7 +74,7 @@ export const CredentialButtons: React.FC<CredentialButtonsProps> = ({
           ]}
           disabled={isProcessing || (isShare && isShareDisabled)}
         >
-          <Text style={styles.acceptText}>{isShare ? t('Global.Share') : t('Global.Accept')}</Text>
+          <ThemedText style={[styles.acceptText, { color: ColorPalette.grayscale.white }]}>{isShare ? t('Global.Share') : t('Global.Accept')}</ThemedText>
         </TouchableOpacity>
       </>
     </View>

@@ -8,11 +8,13 @@
 import { ConnectionRecord } from '@credo-ts/core'
 import type { WorkflowInstanceRecord } from '@ajna-inc/workflow'
 import { StackNavigationProp } from '@react-navigation/stack'
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useMemo } from 'react'
+import { View, StyleSheet } from 'react-native'
 import { TFunction } from 'react-i18next'
 
 import { CallbackType, ExtendedChatMessage } from '../../../components/chat/ChatMessage'
+import { ThemedText } from '../../../components/texts/ThemedText'
+import { useTheme } from '../../../contexts/theme'
 import { Role } from '../../../types/chat'
 import { RootStackParams, ContactStackParams, Screens } from '../../../types/navigators'
 import {
@@ -178,13 +180,21 @@ const WorkflowBubble: React.FC<WorkflowBubbleProps> = ({
   label,
   t,
 }) => {
-  // Get status color based on state
+  const { ColorPalette, SettingsTheme } = useTheme()
+
+  // Get status color based on state using theme colors
   const getStatusColor = () => {
     const s = state.toLowerCase()
-    if (['done', 'completed'].includes(s)) return '#4CAF50' // Green
-    if (['failed', 'error', 'cancelled'].includes(s)) return '#F44336' // Red
-    if (['paused'].includes(s)) return '#FF9800' // Orange
-    return '#2196F3' // Blue for active
+    if (['done', 'completed'].includes(s)) {
+      return SettingsTheme.newSettingColors.successColor || ColorPalette.semantic.success
+    }
+    if (['failed', 'error', 'cancelled'].includes(s)) {
+      return SettingsTheme.newSettingColors.deleteBtn
+    }
+    if (['paused'].includes(s)) {
+      return SettingsTheme.newSettingColors.warningColor || '#FF9800'
+    }
+    return ColorPalette.brand.primary
   }
 
   // Get status label
@@ -197,99 +207,104 @@ const WorkflowBubble: React.FC<WorkflowBubbleProps> = ({
     return t('Workflow.InProgress' as any) || 'In Progress'
   }
 
+  // Create themed styles
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          width: 280,
+          backgroundColor: SettingsTheme.newSettingColors.bgColorDown,
+          borderRadius: 10,
+          overflow: 'hidden',
+          shadowColor: ColorPalette.grayscale.black,
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3,
+        },
+        header: {
+          paddingVertical: 8,
+          paddingHorizontal: 12,
+        },
+        headerText: {
+          color: ColorPalette.grayscale.white,
+          fontSize: 12,
+          fontWeight: '600' as const,
+        },
+        body: {
+          padding: 12,
+        },
+        templateText: {
+          color: ColorPalette.brand.text,
+          fontSize: 14,
+          fontWeight: '600' as const,
+          marginBottom: 8,
+        },
+        sectionText: {
+          color: SettingsTheme.newSettingColors.textColor,
+          fontSize: 12,
+          marginBottom: 8,
+        },
+        statusRow: {
+          flexDirection: 'row' as const,
+          alignItems: 'center' as const,
+        },
+        statusDot: {
+          width: 8,
+          height: 8,
+          borderRadius: 4,
+          marginRight: 6,
+        },
+        statusText: {
+          color: SettingsTheme.newSettingColors.textColor,
+          fontSize: 12,
+        },
+        tapHint: {
+          color: ColorPalette.grayscale.mediumGrey,
+          fontSize: 10,
+          fontStyle: 'italic' as const,
+          paddingHorizontal: 12,
+          paddingBottom: 8,
+        },
+      }),
+    [ColorPalette, SettingsTheme]
+  )
+
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={[styles.header, { backgroundColor: getStatusColor() }]}>
-        <Text style={styles.headerText}>{label}</Text>
+        <ThemedText style={styles.headerText}>{label}</ThemedText>
       </View>
 
       {/* Body */}
       <View style={styles.body}>
         {/* Template info */}
-        <Text style={styles.templateText} numberOfLines={1}>
+        <ThemedText style={styles.templateText} numberOfLines={1}>
           {templateId.split('/').pop() || templateId}
-        </Text>
+        </ThemedText>
 
         {/* Current section */}
         {section && (
-          <Text style={styles.sectionText}>
+          <ThemedText style={styles.sectionText}>
             {t('Workflow.CurrentStep' as any) || 'Step'}: {section}
-          </Text>
+          </ThemedText>
         )}
 
         {/* Status */}
         <View style={styles.statusRow}>
           <View style={[styles.statusDot, { backgroundColor: getStatusColor() }]} />
-          <Text style={styles.statusText}>{getStatusLabel()}</Text>
+          <ThemedText style={styles.statusText}>{getStatusLabel()}</ThemedText>
         </View>
       </View>
 
       {/* Tap to view hint */}
-      <Text style={styles.tapHint}>
+      <ThemedText style={styles.tapHint}>
         {t('Chat.TapToView' as any) || 'Tap to view details'}
-      </Text>
+      </ThemedText>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: 280,
-    backgroundColor: '#1a2634',
-    borderRadius: 10,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  header: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  headerText: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  body: {
-    padding: 12,
-  },
-  templateText: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  sectionText: {
-    color: '#cccccc',
-    fontSize: 12,
-    marginBottom: 8,
-  },
-  statusRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statusDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginRight: 6,
-  },
-  statusText: {
-    color: '#cccccc',
-    fontSize: 12,
-  },
-  tapHint: {
-    color: '#888888',
-    fontSize: 10,
-    fontStyle: 'italic',
-    paddingHorizontal: 12,
-    paddingBottom: 8,
-  },
-})
 
 /**
  * Factory function to create a DIDCommWorkflowHandler

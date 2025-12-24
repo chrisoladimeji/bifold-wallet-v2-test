@@ -15,7 +15,7 @@ const CredentialCardLogo: React.FC<Props> = ({
   overlay,
   brandingOverlayType = BrandingOverlayType.Branding10,
 }: Props) => {
-  const { CredentialCardShadowTheme } = useTheme()
+  const { CredentialCardShadowTheme, ColorPalette } = useTheme()
   const { fontScale } = useWindowDimensions()
   const logoHeight = brandingOverlayType === BrandingOverlayType.Branding10 ? 80 : 48
   const paddingHorizontal = 24
@@ -36,7 +36,7 @@ const CredentialCardLogo: React.FC<Props> = ({
     logoContainer: {
       width: logoHeight * (fontScale > 1.7 ? 1.2 : 1),
       height: logoHeight * (fontScale > 1.7 ? 1.2 : 1),
-      backgroundColor: '#ffffff',
+      backgroundColor: ColorPalette.grayscale.white,
       borderRadius: 8,
       justifyContent: 'center',
       alignItems: 'center',

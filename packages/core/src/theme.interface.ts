@@ -395,6 +395,14 @@ export interface INewSettingColors {
   textColor: string
   textBody: string
   deleteBtn: string
+  // Optional state colors for backwards compatibility
+  successColor?: string
+  warningColor?: string
+  // Optional school card colors
+  schoolCardPender?: string
+  schoolCardNHCS?: string
+  schoolCardMiami?: string
+  schoolCardCapeFear?: string
 }
 
 export interface ISettingsTheme {

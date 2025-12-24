@@ -8,8 +8,9 @@
 import { CredentialExchangeRecord, CredentialPreviewAttribute, CredentialState } from '@credo-ts/core'
 import { useAgent } from '@credo-ts/react-hooks'
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
 
+import { ThemedText } from '../../../components/texts/ThemedText'
 import { useTheme } from '../../../contexts/theme'
 import { ICredentialRenderer, RenderContext } from '../types'
 import { VDCard } from './components/VDCard'
@@ -193,7 +194,7 @@ export const DefaultCredentialCard: React.FC<CredentialCardProps> = ({ credentia
     <View style={[styles.card, { backgroundColor: SettingsTheme.newSettingColors.bgColorUp || '#1a2634' }]}>
       {/* Header with state */}
       <View style={[styles.header, { backgroundColor: SettingsTheme.newSettingColors.buttonColor }]}>
-        <Text style={styles.headerText}>{getStateLabel()}</Text>
+        <ThemedText style={styles.headerText}>{getStateLabel()}</ThemedText>
       </View>
 
       {/* Body */}
@@ -201,48 +202,48 @@ export const DefaultCredentialCard: React.FC<CredentialCardProps> = ({ credentia
         {loading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="small" color={SettingsTheme.newSettingColors.buttonColor} />
-            <Text style={[styles.loadingText, { color: SettingsTheme.newSettingColors.textColor || '#cccccc' }]}>
+            <ThemedText style={[styles.loadingText, { color: SettingsTheme.newSettingColors.textColor }]}>
               {context.t('Global.Loading' as any)}
-            </Text>
+            </ThemedText>
           </View>
         ) : (
           <>
             {/* Show credential name if we have it */}
-            <Text style={[styles.credentialName, { color: SettingsTheme.newSettingColors.headerTitle }]}>
+            <ThemedText style={[styles.credentialName, { color: SettingsTheme.newSettingColors.headerTitle }]}>
               {getCredentialName()}
-            </Text>
+            </ThemedText>
 
             {/* Show school if available */}
             {school && (
-              <Text style={[styles.school, { color: SettingsTheme.newSettingColors.headerTitle }]}>{school}</Text>
+              <ThemedText style={[styles.school, { color: SettingsTheme.newSettingColors.headerTitle }]}>{school}</ThemedText>
             )}
 
             {/* Show display name if available */}
             {displayName && (
-              <Text style={[styles.name, { color: SettingsTheme.newSettingColors.textBody || '#ffffff' }]}>
+              <ThemedText style={[styles.name, { color: SettingsTheme.newSettingColors.textBody }]}>
                 {displayName}
-              </Text>
+              </ThemedText>
             )}
 
             {/* Show student ID if available */}
             {studentId && (
-              <Text style={[styles.detail, { color: SettingsTheme.newSettingColors.textColor || '#cccccc' }]}>
+              <ThemedText style={[styles.detail, { color: SettingsTheme.newSettingColors.textColor }]}>
                 {context.t('Chat.StudentID' as any) as string}: {studentId}
-              </Text>
+              </ThemedText>
             )}
 
             {/* Show first few attributes if no specific ones found */}
             {!school && !studentId && !displayName && allAttributes.slice(0, 4).map((attr, index) => (
-              <Text key={index} style={[styles.detail, { color: SettingsTheme.newSettingColors.textColor || '#cccccc' }]}>
+              <ThemedText key={index} style={[styles.detail, { color: SettingsTheme.newSettingColors.textColor }]}>
                 {attr.name}: {attr.value}
-              </Text>
+              </ThemedText>
             ))}
 
             {/* Show tap to view message */}
             {allAttributes.length > 0 && (
-              <Text style={[styles.tapToView, { color: SettingsTheme.newSettingColors.textColor || '#888888' }]}>
+              <ThemedText style={[styles.tapToView, { color: SettingsTheme.newSettingColors.textColor }]}>
                 {context.t('Chat.TapToView' as any) || 'Tap to view details'}
-              </Text>
+              </ThemedText>
             )}
           </>
         )}
@@ -422,7 +423,7 @@ export const VDCredentialCard: React.FC<CredentialCardProps> = ({ credential, co
     return (
       <View style={[styles.card, { backgroundColor: SettingsTheme.newSettingColors.bgColorUp || '#1a2634' }]}>
         <View style={[styles.header, { backgroundColor: SettingsTheme.newSettingColors.buttonColor }]}>
-          <Text style={styles.headerText}>{context.t('CredentialOffer.CredentialOffer')}</Text>
+          <ThemedText style={styles.headerText}>{context.t('CredentialOffer.CredentialOffer')}</ThemedText>
         </View>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="small" color={SettingsTheme.newSettingColors.buttonColor} />

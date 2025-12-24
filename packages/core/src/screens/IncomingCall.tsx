@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Vibration, Animated, StatusBar } from 'react-native'
+import React, { useEffect, useRef, useMemo } from 'react'
+import { View, StyleSheet, TouchableOpacity, Vibration, Animated, StatusBar } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StackScreenProps } from '@react-navigation/stack'
 import Icon from 'react-native-vector-icons/Feather'
@@ -9,6 +9,7 @@ import { RootStackParams, Screens } from '../types/navigators'
 import { useStore } from '../contexts/store'
 import { useTheme } from '../contexts/theme'
 import { getConnectionName } from '../utils/helpers'
+import { ThemedText } from '../components/texts/ThemedText'
 
 type Props = StackScreenProps<RootStackParams, Screens.IncomingCall>
 
@@ -17,8 +18,16 @@ const IncomingCall: React.FC<Props> = ({ route, navigation }) => {
   const connection = useConnectionById(connectionId)
   const [store] = useStore()
   const { agent } = useAgent()
-  const { ColorPalette } = useTheme()
+  const { ColorPalette, SettingsTheme } = useTheme()
   const insets = useSafeAreaInsets()
+
+  // Dark theme colors for incoming call interface
+  const darkBg = SettingsTheme.newSettingColors.bgColorDown
+  const darkBgSecondary = SettingsTheme.newSettingColors.bgColorUp
+  const textLight = ColorPalette.grayscale.white
+  const textMuted = ColorPalette.grayscale.mediumGrey
+  const errorColor = SettingsTheme.newSettingColors.deleteBtn
+  const successColor = SettingsTheme.newSettingColors.successColor || ColorPalette.semantic.success
   const contactName = callerLabel || (connection ? getConnectionName(connection, store.preferences.alternateContactNames) : 'Unknown Caller')
 
   // Animation for pulsing effect
@@ -83,10 +92,10 @@ const IncomingCall: React.FC<Props> = ({ route, navigation }) => {
     navigation.goBack()
   }
 
-  const styles = StyleSheet.create({
+  const styles = useMemo(() => StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#1a1a2e',
+      backgroundColor: darkBg,
       paddingTop: insets.top,
       paddingBottom: insets.bottom,
     },
@@ -113,20 +122,20 @@ const IncomingCall: React.FC<Props> = ({ route, navigation }) => {
       width: 140,
       height: 140,
       borderRadius: 70,
-      backgroundColor: '#2a2a4e',
+      backgroundColor: darkBgSecondary,
       justifyContent: 'center',
       alignItems: 'center',
     },
     callerName: {
       fontSize: 28,
       fontWeight: 'bold',
-      color: '#fff',
+      color: textLight,
       marginBottom: 8,
       textAlign: 'center',
     },
     callType: {
       fontSize: 16,
-      color: '#999',
+      color: textMuted,
       marginBottom: 24,
     },
     callingIndicator: {
@@ -165,43 +174,43 @@ const IncomingCall: React.FC<Props> = ({ route, navigation }) => {
       borderRadius: 40,
       justifyContent: 'center',
       alignItems: 'center',
-      shadowColor: '#000',
+      shadowColor: ColorPalette.grayscale.black,
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.3,
       shadowRadius: 8,
       elevation: 8,
     },
     rejectButton: {
-      backgroundColor: '#ff3b30',
+      backgroundColor: errorColor,
     },
     acceptButton: {
-      backgroundColor: '#34c759',
+      backgroundColor: successColor,
     },
     actionLabel: {
       fontSize: 14,
-      color: '#999',
+      color: textMuted,
       marginTop: 12,
       textAlign: 'center',
     },
-  })
+  }), [darkBg, darkBgSecondary, textLight, textMuted, errorColor, successColor, ColorPalette, insets])
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" translucent />
+      <StatusBar barStyle="light-content" backgroundColor={darkBg} translucent />
 
       <View style={styles.content}>
         {/* Animated Avatar */}
         <Animated.View style={[styles.avatarContainer, { transform: [{ scale: pulseAnim }] }]}>
           <View style={styles.avatarRing}>
             <View style={styles.avatar}>
-              <Icon name="user" size={64} color="#fff" />
+              <Icon name="user" size={64} color={textLight} />
             </View>
           </View>
         </Animated.View>
 
         {/* Caller Info */}
-        <Text style={styles.callerName}>{contactName}</Text>
-        <Text style={styles.callType}>Incoming Video Call</Text>
+        <ThemedText style={styles.callerName}>{contactName}</ThemedText>
+        <ThemedText style={styles.callType}>Incoming Video Call</ThemedText>
 
         {/* Call indicator */}
         <View style={styles.callingIndicator}>
@@ -221,9 +230,9 @@ const IncomingCall: React.FC<Props> = ({ route, navigation }) => {
               onPress={handleReject}
               activeOpacity={0.7}
             >
-              <Icon name="phone-off" size={32} color="#fff" />
+              <Icon name="phone-off" size={32} color={textLight} />
             </TouchableOpacity>
-            <Text style={styles.actionLabel}>Decline</Text>
+            <ThemedText style={styles.actionLabel}>Decline</ThemedText>
           </View>
 
           {/* Accept Button */}
@@ -233,9 +242,9 @@ const IncomingCall: React.FC<Props> = ({ route, navigation }) => {
               onPress={handleAccept}
               activeOpacity={0.7}
             >
-              <Icon name="phone" size={32} color="#fff" />
+              <Icon name="phone" size={32} color={textLight} />
             </TouchableOpacity>
-            <Text style={styles.actionLabel}>Accept</Text>
+            <ThemedText style={styles.actionLabel}>Accept</ThemedText>
           </View>
         </View>
       </View>

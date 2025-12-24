@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, StatusBar } from 'react-native'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
+import { View, StyleSheet, TouchableOpacity, StatusBar } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { RTCView } from 'react-native-webrtc'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -11,6 +11,7 @@ import { RootStackParams, Screens } from '../types/navigators'
 import { useStore } from '../contexts/store'
 import { useTheme } from '../contexts/theme'
 import { getConnectionName } from '../utils/helpers'
+import { ThemedText } from '../components/texts/ThemedText'
 
 type Props = StackScreenProps<RootStackParams, Screens.VideoCall>
 
@@ -23,7 +24,15 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
 
   const connection = useConnectionById(connectionId)
   const [store] = useStore()
-  const { ColorPalette } = useTheme()
+  const { ColorPalette, SettingsTheme } = useTheme()
+
+  // Dark theme colors for video call interface
+  const darkBg = ColorPalette.grayscale.black
+  const darkBgSecondary = SettingsTheme.newSettingColors.bgColorDown
+  const darkBgTertiary = SettingsTheme.newSettingColors.bgColorUp
+  const textLight = ColorPalette.grayscale.white
+  const textMuted = ColorPalette.grayscale.mediumGrey
+  const errorColor = SettingsTheme.newSettingColors.deleteBtn
   const insets = useSafeAreaInsets()
   const contactName = connection ? getConnectionName(connection, store.preferences.alternateContactNames) : 'Unknown'
   const [callInitialized, setCallInitialized] = useState(false)
@@ -96,32 +105,32 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
     }
   }
 
-  const styles = StyleSheet.create({
+  const styles = useMemo(() => StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#000',
+      backgroundColor: darkBg,
     },
     remoteVideo: {
       flex: 1,
-      backgroundColor: '#1a1a1a',
+      backgroundColor: darkBgSecondary,
     },
     remoteVideoPlaceholder: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#1a1a1a',
+      backgroundColor: darkBgSecondary,
     },
     avatarLarge: {
       width: 120,
       height: 120,
       borderRadius: 60,
-      backgroundColor: '#2a2a2a',
+      backgroundColor: darkBgTertiary,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 24,
     },
     statusText: {
-      color: '#999',
+      color: textMuted,
       fontSize: 18,
     },
     localVideoContainer: {
@@ -133,8 +142,8 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
       borderRadius: 12,
       overflow: 'hidden',
       borderWidth: 2,
-      borderColor: 'rgba(255,255,255,0.3)',
-      backgroundColor: '#000',
+      borderColor: `${textLight}4D`,
+      backgroundColor: darkBg,
     },
     localVideo: {
       flex: 1,
@@ -148,18 +157,18 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
       paddingHorizontal: 20,
     },
     contactName: {
-      color: '#fff',
+      color: textLight,
       fontSize: 22,
       fontWeight: 'bold',
-      textShadowColor: 'rgba(0,0,0,0.7)',
+      textShadowColor: `${darkBg}B3`,
       textShadowOffset: { width: 0, height: 1 },
       textShadowRadius: 4,
     },
     callStatus: {
-      color: 'rgba(255,255,255,0.8)',
+      color: `${textLight}CC`,
       fontSize: 14,
       marginTop: 4,
-      textShadowColor: 'rgba(0,0,0,0.7)',
+      textShadowColor: `${darkBg}B3`,
       textShadowOffset: { width: 0, height: 1 },
       textShadowRadius: 4,
     },
@@ -175,7 +184,7 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
       justifyContent: 'center',
       alignItems: 'center',
       gap: 16,
-      backgroundColor: 'rgba(0,0,0,0.5)',
+      backgroundColor: `${darkBg}80`,
       borderRadius: 16,
       paddingVertical: 16,
       paddingHorizontal: 24,
@@ -184,7 +193,7 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
       width: 64,
       height: 64,
       borderRadius: 32,
-      backgroundColor: '#2a2a2a',
+      backgroundColor: darkBgTertiary,
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -192,27 +201,27 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
       backgroundColor: ColorPalette.brand.primary,
     },
     controlLabel: {
-      color: '#fff',
+      color: textLight,
       fontSize: 10,
       marginTop: 2,
     },
     controlLabelActive: {
-      color: '#fff',
+      color: textLight,
     },
     endCallButton: {
-      backgroundColor: '#ff3b30',
+      backgroundColor: errorColor,
       width: 72,
       height: 72,
       borderRadius: 36,
     },
     endCallLabel: {
-      color: '#fff',
+      color: textLight,
     },
-  })
+  }), [darkBg, darkBgSecondary, darkBgTertiary, textLight, textMuted, errorColor, ColorPalette, insets])
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#000" translucent />
+      <StatusBar barStyle="light-content" backgroundColor={darkBg} translucent />
 
       {/* Remote Video (Full Screen) */}
       {remoteStream ? (
@@ -225,9 +234,9 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
       ) : (
         <View style={styles.remoteVideoPlaceholder}>
           <View style={styles.avatarLarge}>
-            <Icon name="user" size={64} color="#999" />
+            <Icon name="user" size={64} color={textMuted} />
           </View>
-          <Text style={styles.statusText}>{getStatusText()}</Text>
+          <ThemedText style={styles.statusText}>{getStatusText()}</ThemedText>
         </View>
       )}
 
@@ -246,8 +255,8 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
 
       {/* Top Bar - Contact Info */}
       <View style={styles.topBar}>
-        <Text style={styles.contactName}>{contactName}</Text>
-        <Text style={styles.callStatus}>{getStatusText()}</Text>
+        <ThemedText style={styles.contactName}>{contactName}</ThemedText>
+        <ThemedText style={styles.callStatus}>{getStatusText()}</ThemedText>
       </View>
 
       {/* Controls */}
@@ -262,11 +271,11 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
             <Icon
               name={isMuted ? 'mic-off' : 'mic'}
               size={24}
-              color="#fff"
+              color={textLight}
             />
-            <Text style={[styles.controlLabel, isMuted && styles.controlLabelActive]}>
+            <ThemedText style={[styles.controlLabel, isMuted && styles.controlLabelActive]}>
               {isMuted ? 'Unmute' : 'Mute'}
-            </Text>
+            </ThemedText>
           </TouchableOpacity>
 
           {/* End Call Button */}
@@ -275,8 +284,8 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
             onPress={handleEndCall}
             activeOpacity={0.7}
           >
-            <Icon name="phone-off" size={28} color="#fff" />
-            <Text style={[styles.controlLabel, styles.endCallLabel]}>End</Text>
+            <Icon name="phone-off" size={28} color={textLight} />
+            <ThemedText style={[styles.controlLabel, styles.endCallLabel]}>End</ThemedText>
           </TouchableOpacity>
 
           {/* Camera Toggle */}
@@ -288,11 +297,11 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
             <Icon
               name={isCameraOff ? 'video-off' : 'video'}
               size={24}
-              color="#fff"
+              color={textLight}
             />
-            <Text style={[styles.controlLabel, isCameraOff && styles.controlLabelActive]}>
+            <ThemedText style={[styles.controlLabel, isCameraOff && styles.controlLabelActive]}>
               {isCameraOff ? 'Show' : 'Hide'}
-            </Text>
+            </ThemedText>
           </TouchableOpacity>
 
           {/* Switch Camera */}
@@ -301,8 +310,8 @@ const VideoCall: React.FC<Props> = ({ route, navigation }) => {
             onPress={switchCamera}
             activeOpacity={0.7}
           >
-            <Icon name="refresh-cw" size={24} color="#fff" />
-            <Text style={styles.controlLabel}>Flip</Text>
+            <Icon name="refresh-cw" size={24} color={textLight} />
+            <ThemedText style={styles.controlLabel}>Flip</ThemedText>
           </TouchableOpacity>
         </View>
       </View>

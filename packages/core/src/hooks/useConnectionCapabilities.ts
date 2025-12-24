@@ -121,7 +121,7 @@ export function useConnectionCapabilities(
         console.log('[useConnectionCapabilities] Querying capabilities for connection:', connectionId)
 
         // Use V2 Discover Features protocol to query all protocols
-        const result = await agent.discoverFeatures.queryFeatures({
+        const result = await agent.discovery.queryFeatures({
           connectionId,
           protocolVersion: 'v2',
           queries: [
@@ -233,7 +233,7 @@ export async function checkWebRTCSupport(agent: any, connectionId: string, timeo
   }
 
   try {
-    const result = await agent.discoverFeatures.queryFeatures({
+    const result = await agent.discovery.queryFeatures({
       connectionId,
       protocolVersion: 'v2',
       queries: [{ featureType: 'protocol', match: 'https://didcomm.org/webrtc/*' }],

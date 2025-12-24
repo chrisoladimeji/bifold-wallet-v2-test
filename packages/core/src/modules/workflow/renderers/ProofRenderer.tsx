@@ -7,9 +7,10 @@
 
 import { ProofExchangeRecord, ProofState } from '@credo-ts/core'
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
 
 import { useTheme } from '../../../contexts/theme'
+import { ThemedText } from '../../../components/texts/ThemedText'
 import { IProofRenderer, RenderContext } from '../types'
 
 /**
@@ -27,10 +28,13 @@ interface ProofCardProps {
  * This is a simplified version - can be extended with custom proof display
  */
 export const DefaultProofCard: React.FC<ProofCardProps> = ({ proof, context, onPress, isLoading }) => {
-  const { SettingsTheme } = useTheme()
+  const { ColorPalette, SettingsTheme } = useTheme()
 
-  // Determine state label and color
+  // Determine state label and color using theme colors
   const getStateInfo = () => {
+    const successColor = SettingsTheme.newSettingColors.successColor || ColorPalette.semantic.success
+    const errorColor = SettingsTheme.newSettingColors.deleteBtn
+
     switch (proof.state) {
       case ProofState.RequestReceived:
         return {
@@ -40,19 +44,19 @@ export const DefaultProofCard: React.FC<ProofCardProps> = ({ proof, context, onP
       case ProofState.PresentationSent:
         return {
           label: context.t('ProofRequest.PresentationSent' as any) as string,
-          color: '#28a745',
+          color: successColor,
         }
       case ProofState.Done:
         return {
           label: proof.isVerified
             ? (context.t('ProofRequest.Verified' as any) as string)
             : (context.t('ProofRequest.NotVerified' as any) as string),
-          color: proof.isVerified ? '#28a745' : '#dc3545',
+          color: proof.isVerified ? successColor : errorColor,
         }
       case ProofState.Declined:
         return {
           label: context.t('ProofRequest.Declined' as any) as string,
-          color: '#dc3545',
+          color: errorColor,
         }
       default:
         return {
@@ -65,10 +69,10 @@ export const DefaultProofCard: React.FC<ProofCardProps> = ({ proof, context, onP
   const stateInfo = getStateInfo()
 
   const content = (
-    <View style={[styles.card, { backgroundColor: 'white' }]}>
+    <View style={[styles.card, { backgroundColor: SettingsTheme.newSettingColors.bgColorUp }]}>
       {/* Header with state */}
       <View style={[styles.header, { backgroundColor: stateInfo.color }]}>
-        <Text style={styles.headerText}>{stateInfo.label}</Text>
+        <ThemedText style={[styles.headerText, { color: ColorPalette.grayscale.white }]}>{stateInfo.label}</ThemedText>
       </View>
 
       {/* Body */}
@@ -77,16 +81,16 @@ export const DefaultProofCard: React.FC<ProofCardProps> = ({ proof, context, onP
           <ActivityIndicator size="small" color={SettingsTheme.newSettingColors.buttonColor} />
         ) : (
           <>
-            <Text style={[styles.title, { color: SettingsTheme.newSettingColors.textBody }]}>
+            <ThemedText style={[styles.title, { color: SettingsTheme.newSettingColors.textBody }]}>
               {context.t('ProofRequest.InformationRequest' as any) as string}
-            </Text>
-            <Text style={[styles.description, { color: SettingsTheme.newSettingColors.textColor }]}>
+            </ThemedText>
+            <ThemedText style={[styles.description, { color: SettingsTheme.newSettingColors.textColor }]}>
               {context.theirLabel} {context.t('ProofRequest.RequestsInformation' as any) as string}
-            </Text>
+            </ThemedText>
             {proof.state === ProofState.RequestReceived && (
-              <Text style={[styles.action, { color: SettingsTheme.newSettingColors.buttonColor }]}>
+              <ThemedText style={[styles.action, { color: SettingsTheme.newSettingColors.buttonColor }]}>
                 {context.t('ProofRequest.TapToView' as any) as string}
-              </Text>
+              </ThemedText>
             )}
           </>
         )}

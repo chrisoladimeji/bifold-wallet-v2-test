@@ -916,6 +916,14 @@ export function createSettingsTheme(theme: { ColorPalette: IColorPalette; TextTh
       textColor: theme.ColorPalette.grayscale.mediumGrey,
       textBody: theme.ColorPalette.brand.text,
       deleteBtn: theme.ColorPalette.semantic.error,
+      // Optional state colors
+      successColor: theme.ColorPalette.semantic.success,
+      warningColor: '#FF9800',
+      // Optional school card colors
+      schoolCardPender: '#172554',
+      schoolCardNHCS: '#0065A4',
+      schoolCardMiami: '#23408F',
+      schoolCardCapeFear: '#043564',
     },
   }
 }

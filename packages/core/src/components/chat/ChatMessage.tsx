@@ -134,7 +134,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ messageProps }) => {
               style={buttonStyle}
               hitSlop={hitSlop}
             >
-              <ThemedText style={{ color: '#FFFFFF', fontWeight: '600', fontSize: 16 }}>
+              <ThemedText style={{ color: ColorPalette.grayscale.white, fontWeight: '600', fontSize: 16 }}>
                 {textForCallbackType(message.messageOpensCallbackType)}
               </ThemedText>
             </TouchableOpacity>

@@ -6,10 +6,11 @@
  */
 
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Image, Platform, Dimensions, ViewStyle, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, Image, Platform, Dimensions, ViewStyle, ActivityIndicator } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
 import { useTheme } from '../../../../contexts/theme'
+import { ThemedText } from '../../../../components/texts/ThemedText'
 import { isTablet as checkIsTablet } from '../../../../utils/device'
 
 // Import SVG assets
@@ -215,20 +216,20 @@ export const VDCard: React.FC<VDCardProps> = ({
     marginLeft: isTablet && !isInChat ? 20 : 0,
   }
 
-  // Define bottom line color based on card type
+  // Define bottom line color based on card type using theme colors with fallbacks
   const bottomLineColor =
     cardType === CardType.PENDER
-      ? '#172554'
+      ? SettingsTheme.newSettingColors.schoolCardPender || '#172554'
       : cardType === CardType.NHCS
-      ? '#0065A4'
+      ? SettingsTheme.newSettingColors.schoolCardNHCS || '#0065A4'
       : cardType === CardType.MIAMI
-      ? '#23408F'
+      ? SettingsTheme.newSettingColors.schoolCardMiami || '#23408F'
       : SettingsTheme.newSettingColors.buttonColor
 
   // Cape Fear has dark blue background, branded school cards (Pender, NHCS, Miami) are light,
   // DEFAULT type adapts to theme
   const getCardBackgroundColor = () => {
-    if (cardType === CardType.CAPE_FEAR) return '#043564'
+    if (cardType === CardType.CAPE_FEAR) return SettingsTheme.newSettingColors.schoolCardCapeFear || '#043564'
     if (cardType === CardType.PENDER || cardType === CardType.NHCS || cardType === CardType.MIAMI) return 'white'
     // DEFAULT type uses theme color
     return SettingsTheme.newSettingColors.bgColorUp || '#1a2634'
@@ -324,18 +325,18 @@ export const VDCard: React.FC<VDCardProps> = ({
             ]}
           >
             <View style={{ flexDirection: 'column', marginLeft: isInChat ? 6 : 0 }}>
-              <Text style={[styles.capeName, { fontSize: capeNameFontSize * (isInChat ? 0.8 : 1) }]}>
+              <ThemedText style={[styles.capeName, { fontSize: capeNameFontSize * (isInChat ? 0.8 : 1) }]}>
                 {fullName || `${firstName} ${lastName}`}
-              </Text>
-              <Text style={[styles.capeDetails, { fontSize: capeDetailsFontSize }]}>
+              </ThemedText>
+              <ThemedText style={[styles.capeDetails, { fontSize: capeDetailsFontSize }]}>
                 {t('Transcript.StudentID' as any)}: {studentId}
-              </Text>
+              </ThemedText>
             </View>
             <View style={styles.capeExpirationContainer}>
-              <Text style={[styles.capeExpirationLabel, { fontSize: capeDetailsFontSize }]}>
+              <ThemedText style={[styles.capeExpirationLabel, { fontSize: capeDetailsFontSize }]}>
                 {t('Transcript.exp. date' as any)}
-              </Text>
-              <Text style={[styles.capeExpirationValue, { fontSize: capeDetailsFontSize }]}>{issueDate}</Text>
+              </ThemedText>
+              <ThemedText style={[styles.capeExpirationValue, { fontSize: capeDetailsFontSize }]}>{issueDate}</ThemedText>
             </View>
           </View>
         </View>
@@ -346,57 +347,57 @@ export const VDCard: React.FC<VDCardProps> = ({
             {/* Logo Section */}
             {cardType === CardType.DEFAULT && (
               <View>
-                <Text style={[styles.institution, { color: SettingsTheme.newSettingColors.headerTitle }]}>
+                <ThemedText style={[styles.institution, { color: SettingsTheme.newSettingColors.headerTitle }]}>
                   {issuerName}
-                </Text>
+                </ThemedText>
               </View>
             )}
             {cardType === CardType.PENDER && (
               <View style={styles.penderHeader}>
-                <Text style={[styles.penderTitle, { fontSize: nameFontSize * 0.9, marginLeft: isTablet && !isInChat ? 20 : 0 }]}>
+                <ThemedText style={[styles.penderTitle, { fontSize: nameFontSize * 0.9, marginLeft: isTablet && !isInChat ? 20 : 0 }]}>
                   {t('Transcript.DistrictName' as any)}: Pender County Schools
-                </Text>
+                </ThemedText>
               </View>
             )}
             {cardType === CardType.NHCS && (
               <View style={styles.penderHeader}>
-                <Text style={[styles.penderTitle, { fontSize: nameFontSize * 0.9, marginLeft: isTablet && !isInChat ? 20 : 0 }]}>
+                <ThemedText style={[styles.penderTitle, { fontSize: nameFontSize * 0.9, marginLeft: isTablet && !isInChat ? 20 : 0 }]}>
                   {t('Transcript.DistrictName' as any)}: New Hanover County Schools
-                </Text>
+                </ThemedText>
               </View>
             )}
             {cardType === CardType.MIAMI && (
               <View style={styles.penderHeader}>
-                <Text style={[styles.penderTitle, { fontSize: nameFontSize * 0.9, marginLeft: isTablet && !isInChat ? 20 : 0 }]}>
+                <ThemedText style={[styles.penderTitle, { fontSize: nameFontSize * 0.9, marginLeft: isTablet && !isInChat ? 20 : 0 }]}>
                   {t('Transcript.DistrictName' as any)}: Miami-Dade County Schools
-                </Text>
+                </ThemedText>
               </View>
             )}
             <View style={infoContainerStyle}>
               {cardType === CardType.DEFAULT ? (
                 <View style={styles.defaultBody}>
-                  <Text style={[styles.defaultText, { color: SettingsTheme.newSettingColors.headerTitle }]}>
+                  <ThemedText style={[styles.defaultText, { color: SettingsTheme.newSettingColors.headerTitle }]}>
                     {getLastSubstring(credDefId || ':')}
-                  </Text>
+                  </ThemedText>
                 </View>
               ) : (
                 <>
-                  <Text style={[styles.name, { fontSize: nameFontSize, color: SettingsTheme.newSettingColors.headerTitle }]}>
+                  <ThemedText style={[styles.name, { fontSize: nameFontSize, color: SettingsTheme.newSettingColors.headerTitle }]}>
                     {(cardType === CardType.PENDER || cardType === CardType.NHCS || cardType === CardType.MIAMI) && fullName
                       ? fullName
                       : `${firstName} ${lastName}`}
-                  </Text>
+                  </ThemedText>
                   {(cardType === CardType.PENDER || cardType === CardType.NHCS || cardType === CardType.MIAMI) && school && (
-                    <Text style={[styles.details, { fontSize: detailsFontSize, marginBottom: infoGap, color: SettingsTheme.newSettingColors.headerTitle }]}>
+                    <ThemedText style={[styles.details, { fontSize: detailsFontSize, marginBottom: infoGap, color: SettingsTheme.newSettingColors.headerTitle }]}>
                       {t('Chat.School' as any)}: {school}
-                    </Text>
+                    </ThemedText>
                   )}
-                  <Text style={[styles.details, { fontSize: detailsFontSize, marginBottom: infoGap, color: SettingsTheme.newSettingColors.headerTitle }]}>
+                  <ThemedText style={[styles.details, { fontSize: detailsFontSize, marginBottom: infoGap, color: SettingsTheme.newSettingColors.headerTitle }]}>
                     {t('Chat.StudentID' as any)}: {studentId}
-                  </Text>
-                  <Text style={[styles.details, { fontSize: detailsFontSize, marginBottom: infoGap, color: SettingsTheme.newSettingColors.headerTitle }]}>
+                  </ThemedText>
+                  <ThemedText style={[styles.details, { fontSize: detailsFontSize, marginBottom: infoGap, color: SettingsTheme.newSettingColors.headerTitle }]}>
                     {t('Chat.Expiration' as any)}: {issueDate}
-                  </Text>
+                  </ThemedText>
                 </>
               )}
             </View>

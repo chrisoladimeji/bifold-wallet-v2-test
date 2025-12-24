@@ -7,11 +7,12 @@
  */
 
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 import { SvgUri } from 'react-native-svg'
 import { useTranslation } from 'react-i18next'
 
 import { useTheme } from '../../../../contexts/theme'
+import { ThemedText } from '../../../../components/texts/ThemedText'
 import { isTablet } from '../../../../utils/device'
 
 // Import SVG assets
@@ -41,7 +42,7 @@ export const TranscriptCard: React.FC<TranscriptCardProps> = ({
   isInChat = false,
 }) => {
   const { t } = useTranslation()
-  const { ChatTheme } = useTheme()
+  const { ChatTheme, ColorPalette } = useTheme()
   const isTabletDevice = isTablet()
   const aspectRatio = 280 / 175
 
@@ -74,18 +75,18 @@ export const TranscriptCard: React.FC<TranscriptCardProps> = ({
         )}
         <View style={[styles.infoContainer, { marginTop: isTabletDevice ? 20 : 10 }]}>
           <View style={styles.group1}>
-            <Text style={[styles.name, { fontSize: isTabletDevice ? 16 : 12 }]}>{school}</Text>
-            <Text style={[styles.name, { fontSize: isTabletDevice ? 16 : 12 }]}>
+            <ThemedText style={[styles.name, { fontSize: isTabletDevice ? 16 : 12, color: ColorPalette.grayscale.white }]}>{school}</ThemedText>
+            <ThemedText style={[styles.name, { fontSize: isTabletDevice ? 16 : 12, color: ColorPalette.grayscale.white }]}>
               {yearStart} - {yearEnd}
-            </Text>
+            </ThemedText>
           </View>
           <View style={styles.group2}>
-            <Text style={styles.details}>
+            <ThemedText style={[styles.details, { color: ColorPalette.grayscale.white }]}>
               {t('Chat.TermGPA' as any)} : {termGPA}
-            </Text>
-            <Text style={styles.details}>
+            </ThemedText>
+            <ThemedText style={[styles.details, { color: ColorPalette.grayscale.white }]}>
               {t('Chat.CumulativeGPA' as any)}: {cumulativeGPA}
-            </Text>
+            </ThemedText>
           </View>
         </View>
       </View>
@@ -120,12 +121,10 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 12,
-    color: 'white',
     marginBottom: 5,
   },
   details: {
     fontSize: 12,
-    color: 'white',
   },
   barcodeContainer: {
     marginTop: 25,
