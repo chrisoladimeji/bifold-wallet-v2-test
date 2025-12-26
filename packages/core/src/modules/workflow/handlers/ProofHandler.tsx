@@ -151,7 +151,7 @@ export class ProofWorkflowHandler extends BaseWorkflowHandler<ProofExchangeRecor
   ): (() => void) | undefined {
     if (!navigation) return undefined
 
-    const navResult = this.getDetailNavigation(record, navigation)
+    const navResult = this.getDetailNavigation(record)
     if (!navResult) return undefined
 
     return () => {

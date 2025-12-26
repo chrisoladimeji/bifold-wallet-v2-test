@@ -1,6 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { BifoldLogger } from './logger'
 
+// Safety check for AsyncStorage availability
+const isAsyncStorageAvailable = (): boolean => {
+  return AsyncStorage !== undefined && AsyncStorage !== null && typeof AsyncStorage.getItem === 'function'
+}
+
 export class PersistentStorage<T> {
   private _state?: T
   private log?: BifoldLogger

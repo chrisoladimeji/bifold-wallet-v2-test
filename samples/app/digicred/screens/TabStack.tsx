@@ -28,8 +28,8 @@ const Tab = createBottomTabNavigator<TabStackParams>()
 const DigiCredTabStack: React.FC = () => {
   const { t } = useTranslation()
   const [
-    { useNotifications },
-    { enableImplicitInvitations, enableReuseConnections },
+    notificationsConfig,
+    config,
     logger,
     HomeStack,
     CredentialStack,
@@ -42,6 +42,10 @@ const DigiCredTabStack: React.FC = () => {
     TOKENS.STACK_CREDENTIAL,
     TOKENS.STACK_SETTINGS,
   ])
+
+  const useNotifications = notificationsConfig?.useNotifications ?? (() => [])
+  const enableImplicitInvitations = config?.enableImplicitInvitations ?? false
+  const enableReuseConnections = config?.enableReuseConnections ?? false
 
   const notifications = useNotifications({})
   const { assertNetworkConnected } = useNetwork()

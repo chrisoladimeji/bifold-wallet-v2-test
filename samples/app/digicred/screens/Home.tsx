@@ -72,13 +72,15 @@ const Home: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<Record<string, object | undefined>>>()
   const [refreshing, setRefreshing] = React.useState(false)
   const [store] = useStore()
-  const [{ contactHideList }] = useServices([TOKENS.CONFIG])
+  const [config] = useServices([TOKENS.CONFIG])
+  const contactHideList = config?.contactHideList
 
   // Get connections from Credo
-  const { records: connections } = useConnections()
+  const { records: connections = [] } = useConnections() ?? { records: [] }
 
   // Filter out mediator connections, hidden contacts, and incomplete connections
   const filteredConnections = useMemo(() => {
+    if (!connections || !Array.isArray(connections)) return []
     return connections.filter((connection) => {
       // Filter out mediator connections
       if (connection.connectionTypes.includes(ConnectionType.Mediator)) {

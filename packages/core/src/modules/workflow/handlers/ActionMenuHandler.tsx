@@ -190,7 +190,7 @@ export class ActionMenuWorkflowHandler extends BaseWorkflowHandler<ActionMenuRec
 
     return {
       _id: record.id,
-      text: this.getLabel(record, context.t),
+      text: this.getLabel(record),
       renderEvent,
       createdAt: record.createdAt,
       user: { _id: this.getRole(record) },

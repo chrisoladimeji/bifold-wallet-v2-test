@@ -61,7 +61,7 @@ function flattenSchema(
     for (const [key, prop] of Object.entries(schema.properties)) {
       const newPath = [...path, key]
       if (prop.type === 'object' && prop.properties) {
-        fields.push(...flattenSchema(prop, newPath, prop.required ?? []))
+        fields.push(...flattenSchema(prop, newPath))
       } else {
         fields.push({
           path: newPath,

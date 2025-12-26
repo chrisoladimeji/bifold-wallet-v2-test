@@ -99,9 +99,10 @@ const Contacts: React.FC<ListContactsProps> = ({ navigation }) => {
   const { t } = useTranslation()
   const { agent } = useAgent()
   const [connections, setConnections] = useState<ConnectionRecord[]>([])
-  const { records: connectionRecords } = useConnections()
+  const { records: connectionRecords = [] } = useConnections() ?? { records: [] }
   const [store] = useStore()
-  const [{ contactHideList }] = useServices([TOKENS.CONFIG])
+  const [config] = useServices([TOKENS.CONFIG])
+  const contactHideList = config?.contactHideList
 
   useEffect(() => {
     const fetchAndSetConnections = async () => {

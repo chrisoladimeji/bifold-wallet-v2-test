@@ -132,7 +132,7 @@ export class CredentialWorkflowHandler extends BaseWorkflowHandler<CredentialExc
   ): (() => void) | undefined {
     if (!navigation) return undefined
 
-    const navResult = this.getDetailNavigation(record, navigation)
+    const navResult = this.getDetailNavigation(record)
     if (!navResult) return undefined
 
     return () => {
