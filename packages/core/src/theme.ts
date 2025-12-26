@@ -1403,7 +1403,8 @@ export const bifoldTheme: ITheme = {
   Assets,
 }
 
-// Default theme is bifold (digicredTheme should be imported separately to avoid circular deps)
+// Default theme is bifold in core package
+// Apps should import digicredTheme from './modules/theme/themes/teal-dark/digicredTheme'
 export const defaultTheme = bifoldTheme
 
 export const themes: ITheme[] = [bifoldTheme]

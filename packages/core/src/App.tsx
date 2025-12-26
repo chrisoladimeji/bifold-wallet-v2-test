@@ -20,7 +20,8 @@ import { ThemeProvider } from './contexts/theme'
 import { TourProvider } from './contexts/tour/tour-provider'
 import { initStoredLanguage } from './localization'
 import RootStack from './navigators/RootStack'
-import { digicredTheme, themes } from './theme'
+import { themes } from './theme'
+import { digicredTheme } from './modules/theme/themes/teal-dark/digicredTheme'
 import ErrorBoundaryWrapper from './components/misc/ErrorBoundary'
 import { bifoldLoggerInstance } from './services/bifoldLogger'
 import {
@@ -68,7 +69,7 @@ const createApp = (container: Container): React.FC => {
         <ContainerProvider value={container}>
           <StoreProvider>
             <ThemeRegistryProvider registry={themeRegistry} initialThemeId="teal-dark">
-              <ThemeProvider themes={themes} defaultThemeName={digicredTheme.themeName}>
+              <ThemeProvider themes={[digicredTheme, ...themes]} defaultThemeName={digicredTheme.themeName}>
                 <NavContainer navigationRef={navigationRef}>
                   <AnimatedComponentsProvider value={animatedComponents}>
                     <AuthProvider>
