@@ -44,7 +44,10 @@ import { AppContainer } from './container-imp'
 LogBox.ignoreAllLogs()
 
 initLanguages(translationResources)
+
 const bifoldContainer = new MainContainer(container.createChildContainer()).init()
 const appContainer = new AppContainer(bifoldContainer).init()
 const App = createApp(appContainer)
+
 AppRegistry.registerComponent(appName, () => App)
+

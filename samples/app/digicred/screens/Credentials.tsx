@@ -4,7 +4,7 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
+  FlatList,
   StatusBar,
   TouchableOpacity,
 } from 'react-native'
@@ -154,27 +154,20 @@ const Credentials: React.FC = () => {
           <Text style={styles.headerTitle}>{t('Screens.Credentials') || 'Credentials'}</Text>
         </View>
 
-        {/* Credentials List - Using ScrollView instead of FlatList to avoid getItem error */}
-        <ScrollView
+        {/* Credentials List */}
+        <FlatList
+          data={credentials.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf())}
+          keyExtractor={(credential) => credential.id}
+          renderItem={({ item: credential, index }) => (
+            <View style={[styles.cardContainer, index === credentials.length - 1 && styles.lastCard]}>
+              {renderCardItem(credential)}
+            </View>
+          )}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
-        >
-          {credentials.length === 0 ? (
-            renderEmptyState()
-          ) : (
-            credentials
-              .sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf())
-              .map((credential, index) => (
-                <View
-                  key={credential.id}
-                  style={[styles.cardContainer, index === credentials.length - 1 && styles.lastCard]}
-                >
-                  {renderCardItem(credential)}
-                </View>
-              ))
-          )}
-          <CredentialListFooter credentialsCount={credentials.length} />
-        </ScrollView>
+          ListEmptyComponent={renderEmptyState}
+          ListFooterComponent={() => <CredentialListFooter credentialsCount={credentials.length} />}
+        />
         <CredentialListOptions />
       </View>
     </GradientBackground>

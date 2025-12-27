@@ -22,7 +22,7 @@ const useBifoldAgentSetup = (): AgentSetupReturnType => {
   const [agent, setAgent] = useState<Agent | null>(null)
   const agentInstanceRef = useRef<Agent | null>(null)
   const [store, dispatch] = useStore()
-  const [cacheSchemas, cacheCredDefs, logger, indyLedgers, bridge, , webrtcIceServers] = useServices([
+  const [cacheSchemas, cacheCredDefs, logger, indyLedgers, bridge, , webrtcIceServers, ocaResolver] = useServices([
     TOKENS.CACHE_SCHEMAS,
     TOKENS.CACHE_CRED_DEFS,
     TOKENS.UTIL_LOGGER,
@@ -30,6 +30,7 @@ const useBifoldAgentSetup = (): AgentSetupReturnType => {
     TOKENS.UTIL_AGENT_BRIDGE,
     TOKENS.UTIL_REFRESH_ORCHESTRATOR,
     TOKENS.UTIL_WEBRTC_ICE_SERVERS,
+    TOKENS.UTIL_OCA_RESOLVER,
   ])
 
   const restartExistingAgent = useCallback(
@@ -152,6 +153,10 @@ const useBifoldAgentSetup = (): AgentSetupReturnType => {
       agentInstanceRef.current = newAgent
       setAgent(newAgent)
       bridge.setAgent(newAgent)
+      // Set agent on OCA resolver for fetching Kanon credential overlays
+      if (ocaResolver && typeof (ocaResolver as any).setAgent === 'function') {
+        (ocaResolver as any).setAgent(newAgent)
+      }
     },
     [
       logger,
@@ -161,6 +166,7 @@ const useBifoldAgentSetup = (): AgentSetupReturnType => {
       warmUpCache,
       store.preferences.selectedMediator,
       bridge,
+      ocaResolver,
     ]
   )
 

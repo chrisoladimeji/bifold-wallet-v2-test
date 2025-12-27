@@ -2,7 +2,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, View, StyleSheet, DeviceEventEmitter } from 'react-native'
+import { View, StyleSheet, DeviceEventEmitter, FlatList } from 'react-native'
 
 import { NotificationType } from '../components/listItems/NotificationListItem'
 import AppGuideModal from '../components/modals/AppGuideModal'

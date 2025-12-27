@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   DeviceEventEmitter,
-  ScrollView,
+  FlatList,
   StyleSheet,
   View,
   Text,
@@ -164,19 +164,17 @@ const Contacts: React.FC<ListContactsProps> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Contact List - Using ScrollView instead of FlatList to avoid getItem error */}
-        <ScrollView
+        {/* Contact List */}
+        <FlatList
+          data={connections}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <ContactItem contact={item} onPress={() => handleContactPress(item)} />
+          )}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
-        >
-          {connections.length === 0 ? (
-            <EmptyContacts onAddContact={handleAddContact} />
-          ) : (
-            connections.map((item) => (
-              <ContactItem key={item.id} contact={item} onPress={() => handleContactPress(item)} />
-            ))
-          )}
-        </ScrollView>
+          ListEmptyComponent={() => <EmptyContacts onAddContact={handleAddContact} />}
+        />
       </View>
     </GradientBackground>
   )

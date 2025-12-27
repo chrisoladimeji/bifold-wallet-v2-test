@@ -116,7 +116,9 @@ const CredentialCard11: React.FC<CredentialCard11Props> = ({
   const [overlay, setOverlay] = useState<CredentialOverlay<BrandingOverlay>>({})
   const { styles, borderRadius, logoHeight } = useCredentialCardStyles(overlay, brandingOverlayType, proof)
   const attributeFormats: Record<string, string | undefined> = useMemo(() => {
-    return (overlay.bundle as any)?.bundle.attributes
+    const attributes = (overlay.bundle as any)?.bundle?.attributes
+    if (!attributes) return {}
+    return attributes
       .map((attr: any) => {
         return { name: attr.name, format: attr.format }
       })
@@ -165,7 +167,7 @@ const CredentialCard11: React.FC<CredentialCard11Props> = ({
     (item: Attribute & Predicate) => {
       let parsedItem = item
       if (item && item.pValue != null) {
-        parsedItem = pTypeToText(item, t, overlay.bundle?.captureBase.attributes) as Attribute & Predicate
+        parsedItem = pTypeToText(item, t, overlay.bundle?.captureBase?.attributes) as Attribute & Predicate
       }
       const parsedValue = formatIfDate(
         attributeFormats?.[item.name ?? ''],

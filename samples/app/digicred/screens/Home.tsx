@@ -4,7 +4,7 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
+  FlatList,
   TouchableOpacity,
   StatusBar,
   Image,
@@ -188,21 +188,15 @@ const Home: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Contacts List - Using ScrollView instead of FlatList to avoid getItem error */}
-        <ScrollView
+        {/* Contacts List */}
+        <FlatList
+          data={sortedConnections}
+          renderItem={renderContact}
+          keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
-        >
-          {sortedConnections.length === 0 ? (
-            renderEmptyState()
-          ) : (
-            sortedConnections.map((item) => (
-              <View key={item.id}>
-                {renderContact({ item })}
-              </View>
-            ))
-          )}
-        </ScrollView>
+          ListEmptyComponent={renderEmptyState}
+        />
       </View>
     </GradientBackground>
   )

@@ -5,7 +5,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, View } from 'react-native'
+import { View, FlatList } from 'react-native'
 
 import CredentialCard from '../components/misc/CredentialCard'
 import { DispatchAction } from '../contexts/reducers/store'

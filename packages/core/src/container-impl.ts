@@ -1,4 +1,5 @@
 import { DefaultOCABundleResolver } from '@bifold/oca/build/legacy'
+import { KanonOCABundleResolver } from './utils/KanonOCAResolver'
 import { getProofRequestTemplates } from '@bifold/verifier'
 import { Agent } from '@credo-ts/core'
 import { createContext, useContext } from 'react'
@@ -297,7 +298,9 @@ export class MainContainer implements Container {
     this._container.registerInstance(TOKENS.OBJECT_SCREEN_CONFIG, DefaultScreenOptionsDictionary)
     this._container.registerInstance(TOKENS.OBJECT_LAYOUT_CONFIG, DefaultScreenLayoutOptions)
     this._container.registerInstance(TOKENS.UTIL_LOGGER, bifoldLoggerInstance)
-    this._container.registerInstance(TOKENS.UTIL_OCA_RESOLVER, new DefaultOCABundleResolver(bundle))
+    // Use KanonOCABundleResolver which extends DefaultOCABundleResolver
+    // and can fetch OCA overlays from Kanon credential definitions
+    this._container.registerInstance(TOKENS.UTIL_OCA_RESOLVER, new KanonOCABundleResolver(bundle))
     this._container.registerInstance(TOKENS.UTIL_LEDGERS, defaultIndyLedgers)
     this._container.registerInstance(TOKENS.UTIL_PROOF_TEMPLATE, getProofRequestTemplates)
     this._container.registerInstance(TOKENS.UTIL_ATTESTATION_MONITOR, { useValue: undefined })

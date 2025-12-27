@@ -3,7 +3,7 @@ import { useAgent, useConnections } from '@credo-ts/react-hooks'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DeviceEventEmitter, FlatList, StyleSheet, View } from 'react-native'
+import { DeviceEventEmitter, StyleSheet, View, FlatList } from 'react-native'
 
 import IconButton, { ButtonLocation } from '../components/buttons/IconButton'
 import EmptyListContacts from '../components/misc/EmptyListContacts'

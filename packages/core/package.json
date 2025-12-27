@@ -238,8 +238,9 @@
   },
   "dependencies": {
     "@ajna-inc/webrtc": "0.2.1",
-    "@ajna-inc/workflow": "patch:@ajna-inc/workflow@npm%3A0.5.34#~/.yarn/patches/@ajna-inc-workflow-npm-0.5.34-7b79117bcf.patch",
+    "@ajna-inc/workflow": "patch:@ajna-inc/workflow@npm%3A0.5.37#~/.yarn/patches/@ajna-inc-workflow-npm-0.5.37-rncompat.patch",
     "@types/base-64": "^1.0.2",
+    "ethers": "^6.16.0",
     "kanon-react-native": "^0.0.8"
   }
 }

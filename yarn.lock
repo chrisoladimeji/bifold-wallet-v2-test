@@ -52,23 +52,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ajna-inc/payments@npm:0.5.18":
-  version: 0.5.18
-  resolution: "@ajna-inc/payments@npm:0.5.18"
-  dependencies:
-    "@credo-ts/core": "npm:0.5.17"
-    class-transformer: "npm:0.5.1"
-    class-validator: "npm:0.14.1"
-    ethers: "npm:^6.13.2"
-    pkcs11js: "npm:^2.1.0"
-    tsyringe: "npm:^4.8.0"
-  dependenciesMeta:
-    pkcs11js:
-      optional: true
-  checksum: 10c0/311b71fc0df0a980b27f7e61e803bd6140a8f200f020d65019dee90c4472ab047f84fcda423f3505edc333702d685a51ab4b71d55a5df34f57dd85f8264dc3a1
-  languageName: node
-  linkType: hard
-
 "@ajna-inc/webrtc@npm:0.2.1":
   version: 0.2.1
   resolution: "@ajna-inc/webrtc@npm:0.2.1"
@@ -82,31 +65,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ajna-inc/workflow@npm:0.5.34":
-  version: 0.5.34
-  resolution: "@ajna-inc/workflow@npm:0.5.34"
+"@ajna-inc/workflow@npm:0.5.37":
+  version: 0.5.37
+  resolution: "@ajna-inc/workflow@npm:0.5.37"
   dependencies:
-    "@ajna-inc/payments": "npm:0.5.18"
-    "@credo-ts/core": "npm:0.5.17"
     ajv: "npm:^8.17.1"
     ajv-formats: "npm:^3.0.1"
     jmespath: "npm:^0.16.0"
     semver: "npm:^7.6.3"
-  checksum: 10c0/d5d14e01988e141f9e0dea44a55f88e202d9a86671ff6667d96af1b3de47f657d10775075235fac263316935b91a69d0dd7c02f4ee984a148b8a306dac0fdf48
+  peerDependencies:
+    "@credo-ts/core": ^0.5.0
+  checksum: 10c0/407aa8b53747d61ea357bbc7a09215b74e52ec3508650c0e9ceb4edca698b674e4aef5675af419a9f569d011b05e5fcb673c8659b2204d109dee4bbc56960170
   languageName: node
   linkType: hard
 
-"@ajna-inc/workflow@patch:@ajna-inc/workflow@npm%3A0.5.34#~/.yarn/patches/@ajna-inc-workflow-npm-0.5.34-7b79117bcf.patch":
-  version: 0.5.34
-  resolution: "@ajna-inc/workflow@patch:@ajna-inc/workflow@npm%3A0.5.34#~/.yarn/patches/@ajna-inc-workflow-npm-0.5.34-7b79117bcf.patch::version=0.5.34&hash=253244"
+"@ajna-inc/workflow@patch:@ajna-inc/workflow@npm%3A0.5.37#~/.yarn/patches/@ajna-inc-workflow-npm-0.5.37-rncompat.patch":
+  version: 0.5.37
+  resolution: "@ajna-inc/workflow@patch:@ajna-inc/workflow@npm%3A0.5.37#~/.yarn/patches/@ajna-inc-workflow-npm-0.5.37-rncompat.patch::version=0.5.37&hash=76b28c"
   dependencies:
-    "@ajna-inc/payments": "npm:0.5.18"
-    "@credo-ts/core": "npm:0.5.17"
     ajv: "npm:^8.17.1"
     ajv-formats: "npm:^3.0.1"
     jmespath: "npm:^0.16.0"
     semver: "npm:^7.6.3"
-  checksum: 10c0/e452cdc00f93a0a38f02ecfc958cb5167b78be8c36247062e7a0fbe7c644693a30ea6be58074d2fe8e9106b687096c7e703504f7bf56bf32ebf7903c2dcb383b
+  peerDependencies:
+    "@credo-ts/core": ^0.5.0
+  checksum: 10c0/5d1f18340f97f76541e9db74e58dec34a9bb9eabceac01cfb2c1f7b0449ab9a6983136c4b1e189cbf39a2d46eadbd71c5ec93e56649b729a65937805b8eb035e
   languageName: node
   linkType: hard
 
@@ -2441,7 +2424,7 @@ __metadata:
   resolution: "@bifold/core@workspace:packages/core"
   dependencies:
     "@ajna-inc/webrtc": "npm:0.2.1"
-    "@ajna-inc/workflow": "patch:@ajna-inc/workflow@npm%3A0.5.34#~/.yarn/patches/@ajna-inc-workflow-npm-0.5.34-7b79117bcf.patch"
+    "@ajna-inc/workflow": "patch:@ajna-inc/workflow@npm%3A0.5.37#~/.yarn/patches/@ajna-inc-workflow-npm-0.5.37-rncompat.patch"
     "@babel/core": "npm:~7.22.20"
     "@babel/runtime": "npm:~7.23.9"
     "@bifold/oca": "npm:2.11.8"
@@ -2501,6 +2484,7 @@ __metadata:
     eslint-import-resolver-typescript: "npm:~3.6.3"
     eslint-plugin-import: "npm:~2.29.1"
     eslint-plugin-prettier: "npm:~5.2.6"
+    ethers: "npm:^6.16.0"
     expo: "npm:*"
     expo-secure-store: "npm:*"
     i18next: "npm:~21.6.16"
@@ -11706,7 +11690,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.13.2":
+"ethers@npm:^6.16.0":
   version: 6.16.0
   resolution: "ethers@npm:6.16.0"
   dependencies:
@@ -17519,15 +17503,6 @@ __metadata:
   version: 4.0.7
   resolution: "pirates@npm:4.0.7"
   checksum: 10c0/a51f108dd811beb779d58a76864bbd49e239fa40c7984cd11596c75a121a8cc789f1c8971d8bb15f0dbf9d48b76c05bb62fcbce840f89b688c0fa64b37e8478a
-  languageName: node
-  linkType: hard
-
-"pkcs11js@npm:^2.1.0":
-  version: 2.1.6
-  resolution: "pkcs11js@npm:2.1.6"
-  dependencies:
-    node-gyp: "npm:latest"
-  checksum: 10c0/0f2c483b403031f51bcd9d971e0579c2359308e3fc3d68008b17797d86d25772bfe06e6ff1f47c5f7f3e7527e2d10448ab4bb052cbffb03eb8403399955809f5
   languageName: node
   linkType: hard
 

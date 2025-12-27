@@ -381,7 +381,7 @@ const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route }) => {
     stateName: {
       fontSize: 20,
       fontWeight: '600',
-      color: ColorPalette.grayscale.black,
+      color: ColorPalette.brand.text,
       marginBottom: 4,
       textAlign: 'center',
     },
@@ -423,7 +423,7 @@ const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route }) => {
     },
     uiText: {
       fontSize: 14,
-      color: ColorPalette.grayscale.black,
+      color: ColorPalette.brand.text,
       marginBottom: 8,
     },
     formContainer: {
@@ -443,7 +443,7 @@ const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route }) => {
     formFieldLabel: {
       fontSize: 14,
       fontWeight: '600',
-      color: ColorPalette.grayscale.black,
+      color: ColorPalette.brand.text,
       marginBottom: 4,
     },
     requiredStar: {
@@ -462,7 +462,7 @@ const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route }) => {
       paddingHorizontal: 12,
       paddingVertical: 10,
       fontSize: 14,
-      color: ColorPalette.grayscale.black,
+      color: ColorPalette.brand.text,
     },
     contextCard: {
       backgroundColor: ColorPalette.brand.secondaryBackground,
@@ -486,7 +486,7 @@ const WorkflowDetails: React.FC<WorkflowDetailsProps> = ({ route }) => {
     contextKey: {
       fontSize: 14,
       fontWeight: '600',
-      color: ColorPalette.grayscale.black,
+      color: ColorPalette.brand.text,
       flex: 0.4,
     },
     contextValue: {
