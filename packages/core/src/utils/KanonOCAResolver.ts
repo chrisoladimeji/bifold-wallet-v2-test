@@ -28,7 +28,6 @@ export class KanonOCABundleResolver extends DefaultOCABundleResolver {
    * Set the agent instance for fetching credential definitions
    */
   public setAgent(agent: Agent) {
-    console.log('[KanonOCA] setAgent() called, agent set successfully')
     this.agent = agent
   }
 
@@ -37,36 +36,29 @@ export class KanonOCABundleResolver extends DefaultOCABundleResolver {
    */
   public async resolve(params: { identifiers: Identifiers; language?: string }): Promise<OCABundle | undefined> {
     const credDefId = params.identifiers.credentialDefinitionId
-    console.log('[KanonOCA] resolve() called with credDefId:', credDefId)
 
     // First try the default resolver (local bundles)
     const localBundle = await super.resolve(params)
     if (localBundle) {
-      console.log('[KanonOCA] Found local bundle')
       return localBundle
     }
 
     // Check cache
     if (credDefId && this.cachedOverlays.has(credDefId)) {
-      console.log('[KanonOCA] Found cached overlay')
       return this.cachedOverlays.get(credDefId)
     }
 
     // Try to fetch from Kanon credential definition
     if (credDefId && this.agent) {
       try {
-        console.log('[KanonOCA] Fetching from Kanon ledger...')
         const kanonBundle = await this.fetchKanonOCA(credDefId, params.language)
         if (kanonBundle) {
           this.cachedOverlays.set(credDefId, kanonBundle)
-          console.log('[KanonOCA] Successfully fetched and cached Kanon bundle')
           return kanonBundle
         }
       } catch (error) {
-        console.log('[KanonOCA] Error fetching Kanon bundle:', error)
+        // Silently fail - credential will use default overlay
       }
-    } else {
-      console.log('[KanonOCA] No credDefId or agent, skipping Kanon fetch. credDefId:', credDefId, 'agent:', !!this.agent)
     }
 
     return undefined
@@ -77,29 +69,21 @@ export class KanonOCABundleResolver extends DefaultOCABundleResolver {
    */
   private async fetchKanonOCA(credDefId: string, language?: string): Promise<OCABundle | undefined> {
     if (!this.agent) {
-      console.log('[KanonOCA] No agent set, skipping overlay fetch')
       return undefined
     }
 
     try {
-      console.log('[KanonOCA] Fetching overlay for credDefId:', credDefId)
       const result = await this.agent.modules.anoncreds.getCredentialDefinition(credDefId)
-      console.log('[KanonOCA] Got credential definition result:', JSON.stringify(result, null, 2))
 
       // Check for overlay in metadata
       const overlay = (result.credentialDefinitionMetadata as any)?.overlay
       if (!overlay) {
-        console.log('[KanonOCA] No overlay found in metadata')
         return undefined
       }
 
-      console.log('[KanonOCA] Found overlay:', JSON.stringify(overlay, null, 2))
       // Convert Kanon overlay format to OCA bundle format
-      const bundle = this.convertKanonOverlayToOCABundle(overlay, credDefId, language)
-      console.log('[KanonOCA] Converted to OCA bundle:', JSON.stringify(bundle, null, 2))
-      return bundle
+      return this.convertKanonOverlayToOCABundle(overlay, credDefId, language)
     } catch (error) {
-      console.log('[KanonOCA] Error fetching overlay:', error)
       // Silently fail - credential will use default overlay
       return undefined
     }
@@ -186,7 +170,6 @@ export class KanonOCABundleResolver extends DefaultOCABundleResolver {
    */
   public async resolveAllBundles(params: OCABundleResolveAllParams): Promise<CredentialOverlay<BrandingOverlay>> {
     const credDefId = params.identifiers.credentialDefinitionId
-    console.log('[KanonOCA] resolveAllBundles() called with credDefId:', credDefId)
 
     // First try the default resolver (local bundles) - use parent's resolveAllBundles
     // which knows how to process local bundles correctly
@@ -195,14 +178,12 @@ export class KanonOCABundleResolver extends DefaultOCABundleResolver {
       language: params.language,
     })
     if (localBundle) {
-      console.log('[KanonOCA] resolveAllBundles - using local bundle')
       // Use parent's resolveAllBundles for local bundles
       return super.resolveAllBundles(params) as Promise<CredentialOverlay<BrandingOverlay>>
     }
 
     // Check cache for Kanon bundles
     if (credDefId && this.cachedOverlays.has(credDefId)) {
-      console.log('[KanonOCA] resolveAllBundles - using cached bundle')
       const cachedBundle = this.cachedOverlays.get(credDefId)!
       return this.processBundle(cachedBundle, params)
     }
@@ -210,22 +191,17 @@ export class KanonOCABundleResolver extends DefaultOCABundleResolver {
     // Try to fetch from Kanon credential definition
     if (credDefId && this.agent) {
       try {
-        console.log('[KanonOCA] resolveAllBundles - fetching from Kanon...')
         const kanonBundle = await this.fetchKanonOCA(credDefId, params.language)
         if (kanonBundle) {
           this.cachedOverlays.set(credDefId, kanonBundle)
-          console.log('[KanonOCA] resolveAllBundles - successfully fetched Kanon bundle')
           return this.processBundle(kanonBundle, params)
         }
       } catch (error) {
-        console.log('[KanonOCA] resolveAllBundles - error fetching:', error)
+        // Silently fail - credential will use default overlay
       }
-    } else {
-      console.log('[KanonOCA] resolveAllBundles - no credDefId or agent. credDefId:', credDefId, 'agent:', !!this.agent)
     }
 
     // Fall back to default behavior
-    console.log('[KanonOCA] resolveAllBundles - falling back to default')
     return super.resolveAllBundles(params) as Promise<CredentialOverlay<BrandingOverlay>>
   }
 
@@ -267,8 +243,6 @@ export class KanonOCABundleResolver extends DefaultOCABundleResolver {
       header: rawBrandingOverlay.header,
       footer: rawBrandingOverlay.footer,
     } as unknown as BrandingOverlay : undefined
-
-    console.log('[KanonOCA] processBundle - brandingOverlay:', JSON.stringify(brandingOverlay, null, 2))
 
     // Build presentation fields with labels
     const presentationFields = params.attributes?.map((attr) => {
