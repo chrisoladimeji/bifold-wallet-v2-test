@@ -11,6 +11,7 @@ import { DispatchAction } from '../contexts/reducers/store'
 import { useStore } from '../contexts/store'
 import { OnboardingStackParams } from '../types/navigators'
 import { testIdWithKey } from '../utils/testable'
+import { ThemedBackground } from '../modules/theme/components/ThemedBackground'
 export interface OnboardingStyleSheet {
   container: ViewStyle
   carouselContainer: ViewStyle
@@ -131,31 +132,33 @@ const Onboarding: React.FC<OnboardingProps> = ({
   )
 
   return (
-    <SafeAreaView style={style.container} edges={['left', 'right', 'bottom']}>
-      <FlatList
-        ref={flatList}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        style={{ width }}
-        data={pages}
-        renderItem={renderItem}
-        viewabilityConfig={viewabilityConfigRef.current}
-        onViewableItemsChanged={onViewableItemsChangedRef.current}
-        onScroll={onScroll}
-        scrollEventThrottle={16}
-      />
-      <Pagination
-        pages={pages}
-        activeIndex={activeIndex}
-        nextButtonText={nextButtonText}
-        previousButtonText={previousButtonText}
-        scrollX={scrollX}
-        style={style}
-        next={next}
-        previous={previous}
-      />
-    </SafeAreaView>
+    <ThemedBackground screenId="onboarding" style={{ flex: 1 }}>
+      <SafeAreaView style={style.container} edges={['left', 'right', 'bottom']}>
+        <FlatList
+          ref={flatList}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          style={{ width }}
+          data={pages}
+          renderItem={renderItem}
+          viewabilityConfig={viewabilityConfigRef.current}
+          onViewableItemsChanged={onViewableItemsChangedRef.current}
+          onScroll={onScroll}
+          scrollEventThrottle={16}
+        />
+        <Pagination
+          pages={pages}
+          activeIndex={activeIndex}
+          nextButtonText={nextButtonText}
+          previousButtonText={previousButtonText}
+          scrollX={scrollX}
+          style={style}
+          next={next}
+          previous={previous}
+        />
+      </SafeAreaView>
+    </ThemedBackground>
   )
 }
 

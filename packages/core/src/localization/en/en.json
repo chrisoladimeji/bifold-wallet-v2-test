@@ -180,7 +180,18 @@
     "TermsOfService": "Terms of Service",
     "TermsOfServiceText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel consectetur diam. Nunc sit amet elit est. Praesent libero elit, consectetur dapibus diam non, facilisis euismod velit. Etiam a ligula eget leo elementum tincidunt. Fusce et lorem turpis. Nunc tempus nisl consectetur eros vehicula venenatis. Suspendisse potenti. Aenean vitae aliquet augue. Maecenas lacinia nunc vitae blandit hendrerit. Sed congue risus quis magna convallis sollicitudin. Integer in ante vel orci ornare porta quis id libero. Proin mollis urna nec lectus fringilla, sit amet aliquam urna fringilla. Praesent pellentesque non augue et gravida. Donec congue urna ac massa consequat, lacinia condimentum dolor blandit. Nam ultrices tellus at risus dignissim, quis cursus mauris pellentesque. Donec at scelerisque ipsum. Praesent eu massa at tellus cursus ornare. Fusce vel faucibus dolor. Etiam blandit velit sed velit tempus feugiat. Donec condimentum pretium suscipit. Sed suscipit, leo molestie tempus maximus, turpis enim hendrerit nibh, semper sagittis turpis velit sed nisl. Aliquam eu ultrices velit. Aenean tristique mauris justo, eu commodo quam semper non. Curabitur ultricies auctor mi eu tempus. Sed bibendum eros sed neque semper fermentum. Nullam porta tortor ut ante congue molestie. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur sit amet aliquam nunc, malesuada auctor quam. Pellentesque vel lobortis risus, volutpat suscipit velit. Aenean ut erat sed metus interdum mattis. Nam consectetur ante eu felis rhoncus, et volutpat dolor tincidunt. Vivamus sit amet feugiat mi. Proin in dui ac metus vehicula fringilla eget id mauris. Maecenas et elit venenatis dolor pulvinar pulvinar in et leo. Aliquam scelerisque viverra sapien at bibendum. Curabitur et libero nec enim convallis porttitor sed a libero. In hac habitasse platea dictumst. Integer dignissim velit eu pharetra ultricies. Vestibulum at velit hendrerit, pretium purus eget, lobortis tellus. Maecenas non erat ut lacus scelerisque luctus et et tellus.",
     "IAgree": "I Agree",
-    "Attestation": "I have read, understand and accept the terms and conditions."
+    "Attestation": "I have read, understand and accept the terms and conditions.",
+    "Title": "Terms And Conditions",
+    "Intro": "Please agree to the terms and conditions below before using this application.",
+    "BodyIntro": "These terms and conditions (Terms) govern your use of the DigiCred Mobile Wallet (\"App\"), developed by DigiCred Holdings Inc. (\"Developer\"). By downloading, installing, or using the App, you agree to be bound by these Terms. If you do not agree to these Terms, do not use this App.",
+    "DefinitionsTitle": "Definitions",
+    "DefinitionsBody": "\"User\" refers to any person who downloads, installs, or uses the App. \"Content\" refers to any text, images, or other media through the App.",
+    "LicenseTitle": "License",
+    "LicenseBody": "Subject to your compliance with these Terms, the Developer Grants you a limited non-exclusive, non-transferrable, revocable license to download, install, and use the App for your personal, non-commercial purposes.",
+    "PrivacyTitle": "Privacy",
+    "PrivacyBody": "Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your personal information when you use the App.",
+    "DisclaimerTitle": "Disclaimer",
+    "DisclaimerBody": "The App is provided \"as is\" without warranties of any kind. The Developer disclaims all warranties, express or implied, including but not limited to implied warranties of merchantability and fitness for a particular purpose."
   },
   "Tour": {
     "GuideTitle": "Welcome to Aries Bifold",
@@ -266,6 +277,10 @@
     "CreatePIN": "Create PIN",
     "RememberPIN": "Create a PIN to secure your wallet.",
     "PINDisclaimer": "If you forget it, you may need to set up your wallet again and re-add your cards.",
+    "CardTitle": "Create a PIN To Secure Your Wallet",
+    "CardSubtitle": "If you forget it, you may need to set up your wallet again and re-add your cards.",
+    "EnterPINPlaceholder": "Enter a 6 digit PIN",
+    "ReenterPINPlaceholder": "Re-enter PIN",
     "Show": "Show PIN",
     "Hide": "Hide PIN",
     "Masked": "PIN Masked for privacy"
@@ -291,13 +306,13 @@
     "PrimaryButton": "Go back to settings"
   },
   "PINEnter": {
-    "AppTitle": "Aries Bifold",
+    "AppTitle": "DigiCred Wallet",
     "Title": "Welcome back",
     "SubText": "Sign-in to access your wallet.",
     "EnterPIN": "Enter your wallet PIN to sign-in",
-    "Unlock": "Unlock",
-    "Or": "Or",
-    "BiometricsUnlock": "Unlock with biometrics",
+    "Unlock": "UNLOCK WITH PIN",
+    "Or": "OR",
+    "BiometricsUnlock": "UNLOCK WITH BIOMETRICS",
     "IncorrectPIN": "Incorrect PIN",
     "RepeatPIN": "Please try your PIN again.",
     "IncorrectPINTries": "Incorrect PIN: {{tries}} tries before your app is temporarily locked",
@@ -322,7 +337,11 @@
     "ForgotPINLink": "Forgot your PIN?",
     "ForgotPINModalTitle": "Forgot your PIN?",
     "ForgotPINModalDescription": "Forgot your PIN? You'll need to reinstall and setup your wallet again.",
-    "Loading": "Logging in"
+    "Loading": "Logging in",
+    "UnlockWithPIN": "UNLOCK WITH PIN",
+    "UnlockWithBiometrics": "UNLOCK WITH BIOMETRICS",
+    "EnterPINDescription": "Enter your 6 digit PIN to unlock your wallet",
+    "PINPlaceholder": "Enter PIN"
   },
   "AttemptLockout": {
     "Title": "Your wallet is temporarily locked",
@@ -350,7 +369,12 @@
     "AllowBiometricsDesc": "To unlock BC Wallet with your biometrics, please allow biometrics use within your device's settings.",
     "SetupBiometricsTitle": "Biometrics is not enabled",
     "SetupBiometricsDesc": "To unlock BC Wallet with your biometrics, please set up your biometrics in your device's settings.",
-    "OpenSettings": "Open settings"
+    "OpenSettings": "Open settings",
+    "Title": "Biometrics",
+    "Description": "The DigiCred wallet defaults to using your biometrics (face recognition or fingerprint) to unlock the application. We use a PIN as a backup if your biometrics are not working. You can use this control to turn off the biometric unlock.",
+    "Enable": "Enable",
+    "NotAvailableTitle": "Biometrics Not Available",
+    "NotAvailableMessage": "Biometrics are not available on this device. Please enable them in your device settings."
   },
   "ActivityHistory": {
     "Header": "Activity history",
@@ -504,7 +528,8 @@
     "GoToCredentialDetail": "Go to credential details",
     "CredentialName": "Credential name",
     "Credentials": "My credentials from this contact",
-    "NoCredentials": "You don't have any credentials from this contact."
+    "NoCredentials": "You don't have any credentials from this contact.",
+    "StartVideoCall": "Start Video Call"
   },
   "WhatAreContacts": {
     "Title": "What are Contacts?",
@@ -528,17 +553,20 @@
     "EnableNotifications": "Enable Notifications to get instant alerts",
     "BeNotified": "Be notified when you receive:",
     "ReceiveNotifications": "Receive notifications",
-    "BulletFour": "new messages",
-    "BulletOne": "new credential offers",
-    "BulletThree": "updates to your credentials",
-    "BulletTwo": "new proof requests",
+    "BulletFour": "New messages",
+    "BulletOne": "New credential offers",
+    "BulletThree": "Updates to your credentials",
+    "BulletTwo": "New proof requests",
     "NotificationsOffMessage": "Be notified when you receive new credential offers, proof requests, updates to your credentials, new messages and more.",
     "NotificationsOffTitle": "Notifications for Bifold are turned off",
     "NotificationsInstructionTitle": "To enable notifications:",
     "InstructionsOne": "Open the app's settings",
     "InstructionsTwo": "Tap Notifications",
     "InstructionsThree": "Enable notifications",
-    "OpenSettings": "Open settings"
+    "OpenSettings": "Open settings",
+    "Title": "Use Push Notifications",
+    "Subtitle": "Be notified when you receive:",
+    "Enable": "Enable"
   },
   "CredentialDetails": {
     "Id": "Id:",
@@ -570,7 +598,8 @@
     "Notification": "Notification",
     "Notifications": "Notifications",
     "NoNewUpdates": "You have no new notifications.",
-    "NoCredentials": "Your wallet is empty",
+    "NoCredentials": "No Credentials Yet",
+    "NoCredentialsMessage": "Scan a QR code to receive your first credential",
     "SeeAll": "See all",
     "YouHave": "You have",
     "Credential": "credential",
@@ -580,7 +609,9 @@
     "SentMessage": "sent a message",
     "ReceivedMessage": "You received a new message",
     "ViewMessage": "View message",
-    "ScanOfferAddCard": "Scan an offer to add a card to your wallet"
+    "ScanOfferAddCard": "Scan an offer to add a card to your wallet",
+    "Scan": "Scan QR Code",
+    "NotificationPreview": "You have received a notification..."
   },
   "Scan": {
     "SuccessfullyAcceptedConnection": "Successfully Accepted Connection",
@@ -794,7 +825,62 @@
     "ConfigureMediator": "Configure Mediator",
     "ChangeMediator": "Change Mediator",
     "ChangeMediatorDescription": "Changing the mediator will restart the app. Do you want to continue?",
-    "GenericErrorMessages": "Generic error messages"
+    "GenericErrorMessages": "Generic error messages",
+    "WalletManagement": "Wallet Management",
+    "Transfer": "Transfer Wallet",
+    "Restore": "Restore Wallet"
+  },
+  "ExportWallet": {
+    "BeginTransfer": "Begin Transfer",
+    "Content_1": "Both devices must be on the same WiFi network",
+    "Content_2": "Scan the QR code from your old device to begin the transfer",
+    "Content_3": "Once complete, your wallet will be",
+    "Content_4": "permanently deleted",
+    "Content_5": "from the old device",
+    "Content_6": "Scan this QR code from your new device",
+    "Content_7": "Your wallet has been transferred. You can now delete it from this device.",
+    "Ready": "Ready - Scan QR code",
+    "ExportSuccessful": "Export Successful",
+    "ExportFailed": "Export Failed",
+    "CompleteAndDelete": "Complete & Delete",
+    "ReturnToMenu": "Return to Menu",
+    "TransferWallet": "Transfer Wallet",
+    "TransferIntro": "Transfer your wallet to a new device",
+    "TransferDescription": "Follow these steps to securely transfer your wallet credentials to a new device:",
+    "Step1": "Connect both devices to the same WiFi network",
+    "Step2": "Open this app on your new device and select 'Restore Wallet'",
+    "Step3": "Enter your PIN on the new device",
+    "Step4": "Scan the QR code shown on this device",
+    "Warning": "Warning",
+    "WarningText": "After successful transfer, your wallet data on this device will be ready for deletion.",
+    "ServerStarted": "Server started",
+    "ServerError": "Failed to start server",
+    "WaitingForConnection": "Waiting for new device to connect..."
+  },
+  "ImportWallet": {
+    "EnterPINTitle": "Enter the PIN of the wallet you are restoring",
+    "SubEnterPINTitle": "Importing will overwrite any existing wallet. This action is",
+    "SecondEnterPINTitle": "permanent and cannot be undone.",
+    "ImportSuccessful": "Import Successful",
+    "ImportFailed": "Import Failed",
+    "IncorrectPIN": "Incorrect PIN",
+    "ConnectionTimeout": "Connection Timeout",
+    "WalletBackupNotFound": "Wallet backup not found",
+    "ProcessDataFailed": "Failed to process wallet data",
+    "ConnectionFailed": "Connection failed",
+    "ConnectionClosed": "Connection closed unexpectedly",
+    "ViewCredentials": "View Credentials",
+    "ImportWallet": "Importing Wallet",
+    "ImportWalletScan": "Please wait while we restore your wallet...",
+    "RestoreWallet": "Restore Wallet",
+    "ScanQRCode": "Scan QR Code",
+    "ScanDescription": "Scan the QR code displayed on your old device to restore your wallet.",
+    "Restoring": "Restoring wallet...",
+    "RestoreComplete": "Restore Complete",
+    "RestoreError": "Restore Error",
+    "WalletRestored": "Your wallet has been successfully restored!",
+    "CredentialsRestored": "Your credentials have been restored.",
+    "InvalidQRCode": "Invalid QR code. Please scan the transfer QR code from your old device."
   },
   "AutoLockTimes": {
     "FiveMinutes": "Five Minutes",
@@ -885,7 +971,8 @@
     "History": "History",
     "HistoryDetails": "History Details",
     "UpdateAvailable": "Update Available",
-    "JSONDetails": "JSON details"
+    "JSONDetails": "JSON details",
+    "WorkflowDetails": "Workflow Details"
   },
   "Loading": {
     "TakingTooLong": "This is taking longer than usual. You can return to home or continue waiting.",
@@ -926,6 +1013,7 @@
     "OpenPresentation": "Open presentation",
     "ViewRequest": "View request",
     "ViewOffer": "View offer",
+    "ViewWorkflow": "View workflow",
     "OpenItem": "Open",
     "UserYou": "You",
     "YouConnected": "You connected with",
@@ -994,5 +1082,25 @@
   },
   "FullScreenErrorModal": {
     "PrimaryCTA": "Go back to home"
+  },
+  "Workflow": {
+    "Workflow": "Workflow",
+    "CredentialWorkflow": "Credential Workflow",
+    "ProofWorkflow": "Proof Workflow",
+    "CurrentStep": "Step",
+    "Completed": "Completed",
+    "Failed": "Failed",
+    "Cancelled": "Cancelled",
+    "Paused": "Paused",
+    "InProgress": "In Progress",
+    "ActionFailed": "Action Failed",
+    "ActionFailedDescription": "Something went wrong while processing this action.",
+    "PauseWorkflow": "Pause Workflow",
+    "PauseConfirmation": "Are you sure you want to pause this workflow?",
+    "ResumeWorkflow": "Resume Workflow",
+    "ResumeConfirmation": "Are you sure you want to resume this workflow?",
+    "CancelWorkflow": "Cancel Workflow",
+    "CancelConfirmation": "Are you sure you want to cancel this workflow? This action cannot be undone.",
+    "WorkflowActions": "Workflow Actions"
   }
 }

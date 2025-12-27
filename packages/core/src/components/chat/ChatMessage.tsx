@@ -14,6 +14,7 @@ export enum CallbackType {
   CredentialOffer = 'CredentialOffer',
   ProofRequest = 'ProofRequest',
   PresentationSent = 'PresentationSent',
+  Workflow = 'Workflow',
 }
 
 export interface ChatMessageProps {
@@ -37,17 +38,16 @@ const MessageTime: React.FC<{ message: ExtendedChatMessage }> = ({ message }) =>
   )
 }
 
-const MessageIcon: React.FC<{ type: CallbackType }> = ({ type }) => {
-  const { ChatTheme: theme, Assets } = useTheme()
-
-  return (
-    <View style={{ ...theme.documentIconContainer }}>
-      {type === CallbackType.CredentialOffer && <Assets.svg.iconCredentialOfferLight width={40} height={40} />}
-      {type === CallbackType.PresentationSent && <Assets.svg.iconInfoSentLight width={40} height={40} />}
-      {type === CallbackType.ProofRequest && <Assets.svg.iconProofRequestLight width={40} height={40} />}
-    </View>
-  )
-}
+// MessageIcon component - intentionally unused for now, kept for future use
+// const MessageIcon: React.FC<{ type: CallbackType }> = ({ type }) => {
+//   const { ChatTheme: theme, Assets } = useTheme()
+//   if (type === CallbackType.PresentationSent) return null
+//   return (
+//     <View style={type !== CallbackType.CredentialOffer ? theme.documentIconContainer : {}}>
+//       {type === CallbackType.ProofRequest && <Assets.svg.iconProofRequestLight width={40} height={40} />}
+//     </View>
+//   )
+// }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({ messageProps }) => {
   const { t } = useTranslation()
@@ -70,6 +70,11 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ messageProps }) => {
       return t('Chat.OpenPresentation')
     }
 
+    // Workflow actions
+    if (callbackType === CallbackType.Workflow) {
+      return t('Chat.ViewWorkflow')
+    }
+
     return t('Chat.OpenItem')
   }
 
@@ -80,6 +85,72 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ messageProps }) => {
     return testIdWithKey(textWithoutSpaces)
   }
 
+  const { ColorPalette } = useTheme()
+
+  // For messages with callback types (proof request, credential offer), render in a combined card
+  if (message.messageOpensCallbackType) {
+    const cardStyle = {
+      backgroundColor: ColorPalette.brand.secondaryBackground,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: ColorPalette.brand.primary,
+      maxWidth: 320,
+      overflow: 'hidden' as const,
+    }
+
+    const buttonStyle = {
+      backgroundColor: ColorPalette.brand.primary,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
+    }
+
+    return (
+      <View style={{ marginBottom: 8 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: message.user._id === Role.me ? 'flex-end' : 'flex-start',
+          }}
+        >
+          <View style={cardStyle}>
+            {/* Message content */}
+            <View style={{ padding: 12 }}>
+              {message.renderEvent?.() || null}
+            </View>
+            {/* Action button */}
+            <TouchableOpacity
+              accessibilityLabel={textForCallbackType(message.messageOpensCallbackType)}
+              accessibilityRole="button"
+              testID={testIdForCallbackType(message.messageOpensCallbackType)}
+              onPress={() => {
+                if (message.onDetails) message.onDetails()
+              }}
+              style={buttonStyle}
+              hitSlop={hitSlop}
+            >
+              <ThemedText style={{ color: ColorPalette.grayscale.white, fontWeight: '600', fontSize: 16 }}>
+                {textForCallbackType(message.messageOpensCallbackType)}
+              </ThemedText>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/* Timestamp */}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: message.user._id === Role.me ? 'flex-end' : 'flex-start',
+            marginTop: 4,
+          }}
+        >
+          <MessageTime message={message} />
+        </View>
+      </View>
+    )
+  }
+
+  // Regular messages without callback types
   return (
     <View
       style={{
@@ -89,14 +160,18 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ messageProps }) => {
     >
       <View
         style={{
-          ...theme.containerStyle,
+          backgroundColor: 'transparent',
         }}
       >
         <Bubble
           {...messageProps}
           key={messageProps.key}
           renderUsernameOnMessage={false}
-          renderMessageText={() => message.renderEvent()}
+          renderMessageText={() => (
+            <View style={{ backgroundColor: 'transparent' }}>
+              {message.renderEvent?.() || null}
+            </View>
+          )}
           containerStyle={{
             left: {
               margin: 0,
@@ -106,36 +181,26 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ messageProps }) => {
             },
           }}
           wrapperStyle={{
-            left: { ...theme.leftBubble, marginRight: 0, marginLeft: 0 },
-            right: { ...theme.rightBubble, marginLeft: 0, marginRight: 0 },
+            left: {
+              backgroundColor: 'transparent',
+              marginRight: 0,
+              marginLeft: 0,
+              padding: 0,
+            },
+            right: {
+              backgroundColor: 'transparent',
+              marginLeft: 0,
+              marginRight: 0,
+              padding: 0,
+            },
           }}
           textStyle={{
             left: { ...theme.leftText },
             right: { ...theme.rightText },
           }}
           renderTime={() => <MessageTime message={message} />}
-          renderCustomView={() =>
-            message.messageOpensCallbackType ? <MessageIcon type={message.messageOpensCallbackType} /> : null
-          }
+          renderCustomView={() => null}
         />
-        {message.messageOpensCallbackType && (
-          <TouchableOpacity
-            accessibilityLabel={textForCallbackType(message.messageOpensCallbackType)}
-            accessibilityRole="button"
-            testID={testIdForCallbackType(message.messageOpensCallbackType)}
-            onPress={() => {
-              if (message.onDetails) message.onDetails()
-            }}
-            style={{
-              ...theme.openButtonStyle,
-            }}
-            hitSlop={hitSlop}
-          >
-            <ThemedText style={{ ...theme.openButtonTextStyle }}>
-              {textForCallbackType(message.messageOpensCallbackType)}
-            </ThemedText>
-          </TouchableOpacity>
-        )}
       </View>
     </View>
   )

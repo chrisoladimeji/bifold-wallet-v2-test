@@ -5,13 +5,6 @@ import { useTranslation } from 'react-i18next'
 import IconButton, { ButtonLocation } from '../components/buttons/IconButton'
 import HeaderRightHome from '../components/buttons/HeaderHome'
 import { useTheme } from '../contexts/theme'
-import ListProofRequests from '../screens/ListProofRequests'
-import MobileVerifierLoading from '../screens/MobileVerifierLoading'
-import ProofChangeCredential from '../screens/ProofChangeCredential'
-import ProofDetails from '../screens/ProofDetails'
-import ProofRequestDetails from '../screens/ProofRequestDetails'
-import ProofRequestUsageHistory from '../screens/ProofRequestUsageHistory'
-import ProofRequesting from '../screens/ProofRequesting'
 import { ProofRequestsStackParams, Screens } from '../types/navigators'
 import { testIdWithKey } from '../utils/testable'
 
@@ -23,7 +16,27 @@ const ProofRequestStack: React.FC = () => {
   const theme = useTheme()
   const { t } = useTranslation()
   const defaultStackOptions = useDefaultStackOptions(theme)
-  const [ScreenOptionsDictionary] = useServices([TOKENS.OBJECT_SCREEN_CONFIG])
+  const [
+    ScreenOptionsDictionary,
+    // Injectable screens
+    ListProofRequests,
+    ProofRequestDetails,
+    MobileVerifierLoading,
+    ProofChangeCredential,
+    ProofRequesting,
+    ProofDetails,
+    ProofRequestUsageHistory,
+  ] = useServices([
+    TOKENS.OBJECT_SCREEN_CONFIG,
+    // Injectable screens
+    TOKENS.SCREEN_LIST_PROOF_REQUESTS,
+    TOKENS.SCREEN_PROOF_REQUEST_DETAILS,
+    TOKENS.SCREEN_MOBILE_VERIFIER_LOADING,
+    TOKENS.SCREEN_PROOF_CHANGE_CREDENTIAL,
+    TOKENS.SCREEN_PROOF_REQUESTING,
+    TOKENS.SCREEN_PROOF_DETAILS,
+    TOKENS.SCREEN_PROOF_REQUEST_USAGE_HISTORY,
+  ])
 
   return (
     <Stack.Navigator screenOptions={{ ...defaultStackOptions }}>

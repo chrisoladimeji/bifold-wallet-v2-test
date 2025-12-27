@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import SettingsMenu from '../components/buttons/SettingsMenu'
 import { useTheme } from '../contexts/theme'
 import HistoryMenu from '../modules/history/ui/components/HistoryMenu'
-import Home from '../screens/Home'
 import { HomeStackParams, Screens } from '../types/navigators'
 
 import { useDefaultStackOptions } from './defaultStackOptions'
@@ -16,7 +15,17 @@ const HomeStack: React.FC = () => {
   const theme = useTheme()
   const { t } = useTranslation()
   const defaultStackOptions = useDefaultStackOptions(theme)
-  const [ScreenOptionsDictionary, historyEnabled] = useServices([TOKENS.OBJECT_SCREEN_CONFIG, TOKENS.HISTORY_ENABLED])
+  const [
+    ScreenOptionsDictionary,
+    historyEnabled,
+    // Injectable screens
+    Home,
+  ] = useServices([
+    TOKENS.OBJECT_SCREEN_CONFIG,
+    TOKENS.HISTORY_ENABLED,
+    // Injectable screens
+    TOKENS.SCREEN_HOME,
+  ])
 
   return (
     <Stack.Navigator screenOptions={{ ...defaultStackOptions }}>

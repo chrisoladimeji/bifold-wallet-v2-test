@@ -22,13 +22,14 @@ const useBifoldAgentSetup = (): AgentSetupReturnType => {
   const [agent, setAgent] = useState<Agent | null>(null)
   const agentInstanceRef = useRef<Agent | null>(null)
   const [store, dispatch] = useStore()
-  const [cacheSchemas, cacheCredDefs, logger, indyLedgers, bridge] = useServices([
+  const [cacheSchemas, cacheCredDefs, logger, indyLedgers, bridge, , webrtcIceServers] = useServices([
     TOKENS.CACHE_SCHEMAS,
     TOKENS.CACHE_CRED_DEFS,
     TOKENS.UTIL_LOGGER,
     TOKENS.UTIL_LEDGERS,
     TOKENS.UTIL_AGENT_BRIDGE,
     TOKENS.UTIL_REFRESH_ORCHESTRATOR,
+    TOKENS.UTIL_WEBRTC_ICE_SERVERS,
   ])
 
   const restartExistingAgent = useCallback(
@@ -72,6 +73,7 @@ const useBifoldAgentSetup = (): AgentSetupReturnType => {
             expiryOffsetMs: 1000 * 60 * 60 * 24 * 7,
             path: CachesDirectoryPath + '/txn-cache',
           },
+          webrtcIceServers,
         }),
       })
       const wsTransport = new WsOutboundTransport()
@@ -82,7 +84,7 @@ const useBifoldAgentSetup = (): AgentSetupReturnType => {
 
       return newAgent
     },
-    [store.preferences.walletName, logger, indyLedgers]
+    [store.preferences.walletName, logger, indyLedgers, webrtcIceServers]
   )
 
   const migrateIfRequired = useCallback(

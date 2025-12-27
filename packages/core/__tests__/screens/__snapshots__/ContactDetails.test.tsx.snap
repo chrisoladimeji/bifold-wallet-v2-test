@@ -107,6 +107,88 @@ exports[`ContactDetails Screen Renders correctly 1`] = `
   </View>
   <View>
     <View
+      accessibilityLabel="ContactDetails.StartVideoCall"
+      accessibilityRole="button"
+      accessibilityState={
+        Object {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        Object {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#313132",
+          "flexDirection": "row",
+          "gap": 8,
+          "marginTop": 10,
+          "opacity": 1,
+          "padding": 20,
+        }
+      }
+      testID="com.ariesbifold:id/StartVideoCall"
+    >
+      <Text
+        allowFontScaling={false}
+        selectable={false}
+        style={
+          Array [
+            Object {
+              "color": "#42803E",
+              "fontSize": 20,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Material Design Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        󰕧
+      </Text>
+      <Text
+        maxFontSizeMultiplier={2}
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF",
+              "fontSize": 18,
+              "fontWeight": "normal",
+            },
+            Object {
+              "color": "#42803E",
+            },
+          ]
+        }
+      >
+        ContactDetails.StartVideoCall
+      </Text>
+    </View>
+    <View
       accessibilityLabel="Screens.RenameContact"
       accessibilityRole="button"
       accessibilityState={
@@ -346,6 +428,88 @@ exports[`ContactDetails Screen Renders correctly with alt contact name 1`] = `
     </Text>
   </View>
   <View>
+    <View
+      accessibilityLabel="ContactDetails.StartVideoCall"
+      accessibilityRole="button"
+      accessibilityState={
+        Object {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        Object {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#313132",
+          "flexDirection": "row",
+          "gap": 8,
+          "marginTop": 10,
+          "opacity": 1,
+          "padding": 20,
+        }
+      }
+      testID="com.ariesbifold:id/StartVideoCall"
+    >
+      <Text
+        allowFontScaling={false}
+        selectable={false}
+        style={
+          Array [
+            Object {
+              "color": "#42803E",
+              "fontSize": 20,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Material Design Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        󰕧
+      </Text>
+      <Text
+        maxFontSizeMultiplier={2}
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF",
+              "fontSize": 18,
+              "fontWeight": "normal",
+            },
+            Object {
+              "color": "#42803E",
+            },
+          ]
+        }
+      >
+        ContactDetails.StartVideoCall
+      </Text>
+    </View>
     <View
       accessibilityLabel="Screens.RenameContact"
       accessibilityRole="button"

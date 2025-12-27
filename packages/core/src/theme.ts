@@ -21,6 +21,7 @@ import IconInfoSentLight from './assets/img/icon-info-sent-light.svg'
 import IconProofRequestDark from './assets/img/icon-proof-request-dark.svg'
 import IconProofRequestLight from './assets/img/icon-proof-request-light.svg'
 import Logo from './assets/img/logo.svg'
+import DigiCredLogo from './assets/img/digicred-logo.svg'
 import NoInfoShared from './assets/img/no_information_shared.svg'
 import Preface from './assets/img/preface.svg'
 import UpdateAvailable from './assets/img/update-available.svg'
@@ -903,6 +904,24 @@ export function createSettingsTheme(theme: { ColorPalette: IColorPalette; TextTh
     ...settingsTheme,
     groupBackground: theme.ColorPalette.brand.secondaryBackground,
     iconColor: theme.ColorPalette.brand.text,
+    newSettingColors: {
+      bgColorUp: `${theme.ColorPalette.brand.secondaryBackground}33`,
+      bgColorDown: theme.ColorPalette.brand.secondaryBackground,
+      headerTitle: theme.ColorPalette.brand.text,
+      buttonColor: theme.ColorPalette.brand.primary,
+      bgSection: `${theme.ColorPalette.grayscale.white}66`,
+      textColor: theme.ColorPalette.grayscale.mediumGrey,
+      textBody: theme.ColorPalette.brand.text,
+      deleteBtn: theme.ColorPalette.semantic.error,
+      // Optional state colors
+      successColor: theme.ColorPalette.semantic.success,
+      warningColor: '#FF9800',
+      // Optional school card colors
+      schoolCardPender: '#172554',
+      schoolCardNHCS: '#0065A4',
+      schoolCardMiami: '#23408F',
+      schoolCardCapeFear: '#043564',
+    },
   }
 }
 export const SettingsTheme = createSettingsTheme({ ColorPalette, TextTheme })
@@ -926,25 +945,26 @@ export function createChatTheme(theme: { ColorPalette: IColorPalette; TextTheme:
       marginTop: 8,
     },
     leftText: {
-      color: theme.ColorPalette.brand.secondary,
+      color: theme.ColorPalette.brand.text,
       fontSize: theme.TextTheme.normal.fontSize,
     },
     leftTextHighlighted: {
       ...theme.TextTheme.bold,
-      color: theme.ColorPalette.brand.secondary,
+      color: theme.ColorPalette.brand.text,
     },
     rightText: {
-      color: theme.ColorPalette.brand.secondary,
+      color: theme.ColorPalette.brand.text,
       fontSize: theme.TextTheme.normal.fontSize,
     },
     rightTextHighlighted: {
       ...theme.TextTheme.bold,
-      color: theme.ColorPalette.brand.secondary,
+      color: theme.ColorPalette.brand.text,
     },
     inputText: {
       lineHeight: undefined,
       fontWeight: '500',
       fontSize: theme.TextTheme.normal.fontSize,
+      color: theme.ColorPalette.brand.text,
     },
     openButtonTextStyle: {
       fontSize: theme.TextTheme.normal.fontSize,
@@ -967,15 +987,19 @@ export function createChatTheme(theme: { ColorPalette: IColorPalette; TextTheme:
     },
     leftBubble: {
       backgroundColor: theme.ColorPalette.brand.secondaryBackground,
-      borderRadius: 4,
+      borderRadius: 16,
       padding: 16,
       marginLeft: 16,
+      borderWidth: 1,
+      borderColor: theme.ColorPalette.brand.primary,
     },
     rightBubble: {
-      backgroundColor: theme.ColorPalette.brand.primaryLight,
-      borderRadius: 4,
+      backgroundColor: theme.ColorPalette.brand.secondaryBackground,
+      borderRadius: 16,
       padding: 16,
       marginRight: 16,
+      borderWidth: 1,
+      borderColor: theme.ColorPalette.brand.primary,
     },
     sendContainer: {
       marginBottom: 4,
@@ -1233,6 +1257,7 @@ export const Assets = {
     emptyWallet: EmptyWallet,
     contactBook: ContactBook,
     logo: Logo,
+    digicredLogo: DigiCredLogo,
     proofRequestDeclined: ProofRequestDeclined,
     arrow: Arrow,
     iconCredentialOfferDark: IconCredentialOfferDark,
@@ -1377,6 +1402,10 @@ export const bifoldTheme: ITheme = {
   maxFontSizeMultiplier,
   Assets,
 }
+
+// Default theme is bifold in core package
+// Apps should import digicredTheme from './modules/theme/themes/teal-dark/digicredTheme'
+export const defaultTheme = bifoldTheme
 
 export const themes: ITheme[] = [bifoldTheme]
 

@@ -463,6 +463,12 @@ const mockAgentContext = {
     resolve: jest.fn().mockReturnValue(mockBasicMessageRepository),
   },
 }
+const mockEvents = {
+  on: jest.fn(),
+  off: jest.fn(),
+  emit: jest.fn(),
+}
+
 const agent = {
   agent: {
     credentials: mockCredentialModule,
@@ -474,6 +480,10 @@ const agent = {
     context: mockAgentContext,
     receiveMessage: jest.fn(),
     config: { logger: { debug: jest.fn(), info: jest.fn(), warn: jest.fn(), error: jest.fn() } },
+    modules: {
+      workflow: undefined, // Workflow module not available in tests
+    },
+    events: mockEvents,
   },
 }
 

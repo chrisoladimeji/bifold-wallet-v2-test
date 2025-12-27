@@ -4,14 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import HeaderRightHome from '../components/buttons/HeaderHome'
 import { useTheme } from '../contexts/theme'
-import Chat from '../screens/Chat'
-import ContactDetails from '../screens/ContactDetails'
-import CredentialDetails from '../screens/CredentialDetails'
-import ListContacts from '../screens/ListContacts'
-import ProofDetails from '../screens/ProofDetails'
-import RenameContact from '../screens/RenameContact'
-import JSONDetails from '../screens/JSONDetails'
-import WhatAreContacts from '../screens/WhatAreContacts'
 import { ContactStackParams, Screens } from '../types/navigators'
 
 import { useDefaultStackOptions } from './defaultStackOptions'
@@ -22,7 +14,31 @@ const ContactStack: React.FC = () => {
   const theme = useTheme()
   const { t } = useTranslation()
   const defaultStackOptions = useDefaultStackOptions(theme)
-  const [ScreenOptionsDictionary] = useServices([TOKENS.OBJECT_SCREEN_CONFIG])
+  const [
+    ScreenOptionsDictionary,
+    // Injectable screens
+    ListContacts,
+    ContactDetails,
+    RenameContact,
+    JSONDetails,
+    Chat,
+    WhatAreContacts,
+    CredentialDetails,
+    ProofDetails,
+    WorkflowDetails,
+  ] = useServices([
+    TOKENS.OBJECT_SCREEN_CONFIG,
+    // Injectable screens
+    TOKENS.SCREEN_LIST_CONTACTS,
+    TOKENS.SCREEN_CONTACT_DETAILS,
+    TOKENS.SCREEN_RENAME_CONTACT,
+    TOKENS.SCREEN_JSON_DETAILS,
+    TOKENS.SCREEN_CHAT,
+    TOKENS.SCREEN_WHAT_ARE_CONTACTS,
+    TOKENS.SCREEN_CREDENTIAL_DETAILS,
+    TOKENS.SCREEN_PROOF_DETAILS,
+    TOKENS.SCREEN_WORKFLOW_DETAILS,
+  ])
 
   return (
     <Stack.Navigator screenOptions={{ ...defaultStackOptions }}>
@@ -83,6 +99,14 @@ const ContactStack: React.FC = () => {
           headerRight: () => <HeaderRightHome />,
           ...ScreenOptionsDictionary[Screens.ProofDetails],
         })}
+      />
+      <Stack.Screen
+        name={Screens.WorkflowDetails}
+        component={WorkflowDetails}
+        options={{
+          title: t('Screens.WorkflowDetails') || 'Workflow Details',
+          ...ScreenOptionsDictionary[Screens.WorkflowDetails],
+        }}
       />
     </Stack.Navigator>
   )

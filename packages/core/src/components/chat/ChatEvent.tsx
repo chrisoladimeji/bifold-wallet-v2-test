@@ -14,6 +14,7 @@ interface ChatEventProps {
 export const ChatEvent: React.FC<ChatEventProps> = ({ userLabel, actionLabel, role }) => {
   const { ChatTheme } = useTheme()
 
+  // Note: Bubble styling is handled by ChatMessage for proof/credential messages
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
       {userLabel && (

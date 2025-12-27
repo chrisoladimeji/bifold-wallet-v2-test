@@ -3,9 +3,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useTheme } from '../contexts/theme'
-import RenameWallet from '../screens/RenameWallet'
-import PasteUrl from '../screens/PasteUrl'
-import ScanHelp from '../screens/ScanHelp'
 import { ConnectStackParams, Screens } from '../types/navigators'
 import { testIdWithKey } from '../utils/testable'
 
@@ -16,7 +13,21 @@ const ConnectStack: React.FC = () => {
   const Stack = createStackNavigator<ConnectStackParams>()
   const theme = useTheme()
   const defaultStackOptions = useDefaultStackOptions(theme)
-  const [scan, ScreenOptionsDictionary] = useServices([TOKENS.SCREEN_SCAN, TOKENS.OBJECT_SCREEN_CONFIG])
+  const [
+    scan,
+    ScreenOptionsDictionary,
+    // Injectable screens
+    PasteUrl,
+    ScanHelp,
+    RenameWallet,
+  ] = useServices([
+    TOKENS.SCREEN_SCAN,
+    TOKENS.OBJECT_SCREEN_CONFIG,
+    // Injectable screens
+    TOKENS.SCREEN_PASTE_URL,
+    TOKENS.SCREEN_SCAN_HELP,
+    TOKENS.SCREEN_RENAME_WALLET,
+  ])
   const { t } = useTranslation()
 
   return (

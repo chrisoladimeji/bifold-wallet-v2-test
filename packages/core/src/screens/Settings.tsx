@@ -234,6 +234,28 @@ const Settings: React.FC<SettingsProps> = ({ navigation }) => {
     }
   }
 
+  // Add Wallet Management section
+  settingsSections.push({
+    header: {
+      icon: { name: 'swap-horiz' },
+      title: t('Settings.WalletManagement'),
+    },
+    data: [
+      {
+        title: t('Settings.Transfer'),
+        accessibilityLabel: t('Settings.Transfer'),
+        testID: testIdWithKey('TransferWallet'),
+        onPress: () => navigation.navigate(Screens.ExportWalletIntro),
+      },
+      {
+        title: t('Settings.Restore'),
+        accessibilityLabel: t('Settings.Restore'),
+        testID: testIdWithKey('RestoreWallet'),
+        onPress: () => navigation.navigate(Screens.ImportWallet),
+      },
+    ],
+  })
+
   if (store.preferences.useVerifierCapability) {
     settingsSections.splice(1, 0, {
       header: {

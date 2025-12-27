@@ -9,24 +9,15 @@ import { useTranslation } from 'react-i18next'
 import IconButton, { ButtonLocation } from '../components/buttons/IconButton'
 import { TOKENS, useServices } from '../container-api'
 import { useTheme } from '../contexts/theme'
-import HistoryStack from '../modules/history/navigation/HistoryStack'
-import Chat from '../screens/Chat'
 import { RootStackParams, Screens, Stacks, TabStacks } from '../types/navigators'
 import { testIdWithKey } from '../utils/testable'
 import { useStore } from '../contexts/store'
 import { useTour } from '../contexts/tour/tour-context'
 import { useDeepLinks } from '../hooks/deep-links'
-import CredentialDetails from '../screens/CredentialDetails'
-import OpenIDCredentialDetails from '../modules/openid/screens/OpenIDCredentialDetails'
 
-import ConnectStack from './ConnectStack'
-import ContactStack from './ContactStack'
-import DeliveryStack from './DeliveryStack'
-import NotificationStack from './NotificationStack'
-import ProofRequestStack from './ProofRequestStack'
-import SettingStack from './SettingStack'
-import TabStack from './TabStack'
 import { useDefaultStackOptions } from './defaultStackOptions'
+import VideoCall from '../screens/VideoCall'
+import IncomingCall from '../screens/IncomingCall'
 
 const MainStack: React.FC = () => {
   const { t } = useTranslation()
@@ -35,9 +26,40 @@ const MainStack: React.FC = () => {
   const [store] = useStore()
   const { agent } = useAgent()
   const defaultStackOptions = useDefaultStackOptions(theme)
-  const [CustomNavStack1, ScreenOptionsDictionary] = useServices([
+  const [
+    CustomNavStack1,
+    ScreenOptionsDictionary,
+    // Stacks from container
+    TabStack,
+    ConnectStack,
+    SettingStack,
+    ContactStack,
+    NotificationStack,
+    DeliveryStack,
+    ProofRequestStack,
+    HistoryStack,
+    // Screens from container
+    Chat,
+    CredentialDetails,
+    OpenIDCredentialDetails,
+    WorkflowDetails,
+  ] = useServices([
     TOKENS.CUSTOM_NAV_STACK_1,
     TOKENS.OBJECT_SCREEN_CONFIG,
+    // Stacks from container
+    TOKENS.STACK_TAB,
+    TOKENS.STACK_CONNECT,
+    TOKENS.STACK_SETTINGS,
+    TOKENS.STACK_CONTACT,
+    TOKENS.STACK_NOTIFICATION,
+    TOKENS.STACK_DELIVERY,
+    TOKENS.STACK_PROOF_REQUEST,
+    TOKENS.STACK_HISTORY,
+    // Screens from container
+    TOKENS.SCREEN_CHAT,
+    TOKENS.SCREEN_CREDENTIAL_DETAILS,
+    TOKENS.SCREEN_OPENID_CREDENTIAL_DETAILS,
+    TOKENS.SCREEN_WORKFLOW_DETAILS,
   ])
   const declinedProofs = useProofByState([ProofState.Declined, ProofState.Abandoned])
   useDeepLinks()
@@ -138,6 +160,34 @@ const MainStack: React.FC = () => {
           }}
         />
         {CustomNavStack1 ? <Stack.Screen name={Stacks.CustomNavStack1} component={CustomNavStack1} /> : null}
+        <Stack.Screen
+          name={Screens.VideoCall}
+          component={VideoCall}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+            cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+            presentation: 'modal',
+          }}
+        />
+        <Stack.Screen
+          name={Screens.IncomingCall}
+          component={IncomingCall}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+            cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+            presentation: 'modal',
+          }}
+        />
+        <Stack.Screen
+          name={Screens.WorkflowDetails}
+          component={WorkflowDetails}
+          options={{
+            headerShown: true,
+            title: t('Screens.WorkflowDetails') || 'Workflow Details',
+          }}
+        />
       </Stack.Navigator>
     </View>
   )

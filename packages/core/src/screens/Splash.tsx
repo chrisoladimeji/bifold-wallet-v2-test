@@ -7,11 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { EventTypes } from '../constants'
 import { TOKENS, useServices } from '../container-api'
 import { useAnimatedComponents } from '../contexts/animated-components'
-import { useTheme } from '../contexts/theme'
 import { BifoldError } from '../types/error'
 import { WalletSecret } from '../types/security'
 import { useAuth } from '../contexts/auth'
 import { useStore } from '../contexts/store'
+import { ThemedBackground } from '../modules/theme/components/ThemedBackground'
 
 export type SplashProps = {
   initializeAgent: (walletSecret: WalletSecret) => Promise<void>
@@ -25,7 +25,6 @@ const Splash: React.FC<SplashProps> = ({ initializeAgent }) => {
   const { walletSecret } = useAuth()
   const { t } = useTranslation()
   const [store] = useStore()
-  const { ColorPalette } = useTheme()
   const { LoadingIndicator } = useAnimatedComponents()
   const initializing = useRef(false)
   const [logger, ocaBundleResolver] = useServices([TOKENS.UTIL_LOGGER, TOKENS.UTIL_OCA_RESOLVER])
@@ -35,7 +34,6 @@ const Splash: React.FC<SplashProps> = ({ initializeAgent }) => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: ColorPalette.brand.primaryBackground,
     },
   })
 
@@ -71,9 +69,11 @@ const Splash: React.FC<SplashProps> = ({ initializeAgent }) => {
   }, [initializeAgent, ocaBundleResolver, logger, walletSecret, t, store.authentication.didAuthenticate])
 
   return (
-    <SafeAreaView style={styles.container}>
-      <LoadingIndicator />
-    </SafeAreaView>
+    <ThemedBackground screenId="splash" style={{ flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+        <LoadingIndicator />
+      </SafeAreaView>
+    </ThemedBackground>
   )
 }
 

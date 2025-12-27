@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import { TOKENS, useServices } from '../container-api'
 import { useTheme } from '../contexts/theme'
-import CredentialDetails from '../screens/CredentialDetails'
 import { NotificationStackParams, Screens } from '../types/navigators'
 
 import { useDefaultStackOptions } from './defaultStackOptions'
@@ -14,9 +13,16 @@ const NotificationStack: React.FC = () => {
   const theme = useTheme()
   const { t } = useTranslation()
   const defaultStackOptions = useDefaultStackOptions(theme)
-  const [{ customNotificationConfig: customNotification }, ScreenOptionsDictionary] = useServices([
+  const [
+    { customNotificationConfig: customNotification },
+    ScreenOptionsDictionary,
+    // Injectable screens
+    CredentialDetails,
+  ] = useServices([
     TOKENS.NOTIFICATIONS,
     TOKENS.OBJECT_SCREEN_CONFIG,
+    // Injectable screens
+    TOKENS.SCREEN_CREDENTIAL_DETAILS,
   ])
 
   return (

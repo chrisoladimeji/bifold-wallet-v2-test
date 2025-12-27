@@ -11,6 +11,7 @@ import IconButton, { ButtonLocation } from './components/buttons/IconButton'
 import BulletPoint from './components/inputs/BulletPoint'
 import CheckBoxRow from './components/inputs/CheckBoxRow'
 import LimitedTextInput from './components/inputs/LimitedTextInput'
+import PINInput from './components/inputs/PINInput'
 import NotificationListItem from './components/listItems/NotificationListItem'
 import ContentGradient from './components/misc/ContentGradient'
 import CredentialCard from './components/misc/CredentialCard'
@@ -42,7 +43,7 @@ import { Banner, BannerMessage, BannerSection } from './components/views/Banner'
 import HomeFooterView from './components/views/HomeFooterView'
 import KeyboardView from './components/views/KeyboardView'
 import ScreenWrapper from './components/views/ScreenWrapper'
-import { attemptLockoutConfig, PINRules, tours, walletTimeout } from './constants'
+import { attemptLockoutConfig, PINRules, tours, walletTimeout, minPINLength } from './constants'
 import { defaultConfig, defaultHistoryEventsLogger } from './container-impl'
 import * as contexts from './contexts'
 import { ActivityProvider, AutoLockTime, useActivity } from './contexts/activity'
@@ -67,9 +68,12 @@ import Scan from './screens/Scan'
 import Splash from './screens/Splash'
 import Terms from './screens/Terms'
 import UpdateAvailable from './screens/UpdateAvailable'
+import VideoCall from './screens/VideoCall'
+import IncomingCall from './screens/IncomingCall'
 import { AbstractBifoldLogger } from './services/AbstractBifoldLogger'
 import { bifoldLoggerInstance } from './services/bifoldLogger'
-import { isBiometricsActive, loadLoginAttempt } from './services/keychain'
+import { isBiometricsActive, loadLoginAttempt, loadWalletSalt, storeWalletSecret } from './services/keychain'
+import { hashPIN } from './utils/crypto'
 import { BifoldLogger } from './services/logger'
 import { MockLogger } from './testing/MockLogger'
 import { DeepPartial, ThemeBuilder } from './theme-builder'
@@ -78,6 +82,22 @@ import { CredentialListFooterProps } from './types/credential-list-footer'
 import { QrCodeScanError } from './types/error'
 import { RefreshOrchestrator } from './modules/openid/refresh/refreshOrchestrator'
 import { AgentBridge } from './services/AgentBridge'
+import * as workflow from './modules/workflow'
+
+// Workflow hooks
+import { useWorkflowEvents, useWorkflowInstanceEvents, useNewWorkflowEvents } from './hooks/useWorkflowEvents'
+import { useWorkflows, useWorkflowTemplates, usePendingWorkflows } from './hooks/useWorkflows'
+import { useWorkflowInstance } from './hooks/useWorkflowInstance'
+
+// WebRTC hooks
+import { useCallService } from './hooks/useCallService'
+import { useWebRTCEvents } from './hooks/useWebRTCEvents'
+import { useIncomingCallHandler } from './hooks/useIncomingCallHandler'
+import { useConnectionCapabilities, checkWebRTCSupport, clearCapabilityCache } from './hooks/useConnectionCapabilities'
+
+// Services
+import { MobileWorkflowService } from './services/WorkflowService'
+import { CallService } from './services/CallService'
 
 export { animatedComponents } from './animated-components'
 export { EventTypes, LocalStorageKeys } from './constants'
@@ -110,6 +130,7 @@ export { getIndyLedgers, IndyLedger, readIndyLedgersFromFile, writeIndyLedgersTo
 export { statusBarStyleForColor, StatusBarStyles } from './utils/luminance'
 export { migrateToAskar } from './utils/migration'
 export { buildFieldsFromAnonCredsCredential } from './utils/oca'
+export { KanonOCABundleResolver, createKanonOCABundleResolver } from './utils/KanonOCABundleResolver'
 export { testIdForAccessabilityLabel, testIdWithKey } from './utils/testable'
 
 export type { AnimatedComponents } from './animated-components'
@@ -136,7 +157,7 @@ export type {
 export type { GenericFn } from './types/fn'
 export { BasicMessageMetadata, CredentialMetadata } from './types/metadata'
 export type { basicMessageCustomMetadata, credentialCustomMetadata } from './types/metadata'
-export type { ContactStackParams, NotificationStackParams, OnboardingStackParams } from './types/navigators'
+export type { ContactStackParams, NotificationStackParams, OnboardingStackParams, SettingStackParams } from './types/navigators'
 export type { WalletSecret } from './types/security'
 export type {
   LoginAttempt as LoginAttemptState,
@@ -148,8 +169,9 @@ export type {
   Tours as ToursState,
   VersionInfo,
 } from './types/state'
-export type { BifoldAgent } from './utils/agent'
+export type { BifoldAgent, WebRTCIceServer } from './utils/agent'
 export type { IndyLedgerConfig, IndyLedgerFileSystem, IndyLedgerJSON, IndyLedgersRecord } from './utils/ledger'
+export type { KanonOCABundleResolverOptions } from './utils/KanonOCABundleResolver'
 export type { OnboardingStyleSheet }
 
 export type { InlineMessageProps } from './components/inputs/InlineErrorText'
@@ -172,6 +194,10 @@ export type { ScanCameraProps } from './components/misc/ScanCamera'
 export type { DismissiblePopupModalProps } from './components/modals/DismissiblePopupModal'
 export type { BannerSectionProps } from './components/views/Banner'
 export type { IRefreshOrchestrator } from './modules/openid/refresh/types'
+
+// Workflow module exports
+export * from './modules/workflow'
+export { workflow }
 
 export {
   AbstractBifoldLogger,
@@ -221,6 +247,9 @@ export {
   LimitedTextInput,
   Link,
   loadLoginAttempt,
+  loadWalletSalt,
+  storeWalletSecret,
+  hashPIN,
   MaskType,
   MockLogger,
   NavContainer,
@@ -229,7 +258,9 @@ export {
   Onboarding,
   OnboardingPages,
   OpenIDCredentialRecordProvider,
+  PINInput,
   PINRules,
+  minPINLength,
   Preface,
   proofRequestTourSteps,
   QrCodeScanError,
@@ -253,6 +284,8 @@ export {
   tours,
   types,
   UpdateAvailable,
+  VideoCall,
+  IncomingCall,
   useActivity,
   useBifoldAgentSetup,
   useDefaultStackOptions,
@@ -262,5 +295,43 @@ export {
   walletTimeout,
   RefreshOrchestrator,
   AgentBridge,
+  // Workflow hooks
+  useWorkflowEvents,
+  useWorkflowInstanceEvents,
+  useNewWorkflowEvents,
+  useWorkflows,
+  useWorkflowTemplates,
+  usePendingWorkflows,
+  useWorkflowInstance,
+  // WebRTC hooks
+  useCallService,
+  useWebRTCEvents,
+  useIncomingCallHandler,
+  useConnectionCapabilities,
+  checkWebRTCSupport,
+  clearCapabilityCache,
+  // Services
+  MobileWorkflowService,
+  CallService,
 }
 export type { BannerMessage, DeepPartial, IButton }
+
+// Re-export WebRTC event types
+export type {
+  IncomingOfferEvent,
+  IncomingAnswerEvent,
+  IncomingIceEvent,
+  CallEndedEvent,
+  IncomingProposeEvent,
+  RenegotiateRequestedEvent,
+} from './hooks/useWebRTCEvents'
+
+// Re-export CallService types
+export type { CallState } from './services/CallService'
+
+// Re-export connection capabilities types
+export type { ConnectionCapabilities, ProtocolURI } from './hooks/useConnectionCapabilities'
+export { ProtocolURIs } from './hooks/useConnectionCapabilities'
+
+// Re-export workflow hook types
+export type { EnrichedWorkflowStatus, WorkflowAction, WorkflowUiHint } from './hooks/useWorkflowInstance'

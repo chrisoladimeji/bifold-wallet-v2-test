@@ -15,6 +15,7 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import CommonRemoveModal from '../components/modals/CommonRemoveModal'
 import { ToastType } from '../components/toast/BaseToast'
@@ -22,7 +23,7 @@ import { EventTypes } from '../constants'
 import { useStore } from '../contexts/store'
 import { useTheme } from '../contexts/theme'
 import { BifoldError } from '../types/error'
-import { ContactStackParams, Screens, TabStacks } from '../types/navigators'
+import { ContactStackParams, RootStackParams, Screens, TabStacks } from '../types/navigators'
 import { ModalUsage } from '../types/remove'
 import { formatTime, getConnectionName, useConnectionImageUrl } from '../utils/helpers'
 import { testIdWithKey } from '../utils/testable'
@@ -42,7 +43,7 @@ const ContactDetails: React.FC<ContactDetailsProps> = ({ route }) => {
   const { connectionId } = route.params
   const { agent } = useAgent()
   const { t } = useTranslation()
-  const navigation = useNavigation<StackNavigationProp<ContactStackParams>>()
+  const navigation = useNavigation<StackNavigationProp<ContactStackParams & RootStackParams>>()
   const [isRemoveModalDisplayed, setIsRemoveModalDisplayed] = useState<boolean>(false)
   const [isCredentialsRemoveModalDisplayed, setIsCredentialsRemoveModalDisplayed] = useState<boolean>(false)
   const connection = useConnectionById(connectionId)
@@ -216,6 +217,10 @@ const ContactDetails: React.FC<ContactDetailsProps> = ({ route }) => {
     navigation.navigate(Screens.RenameContact, { connectionId })
   }, [navigation, connectionId])
 
+  const callStartVideoCall = useCallback(() => {
+    navigation.navigate(Screens.VideoCall as any, { connectionId, video: true })
+  }, [navigation, connectionId])
+
   const callViewJSONDetails = useCallback(() => {
     navigation.navigate(Screens.JSONDetails, { jsonBlob: connection })
   }, [navigation, connection])
@@ -295,6 +300,17 @@ const ContactDetails: React.FC<ContactDetailsProps> = ({ route }) => {
         )}
       </View>
       <View>
+        {/* Video Call Button */}
+        <TouchableOpacity
+          onPress={callStartVideoCall}
+          accessibilityLabel={t('ContactDetails.StartVideoCall')}
+          accessibilityRole={'button'}
+          testID={testIdWithKey('StartVideoCall')}
+          style={[styles.contentContainer, styles.actionContainer, { marginTop: 10 }]}
+        >
+          <Icon name="video" size={20} color={ColorPalette.brand.primary} />
+          <ThemedText style={{ color: ColorPalette.brand.primary }}>{t('ContactDetails.StartVideoCall')}</ThemedText>
+        </TouchableOpacity>
         {contactDetailsOptions?.enableEditContactName && (
           <TouchableOpacity
             onPress={callGoToRename}

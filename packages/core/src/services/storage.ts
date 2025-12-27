@@ -1,6 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { BifoldLogger } from './logger'
 
+// Safety check for AsyncStorage availability
+const isAsyncStorageAvailable = (): boolean => {
+  try {
+    return AsyncStorage !== undefined && AsyncStorage !== null && typeof AsyncStorage.getItem === 'function'
+  } catch {
+    return false
+  }
+}
+
 export class PersistentStorage<T> {
   private _state?: T
   private log?: BifoldLogger
@@ -11,6 +20,11 @@ export class PersistentStorage<T> {
   }
 
   public static fetchValueForKey = async <T>(key: string, log?: BifoldLogger): Promise<T | undefined> => {
+    if (!isAsyncStorageAvailable()) {
+      log?.warn(`AsyncStorage not available when fetching key ${key}`)
+      return undefined
+    }
+
     try {
       const value = await AsyncStorage.getItem(key)
       if (!value) {
@@ -24,6 +38,11 @@ export class PersistentStorage<T> {
   }
 
   public static storeValueForKey = async <T>(key: string, value: T, log?: BifoldLogger): Promise<void> => {
+    if (!isAsyncStorageAvailable()) {
+      log?.warn(`AsyncStorage not available when storing key ${key}`)
+      return
+    }
+
     try {
       const serializedState = JSON.stringify(value)
       return AsyncStorage.setItem(key, serializedState)
@@ -35,6 +54,11 @@ export class PersistentStorage<T> {
   }
 
   public static removeValueForKey = async (key: string, log?: BifoldLogger): Promise<void> => {
+    if (!isAsyncStorageAvailable()) {
+      log?.warn(`AsyncStorage not available when removing key ${key}`)
+      return
+    }
+
     try {
       return AsyncStorage.removeItem(key)
     } catch (error) {
@@ -51,6 +75,11 @@ export class PersistentStorage<T> {
 
     // @ts-expect-error Fix complicated type error
     this._state[key] = value
+
+    if (!isAsyncStorageAvailable()) {
+      this.log?.warn(`AsyncStorage not available when setting key ${key}`)
+      return
+    }
 
     try {
       const serializedState = JSON.stringify(value)
@@ -86,6 +115,11 @@ export class PersistentStorage<T> {
   }
 
   public async migrateStorageKey(oldKey: string, newKey: string): Promise<boolean> {
+    if (!isAsyncStorageAvailable()) {
+      this.log?.warn(`AsyncStorage not available when migrating key ${oldKey}`)
+      return false
+    }
+
     try {
       const value = await AsyncStorage.getItem(oldKey)
       if (!value) {
@@ -113,6 +147,11 @@ export class PersistentStorage<T> {
       return
     }
 
+    if (!isAsyncStorageAvailable()) {
+      this.log?.warn('AsyncStorage not available when flushing state')
+      return
+    }
+
     try {
       const keys = Object.keys(this._state)
       for (const key of keys) {
@@ -127,6 +166,11 @@ export class PersistentStorage<T> {
   }
 
   public async load() {
+    if (!isAsyncStorageAvailable()) {
+      this.log?.warn('AsyncStorage not available when loading state')
+      return
+    }
+
     try {
       const keys = await AsyncStorage.getAllKeys()
       const items = await AsyncStorage.multiGet(keys)

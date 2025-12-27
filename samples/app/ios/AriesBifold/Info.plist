@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>AriesBifold</string>
+	<string>DigiCred Wallet</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -38,7 +38,9 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera used for in-app QR Code scanning</string>
+	<string>Camera used for in-app QR Code scanning and video calls</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone used for video and audio calls</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Wants to use your FaceID/TouchID to Authenticate your Identity</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

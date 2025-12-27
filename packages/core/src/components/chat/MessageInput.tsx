@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 import { Composer, InputToolbar, Send } from 'react-native-gifted-chat'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -8,13 +9,22 @@ export const renderInputToolbar = (props: any, theme: any) => (
     containerStyle={{
       ...theme.inputToolbar,
       justifyContent: 'center',
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+      marginHorizontal: 12,
+      marginBottom: 6,
+      borderRadius: 24,
+      borderTopWidth: 0,
       shadowOffset: {
         width: 0,
-        height: 1,
+        height: 2,
       },
-      shadowOpacity: 0.1,
-      shadowRadius: 5,
-      elevation: 2,
+      shadowOpacity: 0.15,
+      shadowRadius: 8,
+      elevation: 4,
+    }}
+    primaryStyle={{
+      alignItems: 'center',
     }}
   />
 )
@@ -24,6 +34,14 @@ export const renderComposer = (props: any, theme: any, placeholder: string) => (
     {...props}
     textInputStyle={{
       ...theme.inputText,
+      backgroundColor: 'transparent',
+      borderRadius: 20,
+      paddingHorizontal: 16,
+      paddingTop: 10,
+      paddingBottom: 10,
+      marginLeft: 0,
+      marginRight: 8,
+      lineHeight: 20,
     }}
     placeholder={placeholder}
     placeholderTextColor={theme.placeholderText}
@@ -39,8 +57,28 @@ export const renderSend = (props: any, theme: any) => (
     disabled={!props.text}
     containerStyle={{
       ...theme.sendContainer,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 4,
+      marginBottom: 0,
     }}
   >
-    <Icon name="send" size={38} color={props.text ? theme.sendEnabled : theme.sendDisabled} />
+    <View
+      style={{
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: props.text ? theme.sendEnabled : 'transparent',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Icon
+        name="send"
+        size={24}
+        color={props.text ? '#FFFFFF' : theme.sendDisabled}
+        style={{ marginLeft: 2 }}
+      />
+    </View>
   </Send>
 )

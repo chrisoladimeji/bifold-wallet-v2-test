@@ -60,7 +60,7 @@ export const getOnboardingScreens = (
   },
   {
     name: Screens.Onboarding,
-    children: components.OnboardingScreen,
+    component: components.OnboardingScreen,
     options: () => ({
       ...TransitionPresets.SlideFromRightIOS,
       title: t('Screens.Onboarding'),
@@ -73,19 +73,19 @@ export const getOnboardingScreens = (
     options: () => ({
       ...TransitionPresets.SlideFromRightIOS,
       title: t('Screens.Terms'),
-      headerLeft: () => false,
+      headerShown: false,
       ...ScreenOptionsDictionary[Screens.Terms],
     }),
     component: components.Terms,
   },
   {
     name: Screens.CreatePIN,
-    children: components.CreatePINScreen,
+    component: components.CreatePINScreen,
     initialParams: {},
     options: () => ({
       ...TransitionPresets.SlideFromRightIOS,
       title: t('Screens.CreatePIN'),
-      headerLeft: () => false,
+      headerShown: false,
       ...ScreenOptionsDictionary[Screens.CreatePIN],
     }),
   },
@@ -93,7 +93,7 @@ export const getOnboardingScreens = (
     name: Screens.NameWallet,
     options: () => ({
       title: t('Screens.NameWallet'),
-      headerLeft: () => false,
+      headerShown: false,
       ...ScreenOptionsDictionary[Screens.NameWallet],
     }),
     component: components.NameWallet,
@@ -103,7 +103,7 @@ export const getOnboardingScreens = (
     options: () => ({
       ...TransitionPresets.SlideFromRightIOS,
       title: t('Screens.Biometry'),
-      headerLeft: () => false,
+      headerShown: false,
       ...ScreenOptionsDictionary[Screens.Biometry],
     }),
     component: components.Biometry,
@@ -114,18 +114,16 @@ export const getOnboardingScreens = (
     options: () => ({
       ...TransitionPresets.SlideFromRightIOS,
       title: t('Screens.PushNotifications'),
-      headerLeft: () => false,
+      headerShown: false,
       ...ScreenOptionsDictionary[Screens.PushNotifications],
     }),
   },
   {
     name: Screens.EnterPIN,
-    children: components.EnterPINScreen,
+    component: components.EnterPINScreen,
     options: () => ({
       title: t('Screens.EnterPIN'),
-      headerShown: true,
-      headerLeft: () => false,
-      rightLeft: () => false,
+      headerShown: false,
       ...ScreenOptionsDictionary[Screens.EnterPIN],
     }),
   },

@@ -17,6 +17,7 @@ import { OpenIDCustomNotificationType } from '../modules/openid/refresh/types'
 import { EventTypes } from '../constants'
 import Toast from 'react-native-toast-message'
 import { ToastType } from '../components/toast/BaseToast'
+import { ThemedBackground } from '../modules/theme/components/ThemedBackground'
 
 type HomeProps = StackScreenProps<HomeStackParams, Screens.Home>
 
@@ -40,7 +41,7 @@ const Home: React.FC<HomeProps> = () => {
   ])
   const notifications = useNotifications({})
   const { t } = useTranslation()
-  const { ColorPalette } = useTheme()
+  useTheme() // Hook called for theme context but ColorPalette not directly used
   const [store, dispatch] = useStore()
   const { start, stop } = useTour()
   const [showTourPopup, setShowTourPopup] = useState(false)
@@ -175,7 +176,7 @@ const Home: React.FC<HomeProps> = () => {
   }, [screenIsFocused, orchestrator, t])
 
   return (
-    <>
+    <ThemedBackground screenId="home" style={{ flex: 1 }}>
       <FlatList
         style={styles.flatlist}
         showsVerticalScrollIndicator={false}
@@ -192,7 +193,6 @@ const Home: React.FC<HomeProps> = () => {
               paddingHorizontal: 20,
               paddingTop: index === 0 ? 20 : 0,
               paddingBottom: index === notifications.length - 1 ? 20 : 10,
-              backgroundColor: ColorPalette.brand.secondaryBackground,
             }}
           >
             {DisplayListItemType(item)}
@@ -210,7 +210,7 @@ const Home: React.FC<HomeProps> = () => {
           onDismissPressed={onDismissPressed}
         />
       )}
-    </>
+    </ThemedBackground>
   )
 }
 

@@ -5,22 +5,32 @@ import { useTranslation } from 'react-i18next'
 import HeaderRightHome from '../components/buttons/HeaderHome'
 import IconButton, { ButtonLocation } from '../components/buttons/IconButton'
 import { useTheme } from '../contexts/theme'
-import Connection from '../screens/Connection'
 import { DeliveryStackParams, Screens } from '../types/navigators'
 import { testIdWithKey } from '../utils/testable'
 
 import { useDefaultStackOptions } from './defaultStackOptions'
-import OpenIDProofPresentation from '../modules/openid/screens/OpenIDProofPresentation'
 import { TOKENS, useServices } from '../container-api'
-import OpenIDCredentialOffer from '../modules/openid/screens/OpenIDCredentialOffer'
-import OpenIDProofCredentialSelect from '../modules/openid/screens/OpenIDProofChangeCredential'
 
 const DeliveryStack: React.FC = () => {
   const Stack = createStackNavigator<DeliveryStackParams>()
   const { t } = useTranslation()
   const theme = useTheme()
   const defaultStackOptions = useDefaultStackOptions(theme)
-  const [ScreenOptionsDictionary] = useServices([TOKENS.OBJECT_SCREEN_CONFIG])
+  const [
+    ScreenOptionsDictionary,
+    // Injectable screens
+    Connection,
+    OpenIDCredentialOffer,
+    OpenIDProofPresentation,
+    OpenIDProofCredentialSelect,
+  ] = useServices([
+    TOKENS.OBJECT_SCREEN_CONFIG,
+    // Injectable screens
+    TOKENS.SCREEN_CONNECTION,
+    TOKENS.SCREEN_OPENID_CREDENTIAL_OFFER,
+    TOKENS.SCREEN_OPENID_PROOF_PRESENTATION,
+    TOKENS.SCREEN_OPENID_PROOF_CREDENTIAL_SELECT,
+  ])
 
   return (
     <Stack.Navigator

@@ -27,7 +27,7 @@ setup_permissions([
   # 'LocationAlways',
   # 'LocationWhenInUse',
   # 'MediaLibrary',
-  # 'Microphone',
+  'Microphone',  # Required for WebRTC video calls
   # 'Motion',
   # 'Notifications'
   # 'PhotoLibrary',
@@ -94,5 +94,15 @@ target 'AriesBifold' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
+
+    # Fix CatCrypto module issue - add correct module map paths
+    # to resolve "Unable to find module dependency: Argon2/MD6/SHA3" errors
+    installer.pods_project.targets.each do |target|
+      if ['CatCrypto', 'RNArgon2'].include?(target.name)
+        target.build_configurations.each do |config|
+          config.build_settings['SWIFT_INCLUDE_PATHS'] = '$(inherited) "${PODS_ROOT}/CatCrypto/Sources/ModuleMaps/Argon2" "${PODS_ROOT}/CatCrypto/Sources/ModuleMaps/MD6" "${PODS_ROOT}/CatCrypto/Sources/ModuleMaps/SHA3"'
+        end
+      end
+    end
   end
 end

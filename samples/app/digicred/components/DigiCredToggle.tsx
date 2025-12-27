@@ -1,0 +1,54 @@
+import React from 'react'
+import { StyleSheet, Text, View, Switch, ViewStyle } from 'react-native'
+
+import { DigiCredColors } from '../theme'
+
+interface DigiCredToggleProps {
+  label: string
+  value: boolean
+  onValueChange: (value: boolean) => void
+  style?: ViewStyle
+  testID?: string
+}
+
+const DigiCredToggle: React.FC<DigiCredToggleProps> = ({
+  label,
+  value,
+  onValueChange,
+  style,
+  testID,
+}) => {
+  return (
+    <View style={[styles.container, style]}>
+      <Switch
+        value={value}
+        onValueChange={onValueChange}
+        trackColor={{
+          false: DigiCredColors.toggle.inactive,
+          true: DigiCredColors.toggle.active,
+        }}
+        thumbColor={DigiCredColors.toggle.thumb}
+        ios_backgroundColor={DigiCredColors.toggle.inactive}
+        testID={testID}
+        accessibilityRole="switch"
+        accessibilityLabel={label}
+      />
+      <Text style={styles.label}>{label}</Text>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  label: {
+    color: DigiCredColors.text.primary,
+    fontSize: 16,
+    marginLeft: 12,
+  },
+})
+
+export default DigiCredToggle

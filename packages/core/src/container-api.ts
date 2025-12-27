@@ -32,6 +32,8 @@ import { AgentSetupReturnType } from './hooks/useBifoldAgentSetup'
 import { OnboardingStackProps } from './navigators/OnboardingStack'
 import { AgentBridge } from './services/AgentBridge'
 import { IRefreshOrchestrator } from './modules/openid/refresh/types'
+import { IWorkflowRegistry } from './modules/workflow/types'
+import { IThemeRegistry } from './modules/theme/registries/ThemeRegistry'
 
 export type FN_ONBOARDING_DONE = (
   dispatch: React.Dispatch<ReducerAction<unknown>>,
@@ -55,6 +57,7 @@ export const PROOF_TOKENS = {
 } as const
 
 export const SCREEN_TOKENS = {
+  // Onboarding Screens
   SCREEN_PREFACE: 'screen.preface',
   SCREEN_UPDATE_AVAILABLE: 'screen.update-available',
   SCREEN_TERMS: 'screen.terms',
@@ -67,6 +70,70 @@ export const SCREEN_TOKENS = {
   SCREEN_BIOMETRY: 'screen.biometry',
   SCREEN_TOGGLE_BIOMETRY: 'screen.toggle-biometry',
   SCREEN_PIN_EXPLAINER: 'screen.pin-explainer',
+  SCREEN_PIN_CREATE: 'screen.pin-create',
+  SCREEN_PIN_ENTER: 'screen.pin-enter',
+  SCREEN_NAME_WALLET: 'screen.name-wallet',
+  SCREEN_PUSH_NOTIFICATIONS: 'screen.push-notifications',
+  SCREEN_ATTEMPT_LOCKOUT: 'screen.attempt-lockout',
+
+  // Main Screens
+  SCREEN_HOME: 'screen.home',
+  SCREEN_CHAT: 'screen.chat',
+  SCREEN_CONNECTION: 'screen.connection',
+  SCREEN_CREDENTIAL_DETAILS: 'screen.credential-details',
+  SCREEN_CREDENTIAL_OFFER: 'screen.credential-offer',
+  SCREEN_PROOF_REQUEST: 'screen.proof-request',
+
+  // Settings Screens
+  SCREEN_SETTINGS: 'screen.settings',
+  SCREEN_LANGUAGE: 'screen.language',
+  SCREEN_DATA_RETENTION: 'screen.data-retention',
+  SCREEN_PIN_CHANGE: 'screen.pin-change',
+  SCREEN_PIN_CHANGE_SUCCESS: 'screen.pin-change-success',
+  SCREEN_RENAME_WALLET: 'screen.rename-wallet',
+  SCREEN_TOURS: 'screen.tours',
+  SCREEN_AUTO_LOCK: 'screen.auto-lock',
+  SCREEN_CONFIGURE_MEDIATOR: 'screen.configure-mediator',
+  SCREEN_TOGGLE_PUSH_NOTIFICATIONS: 'screen.toggle-push-notifications',
+  SCREEN_HISTORY_SETTINGS: 'screen.history-settings',
+
+  // Contact Screens
+  SCREEN_LIST_CONTACTS: 'screen.list-contacts',
+  SCREEN_CONTACT_DETAILS: 'screen.contact-details',
+  SCREEN_RENAME_CONTACT: 'screen.rename-contact',
+  SCREEN_WHAT_ARE_CONTACTS: 'screen.what-are-contacts',
+  SCREEN_WORKFLOW_DETAILS: 'screen.workflow-details',
+
+  // Credential Screens
+  SCREEN_LIST_CREDENTIALS: 'screen.list-credentials',
+  SCREEN_JSON_DETAILS: 'screen.json-details',
+  SCREEN_OPENID_CREDENTIAL_DETAILS: 'screen.openid-credential-details',
+  SCREEN_OPENID_CREDENTIAL_OFFER: 'screen.openid-credential-offer',
+
+  // Proof Screens
+  SCREEN_LIST_PROOF_REQUESTS: 'screen.list-proof-requests',
+  SCREEN_PROOF_REQUEST_DETAILS: 'screen.proof-request-details',
+  SCREEN_PROOF_DETAILS: 'screen.proof-details',
+  SCREEN_PROOF_CHANGE_CREDENTIAL: 'screen.proof-change-credential',
+  SCREEN_PROOF_REQUESTING: 'screen.proof-requesting',
+  SCREEN_PROOF_REQUEST_USAGE_HISTORY: 'screen.proof-request-usage-history',
+  SCREEN_MOBILE_VERIFIER_LOADING: 'screen.mobile-verifier-loading',
+  SCREEN_OPENID_PROOF_PRESENTATION: 'screen.openid-proof-presentation',
+  SCREEN_OPENID_PROOF_CREDENTIAL_SELECT: 'screen.openid-proof-credential-select',
+
+  // Scan/Connect Screens
+  SCREEN_PASTE_URL: 'screen.paste-url',
+  SCREEN_SCAN_HELP: 'screen.scan-help',
+
+  // History Screens
+  SCREEN_HISTORY_PAGE: 'screen.history-page',
+
+  // Wallet Backup/Restore Screens
+  SCREEN_EXPORT_WALLET_INTRO: 'screen.export-wallet-intro',
+  SCREEN_EXPORT_WALLET: 'screen.export-wallet',
+  SCREEN_IMPORT_WALLET: 'screen.import-wallet',
+  SCREEN_IMPORT_WALLET_SCAN: 'screen.import-wallet-scan',
+  SCREEN_IMPORT_WALLET_RESULT: 'screen.import-wallet-result',
 } as const
 
 export const NAV_TOKENS = {
@@ -97,6 +164,16 @@ export const NOTIFICATION_TOKENS = {
 
 export const STACK_TOKENS = {
   STACK_ONBOARDING: 'stack.onboarding',
+  STACK_TAB: 'stack.tab',
+  STACK_HOME: 'stack.home',
+  STACK_SETTINGS: 'stack.settings',
+  STACK_CONTACT: 'stack.contact',
+  STACK_CREDENTIAL: 'stack.credential',
+  STACK_CONNECT: 'stack.connect',
+  STACK_DELIVERY: 'stack.delivery',
+  STACK_PROOF_REQUEST: 'stack.proof-request',
+  STACK_NOTIFICATION: 'stack.notification',
+  STACK_HISTORY: 'stack.history',
 } as const
 
 export const FN_TOKENS = {
@@ -143,6 +220,9 @@ export const UTILITY_TOKENS = {
   UTIL_APP_VERSION_MONITOR: 'utility.app-version-monitor',
   UTIL_AGENT_BRIDGE: 'utility.agent-bridge',
   UTIL_REFRESH_ORCHESTRATOR: 'utility.refresh-orchestrator',
+  UTIL_WORKFLOW_REGISTRY: 'utility.workflow-registry',
+  UTIL_THEME_REGISTRY: 'utility.theme-registry',
+  UTIL_WEBRTC_ICE_SERVERS: 'utility.webrtc-ice-servers',
 } as const
 
 export const CONFIG_TOKENS = {
@@ -232,6 +312,75 @@ export type TokenMapping = {
   [TOKENS.COMPONENT_CONNECTION_ALERT]: React.FC<{ connectionLabel?: string }>
   [TOKENS.UTIL_AGENT_BRIDGE]: AgentBridge
   [TOKENS.UTIL_REFRESH_ORCHESTRATOR]: IRefreshOrchestrator
+  [TOKENS.UTIL_WORKFLOW_REGISTRY]: IWorkflowRegistry
+  [TOKENS.UTIL_THEME_REGISTRY]: IThemeRegistry
+  [TOKENS.UTIL_WEBRTC_ICE_SERVERS]: Array<{ urls: string | string[]; username?: string; credential?: string }>
+
+  // New Screen Tokens
+  [TOKENS.SCREEN_PIN_CREATE]: React.FC<any>
+  [TOKENS.SCREEN_PIN_ENTER]: React.FC<any>
+  [TOKENS.SCREEN_NAME_WALLET]: React.FC
+  [TOKENS.SCREEN_PUSH_NOTIFICATIONS]: React.FC
+  [TOKENS.SCREEN_ATTEMPT_LOCKOUT]: React.FC
+  [TOKENS.SCREEN_HOME]: React.FC
+  [TOKENS.SCREEN_CHAT]: React.FC<any>
+  [TOKENS.SCREEN_CONNECTION]: React.FC<any>
+  [TOKENS.SCREEN_CREDENTIAL_DETAILS]: React.FC<any>
+  [TOKENS.SCREEN_CREDENTIAL_OFFER]: React.FC<any>
+  [TOKENS.SCREEN_PROOF_REQUEST]: React.FC<any>
+  [TOKENS.SCREEN_SETTINGS]: React.FC
+  [TOKENS.SCREEN_LANGUAGE]: React.FC
+  [TOKENS.SCREEN_DATA_RETENTION]: React.FC
+  [TOKENS.SCREEN_PIN_CHANGE]: React.FC
+  [TOKENS.SCREEN_PIN_CHANGE_SUCCESS]: React.FC
+  [TOKENS.SCREEN_RENAME_WALLET]: React.FC
+  [TOKENS.SCREEN_TOURS]: React.FC
+  [TOKENS.SCREEN_AUTO_LOCK]: React.FC
+  [TOKENS.SCREEN_CONFIGURE_MEDIATOR]: React.FC
+  [TOKENS.SCREEN_TOGGLE_PUSH_NOTIFICATIONS]: React.FC
+  [TOKENS.SCREEN_HISTORY_SETTINGS]: React.FC
+  [TOKENS.SCREEN_LIST_CONTACTS]: React.FC
+  [TOKENS.SCREEN_CONTACT_DETAILS]: React.FC<any>
+  [TOKENS.SCREEN_RENAME_CONTACT]: React.FC<any>
+  [TOKENS.SCREEN_WHAT_ARE_CONTACTS]: React.FC
+  [TOKENS.SCREEN_WORKFLOW_DETAILS]: React.FC<any>
+  [TOKENS.SCREEN_LIST_CREDENTIALS]: React.FC
+  [TOKENS.SCREEN_JSON_DETAILS]: React.FC<any>
+  [TOKENS.SCREEN_OPENID_CREDENTIAL_DETAILS]: React.FC<any>
+  [TOKENS.SCREEN_OPENID_CREDENTIAL_OFFER]: React.FC<any>
+  [TOKENS.SCREEN_LIST_PROOF_REQUESTS]: React.FC
+  [TOKENS.SCREEN_PROOF_REQUEST_DETAILS]: React.FC<any>
+  [TOKENS.SCREEN_PROOF_DETAILS]: React.FC<any>
+  [TOKENS.SCREEN_PROOF_CHANGE_CREDENTIAL]: React.FC<any>
+  [TOKENS.SCREEN_PROOF_REQUESTING]: React.FC<any>
+  [TOKENS.SCREEN_PROOF_REQUEST_USAGE_HISTORY]: React.FC<any>
+  [TOKENS.SCREEN_MOBILE_VERIFIER_LOADING]: React.FC<any>
+  [TOKENS.SCREEN_OPENID_PROOF_PRESENTATION]: React.FC<any>
+  [TOKENS.SCREEN_OPENID_PROOF_CREDENTIAL_SELECT]: React.FC<any>
+  [TOKENS.SCREEN_PASTE_URL]: React.FC
+  [TOKENS.SCREEN_SCAN_HELP]: React.FC
+
+  // History Screens
+  [TOKENS.SCREEN_HISTORY_PAGE]: React.FC
+
+  // Wallet Backup/Restore Screens
+  [TOKENS.SCREEN_EXPORT_WALLET_INTRO]: React.FC
+  [TOKENS.SCREEN_EXPORT_WALLET]: React.FC
+  [TOKENS.SCREEN_IMPORT_WALLET]: React.FC
+  [TOKENS.SCREEN_IMPORT_WALLET_SCAN]: React.FC<any>
+  [TOKENS.SCREEN_IMPORT_WALLET_RESULT]: React.FC<any>
+
+  // New Stack Tokens
+  [TOKENS.STACK_TAB]: React.FC
+  [TOKENS.STACK_HOME]: React.FC
+  [TOKENS.STACK_SETTINGS]: React.FC
+  [TOKENS.STACK_CONTACT]: React.FC
+  [TOKENS.STACK_CREDENTIAL]: React.FC
+  [TOKENS.STACK_CONNECT]: React.FC
+  [TOKENS.STACK_DELIVERY]: React.FC
+  [TOKENS.STACK_PROOF_REQUEST]: React.FC
+  [TOKENS.STACK_NOTIFICATION]: React.FC
+  [TOKENS.STACK_HISTORY]: React.FC
 }
 
 export interface Container {

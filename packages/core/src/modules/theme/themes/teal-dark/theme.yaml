@@ -1,0 +1,420 @@
+# Teal Dark Theme
+# Reference theme featuring dark teal gradients and floating navigation
+
+meta:
+  id: teal-dark
+  name: Teal Dark
+  version: 1.0.0
+  description: Dark teal gradient theme with floating navigation
+  author: Bifold
+
+features:
+  darkMode: true
+  gradientBackgrounds: true
+  floatingTabBar: true
+  cardAnimations: true
+
+# Color Palette - Used for variable references
+colorPalette:
+  brand:
+    primary: "#0D7377"
+    primaryDark: "#14FFEC"
+    secondary: "#0A2E2E"
+    accent: "#14FFEC"
+  background:
+    dark: "#0A2E2E"
+    darker: "#051616"
+    medium: "#0D3D3D"
+    light: "#1A5A5A"
+  text:
+    primary: "#FFFFFF"
+    secondary: "#B8E8E8"
+    muted: "#6BA3A3"
+    inverse: "#0A2E2E"
+  ui:
+    success: "#14FFEC"
+    warning: "#FFD700"
+    error: "#FF6B6B"
+    info: "#0D7377"
+  card:
+    background: "#0D4D4D"
+    border: "#14FFEC"
+    shadow: "#000000"
+
+# Tab Bar Configuration
+tabBar:
+  variant: floating
+  style:
+    backgroundColor: "rgba(13, 77, 77, 0.95)"
+    height: 65
+    borderTopWidth: 0
+    borderTopColor: transparent
+    paddingBottom: 0
+    paddingTop: 8
+    paddingHorizontal: 16
+    position: absolute
+    bottom: 16
+    left: 16
+    right: 16
+    borderRadius: 32
+    shadowColor: "#000000"
+    shadowOffset:
+      width: 0
+      height: 4
+    shadowRadius: 12
+    shadowOpacity: 0.3
+    elevation: 8
+  tabItem:
+    container:
+      flex: 1
+      justifyContent: center
+      alignItems: center
+      paddingVertical: 8
+      paddingHorizontal: 12
+    icon:
+      size: 24
+      marginBottom: 4
+    text:
+      fontSize: 11
+      fontWeight: "600"
+      marginTop: 2
+  colors:
+    activeTintColor: "#14FFEC"
+    inactiveTintColor: "#6BA3A3"
+    activeBackgroundColor: transparent
+    inactiveBackgroundColor: transparent
+  badge:
+    backgroundColor: "#FF6B6B"
+    textColor: "#FFFFFF"
+    size: 18
+    fontSize: 10
+    fontWeight: bold
+    borderRadius: 9
+    minWidth: 18
+    position:
+      top: -4
+      right: -8
+  tabs:
+    - id: home
+      label: Home
+      showBadge: true
+    - id: credentials
+      label: Credentials
+      showBadge: false
+    - id: settings
+      label: Settings
+      showBadge: false
+
+# Background Configurations
+backgrounds:
+  - id: default
+    type: gradient
+    gradient:
+      type: linear
+      colors:
+        - "${colorPalette.background.dark}"
+        - "${colorPalette.background.darker}"
+      start: { x: 0, y: 0 }
+      end: { x: 0, y: 1 }
+    screenIds:
+      - "*"
+
+  - id: home
+    type: gradient
+    gradient:
+      type: linear
+      colors:
+        - "${colorPalette.background.medium}"
+        - "${colorPalette.background.dark}"
+        - "${colorPalette.background.darker}"
+      start: { x: 0.5, y: 0 }
+      end: { x: 0.5, y: 1 }
+      locations: [0, 0.5, 1]
+    screenIds:
+      - home
+      - dashboard
+
+  - id: credentials
+    type: gradient
+    gradient:
+      type: linear
+      colors:
+        - "${colorPalette.background.dark}"
+        - "${colorPalette.card.background}"
+        - "${colorPalette.background.dark}"
+      start: { x: 0, y: 0 }
+      end: { x: 1, y: 1 }
+    screenIds:
+      - credentials
+      - credential-details
+
+  - id: onboarding
+    type: gradient
+    gradient:
+      type: radial
+      colors:
+        - "${colorPalette.background.light}"
+        - "${colorPalette.background.medium}"
+        - "${colorPalette.background.dark}"
+      center: { x: 0.5, y: 0.3 }
+    screenIds:
+      - onboarding
+      - preface
+      - splash
+
+  - id: modal
+    type: solid
+    color: "rgba(10, 46, 46, 0.98)"
+    screenIds:
+      - modal
+      - sheet
+
+# Card Theme Configurations
+cardThemes:
+  - id: default
+    matcher:
+      default: true
+    displayName: Default Card
+    layout: standard
+    colors:
+      background:
+        primary: "${colorPalette.card.background}"
+        secondary: "#0A3D3D"
+        accent: "${colorPalette.brand.accent}"
+      text:
+        primary: "${colorPalette.text.primary}"
+        secondary: "${colorPalette.text.secondary}"
+        accent: "${colorPalette.brand.accent}"
+      border: "${colorPalette.card.border}"
+    typography:
+      title:
+        fontSize: 18
+        fontWeight: bold
+        color: "${colorPalette.text.primary}"
+      subtitle:
+        fontSize: 14
+        fontWeight: "500"
+        color: "${colorPalette.text.secondary}"
+      body:
+        fontSize: 12
+        fontWeight: normal
+        color: "${colorPalette.text.secondary}"
+      label:
+        fontSize: 10
+        fontWeight: "600"
+        color: "${colorPalette.text.muted}"
+        textTransform: uppercase
+    layoutConfig:
+      padding: 16
+      borderRadius: 16
+      borderWidth: 1
+      shadowConfig:
+        color: "${colorPalette.card.shadow}"
+        offset: { width: 0, height: 4 }
+        radius: 8
+        opacity: 0.3
+
+  - id: government-id
+    matcher:
+      issuerPatterns:
+        - "/government/i"
+        - "/gov\\./i"
+        - "/\\.gov$/i"
+      credentialTypes:
+        - GovernmentID
+        - NationalID
+        - DriversLicense
+    displayName: Government ID
+    layout: horizontal
+    colors:
+      background:
+        primary: "#1A3D5C"
+        secondary: "#0D2840"
+        accent: "#4A90D9"
+      text:
+        primary: "#FFFFFF"
+        secondary: "#B8D4F0"
+        accent: "#4A90D9"
+      border: "#4A90D9"
+    typography:
+      title:
+        fontSize: 20
+        fontWeight: bold
+        color: "#FFFFFF"
+      subtitle:
+        fontSize: 14
+        fontWeight: "500"
+        color: "#B8D4F0"
+      body:
+        fontSize: 12
+        fontWeight: normal
+        color: "#B8D4F0"
+      label:
+        fontSize: 10
+        fontWeight: "600"
+        color: "#7AA8D9"
+        textTransform: uppercase
+    layoutConfig:
+      padding: 20
+      borderRadius: 12
+      borderWidth: 2
+      shadowConfig:
+        color: "#000000"
+        offset: { width: 0, height: 6 }
+        radius: 12
+        opacity: 0.4
+
+  - id: education
+    matcher:
+      issuerPatterns:
+        - "/university/i"
+        - "/college/i"
+        - "/\\.edu$/i"
+        - "/education/i"
+      credentialTypes:
+        - EducationCredential
+        - Diploma
+        - Degree
+        - StudentID
+    displayName: Education Credential
+    layout: standard
+    colors:
+      background:
+        primary: "#2D1B4E"
+        secondary: "#1A0D30"
+        accent: "#9D4EDD"
+      text:
+        primary: "#FFFFFF"
+        secondary: "#D4B8F0"
+        accent: "#9D4EDD"
+      border: "#9D4EDD"
+    typography:
+      title:
+        fontSize: 18
+        fontWeight: bold
+        color: "#FFFFFF"
+      subtitle:
+        fontSize: 14
+        fontWeight: "500"
+        color: "#D4B8F0"
+      body:
+        fontSize: 12
+        fontWeight: normal
+        color: "#D4B8F0"
+      label:
+        fontSize: 10
+        fontWeight: "600"
+        color: "#A87DD9"
+        textTransform: uppercase
+    layoutConfig:
+      padding: 16
+      borderRadius: 16
+      borderWidth: 1
+      shadowConfig:
+        color: "#2D1B4E"
+        offset: { width: 0, height: 4 }
+        radius: 10
+        opacity: 0.4
+
+  - id: healthcare
+    matcher:
+      issuerPatterns:
+        - "/health/i"
+        - "/medical/i"
+        - "/hospital/i"
+        - "/clinic/i"
+      credentialTypes:
+        - HealthCard
+        - MedicalRecord
+        - Vaccination
+        - Insurance
+    displayName: Healthcare Credential
+    layout: standard
+    colors:
+      background:
+        primary: "#1B4D3E"
+        secondary: "#0D3028"
+        accent: "#4ADE80"
+      text:
+        primary: "#FFFFFF"
+        secondary: "#B8F0D4"
+        accent: "#4ADE80"
+      border: "#4ADE80"
+    typography:
+      title:
+        fontSize: 18
+        fontWeight: bold
+        color: "#FFFFFF"
+      subtitle:
+        fontSize: 14
+        fontWeight: "500"
+        color: "#B8F0D4"
+      body:
+        fontSize: 12
+        fontWeight: normal
+        color: "#B8F0D4"
+      label:
+        fontSize: 10
+        fontWeight: "600"
+        color: "#7DD9A8"
+        textTransform: uppercase
+    layoutConfig:
+      padding: 16
+      borderRadius: 16
+      borderWidth: 1
+      shadowConfig:
+        color: "#1B4D3E"
+        offset: { width: 0, height: 4 }
+        radius: 8
+        opacity: 0.35
+
+  - id: employment
+    matcher:
+      issuerPatterns:
+        - "/corp/i"
+        - "/inc/i"
+        - "/ltd/i"
+        - "/company/i"
+      credentialTypes:
+        - EmploymentCredential
+        - EmployeeID
+        - WorkPermit
+    displayName: Employment Credential
+    layout: horizontal
+    colors:
+      background:
+        primary: "#3D2E1B"
+        secondary: "#28200D"
+        accent: "#FFB347"
+      text:
+        primary: "#FFFFFF"
+        secondary: "#F0D8B8"
+        accent: "#FFB347"
+      border: "#FFB347"
+    typography:
+      title:
+        fontSize: 18
+        fontWeight: bold
+        color: "#FFFFFF"
+      subtitle:
+        fontSize: 14
+        fontWeight: "500"
+        color: "#F0D8B8"
+      body:
+        fontSize: 12
+        fontWeight: normal
+        color: "#F0D8B8"
+      label:
+        fontSize: 10
+        fontWeight: "600"
+        color: "#D9A87D"
+        textTransform: uppercase
+    layoutConfig:
+      padding: 16
+      borderRadius: 12
+      borderWidth: 1
+      shadowConfig:
+        color: "#3D2E1B"
+        offset: { width: 0, height: 4 }
+        radius: 8
+        opacity: 0.35

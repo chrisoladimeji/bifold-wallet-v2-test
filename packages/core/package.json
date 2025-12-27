@@ -143,6 +143,7 @@
     "react-native-uuid": "~2.0.3",
     "react-native-vector-icons": "~10.0.3",
     "react-native-vision-camera": "~4.3.2",
+    "react-native-webrtc": "^124.0.4",
     "react-test-renderer": "~18.2.0",
     "rimraf": "~5.0.10",
     "tsyringe": "~4.8.0",
@@ -219,6 +220,7 @@
     "react-native-uuid": "~2.0.3",
     "react-native-vector-icons": "~10.0.3",
     "react-native-vision-camera": "*",
+    "react-native-webrtc": "^124.0.4",
     "tsyringe": "~4.8.0",
     "uuid": "~9.0.1"
   },
@@ -235,6 +237,9 @@
     ]
   },
   "dependencies": {
-    "@types/base-64": "^1.0.2"
+    "@ajna-inc/webrtc": "0.2.1",
+    "@ajna-inc/workflow": "patch:@ajna-inc/workflow@npm%3A0.5.34#~/.yarn/patches/@ajna-inc-workflow-npm-0.5.34-7b79117bcf.patch",
+    "@types/base-64": "^1.0.2",
+    "kanon-react-native": "^0.0.8"
   }
 }

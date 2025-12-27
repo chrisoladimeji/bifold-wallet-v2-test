@@ -111,6 +111,28 @@ exports[`Settings Screen Renders correctly 1`] = `
             "title": "Settings.AppSettings",
           },
         },
+        Object {
+          "data": Array [
+            Object {
+              "accessibilityLabel": "Settings.Transfer",
+              "onPress": [Function],
+              "testID": "com.ariesbifold:id/TransferWallet",
+              "title": "Settings.Transfer",
+            },
+            Object {
+              "accessibilityLabel": "Settings.Restore",
+              "onPress": [Function],
+              "testID": "com.ariesbifold:id/RestoreWallet",
+              "title": "Settings.Restore",
+            },
+          ],
+          "header": Object {
+            "icon": Object {
+              "name": "swap-horiz",
+            },
+            "title": "Settings.WalletManagement",
+          },
+        },
       ]
     }
     getItem={[Function]}

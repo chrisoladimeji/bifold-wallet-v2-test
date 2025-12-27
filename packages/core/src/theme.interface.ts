@@ -386,11 +386,31 @@ export interface IHomeTheme {
   link: TextStyle & ITextThemeStyle & { color: string }
 }
 
+export interface INewSettingColors {
+  bgColorUp: string
+  bgColorDown: string
+  headerTitle: string
+  buttonColor: string
+  bgSection: string
+  textColor: string
+  textBody: string
+  deleteBtn: string
+  // Optional state colors for backwards compatibility
+  successColor?: string
+  warningColor?: string
+  // Optional school card colors
+  schoolCardPender?: string
+  schoolCardNHCS?: string
+  schoolCardMiami?: string
+  schoolCardCapeFear?: string
+}
+
 export interface ISettingsTheme {
   groupHeader: TextStyle & ITextThemeStyle & { marginBottom: number }
   text: TextStyle & ITextThemeStyle & { color: string }
   groupBackground: string
   iconColor: string
+  newSettingColors: INewSettingColors
 }
 
 export interface IChatTheme {
@@ -422,6 +442,7 @@ export interface IChatTheme {
     fontWeight: TextStyle['fontWeight']
     fontSize: number
     lineHeight?: number
+    color?: string
   }
   openButtonTextStyle: TextStyle & {
     fontSize: number
@@ -445,12 +466,16 @@ export interface IChatTheme {
     borderRadius: number
     padding: number
     marginLeft: number
+    borderWidth?: number
+    borderColor?: string
   }
   rightBubble: ViewStyle & {
     backgroundColor: string
     borderRadius: number
     padding: number
     marginRight: number
+    borderWidth?: number
+    borderColor?: string
   }
   sendContainer: ViewStyle & {
     marginBottom: number

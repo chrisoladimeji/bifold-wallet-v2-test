@@ -62,6 +62,14 @@ export enum Screens {
   AutoLock = 'AutoLock',
   UpdateAvailable = 'Update Available',
   ConfigureMediator = 'Configure Mediator',
+  IncomingCall = 'Incoming Call',
+  VideoCall = 'Video Call',
+  WorkflowDetails = 'Workflow Details',
+  ExportWalletIntro = 'Export Wallet Intro',
+  ExportWallet = 'Export Wallet',
+  ImportWallet = 'Import Wallet',
+  ImportWalletScan = 'Import Wallet Scan',
+  ImportWalletResult = 'Import Wallet Result',
 }
 
 export enum Stacks {
@@ -98,6 +106,19 @@ export type RootStackParams = {
   [Screens.CredentialDetails]: { credentialId: string }
   [Screens.OpenIDCredentialDetails]: { credentialId: string; type: OpenIDCredentialType }
   [Stacks.CustomNavStack1]: undefined
+  [Screens.IncomingCall]: {
+    connectionId: string
+    threadId: string
+    sdp: string
+    callerLabel?: string
+    iceServers?: Array<{ urls: string | string[]; username?: string; credential?: string }>
+  }
+  [Screens.VideoCall]: {
+    connectionId: string
+    threadId?: string
+    video?: boolean
+  }
+  [Screens.WorkflowDetails]: { instanceId: string }
 }
 
 export type TabStackParams = {
@@ -129,6 +150,7 @@ export type ContactStackParams = {
   [Screens.ProofDetails]: { recordId: string; isHistory?: boolean }
   [Screens.ProofRequest]: { proofId: string }
   [Screens.JSONDetails]: { jsonBlob: any }
+  [Screens.WorkflowDetails]: { instanceId: string }
 }
 
 export type ProofRequestsStackParams = {
@@ -178,6 +200,11 @@ export type SettingStackParams = {
   [Screens.HistorySettings]: undefined
   [Screens.AutoLock]: undefined
   [Screens.ConfigureMediator]: { scannedMediatorUri: string } | undefined
+  [Screens.ExportWalletIntro]: undefined
+  [Screens.ExportWallet]: undefined
+  [Screens.ImportWallet]: undefined
+  [Screens.ImportWalletScan]: { pin: string }
+  [Screens.ImportWalletResult]: { status: 'success' | 'error'; errorMessage?: string }
 }
 
 export type NotificationStackParams = {

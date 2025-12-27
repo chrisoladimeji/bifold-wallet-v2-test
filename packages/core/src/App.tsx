@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { StatusBar } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import Toast from 'react-native-toast-message'
@@ -20,13 +20,35 @@ import { ThemeProvider } from './contexts/theme'
 import { TourProvider } from './contexts/tour/tour-provider'
 import { initStoredLanguage } from './localization'
 import RootStack from './navigators/RootStack'
-import { bifoldTheme, themes } from './theme'
+import { themes } from './theme'
+import { digicredTheme } from './modules/theme/themes/teal-dark/digicredTheme'
 import ErrorBoundaryWrapper from './components/misc/ErrorBoundary'
 import { bifoldLoggerInstance } from './services/bifoldLogger'
+import {
+  ThemeRegistry,
+  ThemeRegistryProvider,
+} from './modules/theme'
+import {
+  manifest as tealDarkManifest,
+  tabBarConfig as tealDarkTabBar,
+  backgrounds as tealDarkBackgrounds,
+  cardThemes as tealDarkCardThemes,
+} from './modules/theme/themes/teal-dark'
 
 const createApp = (container: Container): React.FC => {
   const AppComponent: React.FC = () => {
     const navigationRef = useNavigationContainerRef()
+
+    // Create and configure the theme registry with teal-dark theme
+    const themeRegistry = useMemo(() => {
+      const registry = new ThemeRegistry()
+      registry.register(tealDarkManifest)
+      registry.setTabBarConfig(tealDarkTabBar)
+      registry.setBackgrounds(tealDarkBackgrounds)
+      registry.setCardThemes(tealDarkCardThemes)
+      registry.setActive('teal-dark')
+      return registry
+    }, [])
 
     useEffect(() => {
       initStoredLanguage().then()
@@ -46,27 +68,29 @@ const createApp = (container: Container): React.FC => {
       <ErrorBoundaryWrapper logger={bifoldLoggerInstance}>
         <ContainerProvider value={container}>
           <StoreProvider>
-            <ThemeProvider themes={themes} defaultThemeName={bifoldTheme.themeName}>
-              <NavContainer navigationRef={navigationRef}>
-                <AnimatedComponentsProvider value={animatedComponents}>
-                  <AuthProvider>
-                    <NetworkProvider>
-                      <StatusBar
-                        hidden={false}
-                        barStyle="light-content"
-                        backgroundColor={bifoldTheme.ColorPalette.brand.primary}
-                        translucent={false}
-                      />
-                      <ErrorModal />
-                      <TourProvider tours={tours} overlayColor={'gray'} overlayOpacity={0.7}>
-                        <RootStack />
-                      </TourProvider>
-                      <Toast topOffset={15} config={toastConfig} />
-                    </NetworkProvider>
-                  </AuthProvider>
-                </AnimatedComponentsProvider>
-              </NavContainer>
-            </ThemeProvider>
+            <ThemeRegistryProvider registry={themeRegistry} initialThemeId="teal-dark">
+              <ThemeProvider themes={[digicredTheme, ...themes]} defaultThemeName={digicredTheme.themeName}>
+                <NavContainer navigationRef={navigationRef}>
+                  <AnimatedComponentsProvider value={animatedComponents}>
+                    <AuthProvider>
+                      <NetworkProvider>
+                        <StatusBar
+                          hidden={false}
+                          barStyle="light-content"
+                          backgroundColor="transparent"
+                          translucent={true}
+                        />
+                        <ErrorModal />
+                        <TourProvider tours={tours} overlayColor={'gray'} overlayOpacity={0.7}>
+                          <RootStack />
+                        </TourProvider>
+                        <Toast topOffset={15} config={toastConfig} />
+                      </NetworkProvider>
+                    </AuthProvider>
+                  </AnimatedComponentsProvider>
+                </NavContainer>
+              </ThemeProvider>
+            </ThemeRegistryProvider>
           </StoreProvider>
         </ContainerProvider>
       </ErrorBoundaryWrapper>

@@ -2,18 +2,18 @@ import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { TOKENS, useServices } from '../../../container-api'
 import { useTheme } from '../../../contexts/theme'
 import { useDefaultStackOptions } from '../../../navigators/defaultStackOptions'
 import { HistoryStackParams, Screens } from '../../../types/navigators'
 import { testIdWithKey } from '../../../utils/testable'
-// import HistoryDetailsPage from '../ui/HistoryDetails'
-import HistoryPage from '../ui/HistoryPage'
 
 const HistoryStack: React.FC = () => {
   const Stack = createStackNavigator<HistoryStackParams>()
   const theme = useTheme()
   const { t } = useTranslation()
   const defaultStackOptions = useDefaultStackOptions(theme)
+  const [HistoryPage] = useServices([TOKENS.SCREEN_HISTORY_PAGE])
 
   return (
     <Stack.Navigator screenOptions={{ ...defaultStackOptions }}>

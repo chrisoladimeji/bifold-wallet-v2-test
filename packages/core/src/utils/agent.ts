@@ -13,6 +13,7 @@ import {
   Agent,
   AutoAcceptCredential,
   AutoAcceptProof,
+  BasicMessagesModule,
   ConnectionsModule,
   CredentialsModule,
   DidsModule,
@@ -36,10 +37,33 @@ import { anoncreds } from '@hyperledger/anoncreds-react-native'
 import { ariesAskar } from '@hyperledger/aries-askar-react-native'
 import { indyVdr } from '@hyperledger/indy-vdr-react-native'
 
+// Kanon DID Module for Ethereum-based DIDs
+import {
+  EthereumLedgerService,
+  KanonAnonCredsRegistry,
+  KanonDIDRegistrar,
+  KanonDIDResolver,
+  KanonModule,
+  KanonModuleConfig,
+} from 'kanon-react-native'
+
+// Ajna Workflow Module for DIDComm-based state machines
+import { WorkflowModule } from '@ajna-inc/workflow'
+
+// Ajna WebRTC Module for DIDComm-based video calls
+import { WebRTCModule } from '@ajna-inc/webrtc'
+
+export interface WebRTCIceServer {
+  urls: string | string[]
+  username?: string
+  credential?: string
+}
+
 interface GetAgentModulesOptions {
   indyNetworks: IndyVdrPoolConfig[]
   mediatorInvitationUrl?: string
   txnCache?: { capacity: number; expiryOffsetMs: number; path?: string }
+  webrtcIceServers?: WebRTCIceServer[]
 }
 
 export type BifoldAgent = Agent<ReturnType<typeof getAgentModules>>
@@ -51,7 +75,7 @@ export type BifoldAgent = Agent<ReturnType<typeof getAgentModules>>
  * @param txnCache optional local cache config for indyvdr
  * @returns modules to be used in agent setup
  */
-export function getAgentModules({ indyNetworks, mediatorInvitationUrl, txnCache }: GetAgentModulesOptions) {
+export function getAgentModules({ indyNetworks, mediatorInvitationUrl, txnCache, webrtcIceServers }: GetAgentModulesOptions) {
   const indyCredentialFormat = new LegacyIndyCredentialFormatService()
   const indyProofFormat = new LegacyIndyProofFormatService()
 
@@ -63,13 +87,30 @@ export function getAgentModules({ indyNetworks, mediatorInvitationUrl, txnCache 
     })
   }
 
+  // Kanon (Ethereum) configuration for DID resolution
+  const ethConfig = new KanonModuleConfig({
+    networks: [
+      {
+        network: 'testnet',
+        rpcUrl: 'https://ethereum-sepolia.rpc.subquery.network/public',
+        // Dummy private key since we're primarily a resolver, not registrar
+        privateKey: '0x00000000002a655b0cca24b8029acb27738fe32d131ceaa9a43fd9929c4e6116',
+      },
+    ],
+  })
+  const ledgerService = new EthereumLedgerService(ethConfig)
+
   return {
     askar: new AskarModule({
       ariesAskar,
     }),
     anoncreds: new AnonCredsModule({
       anoncreds,
-      registries: [new IndyVdrAnonCredsRegistry(), new WebVhAnonCredsRegistry()],
+      registries: [
+        new IndyVdrAnonCredsRegistry(),
+        new WebVhAnonCredsRegistry(),
+        new KanonAnonCredsRegistry(),
+      ],
     }),
     indyVdr: new IndyVdrModule({
       indyVdr,
@@ -104,6 +145,8 @@ export function getAgentModules({ indyNetworks, mediatorInvitationUrl, txnCache 
         }),
       ],
     }),
+    // Kanon module for Ethereum-based DIDs
+    kanon: new KanonModule(ethConfig),
     mediationRecipient: new MediationRecipientModule({
       mediatorInvitationUrl: mediatorInvitationUrl,
       mediatorPickupStrategy: MediatorPickupStrategy.Implicit,
@@ -111,6 +154,27 @@ export function getAgentModules({ indyNetworks, mediatorInvitationUrl, txnCache 
     pushNotificationsFcm: new PushNotificationsFcmModule(),
     pushNotificationsApns: new PushNotificationsApnsModule(),
     openId4VcHolder: new OpenId4VcHolderModule(),
+    // Basic messages module for DIDComm messaging
+    basicMessages: new BasicMessagesModule(),
+    // Workflow module for DIDComm-based state machines
+    workflow: new WorkflowModule({
+      enableProblemReport: true,
+      enablePaymentsEventMapping: false,
+      enableAutoDiscoverOnStart: true,
+      discoveryTimeoutMs: 30000,
+    }),
+    // WebRTC module for DIDComm-based video calls
+    // ICE servers should be provided via TOKENS.UTIL_WEBRTC_ICE_SERVERS
+    // TURN credentials should be stored in environment variables, not committed to code
+    webrtc: new WebRTCModule({
+      iceServers: webrtcIceServers ?? [
+        // Default STUN servers (free, no credentials needed)
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+      ],
+      defaultPolicy: 'all',
+      defaultTrickle: true,
+    }),
     dids: new DidsModule({
       resolvers: [
         new WebvhDidResolver(),
@@ -118,7 +182,9 @@ export function getAgentModules({ indyNetworks, mediatorInvitationUrl, txnCache 
         new JwkDidResolver(),
         new KeyDidResolver(),
         new PeerDidResolver(),
+        new KanonDIDResolver(ledgerService),
       ],
+      registrars: [new KanonDIDRegistrar(ledgerService)],
     }),
   }
 }

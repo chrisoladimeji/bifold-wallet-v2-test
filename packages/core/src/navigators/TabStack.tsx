@@ -21,13 +21,13 @@ import { Screens, Stacks, TabStackParams, TabStacks } from '../types/navigators'
 import { connectFromScanOrDeepLink } from '../utils/helpers'
 import { testIdWithKey } from '../utils/testable'
 
-import CredentialStack from './CredentialStack'
-import HomeStack from './HomeStack'
 import { BaseTourID } from '../types/tour'
 import { ThemedText } from '../components/texts/ThemedText'
+import { useTabBarTheme } from '../modules/theme/hooks/useTabBarTheme'
 
 const TabStack: React.FC = () => {
   const { fontScale } = useWindowDimensions()
+  const modularTabTheme = useTabBarTheme()
   const badgeFontSize = useMemo(() => {
     if (fontScale >= 1.2 && fontScale < 1.5) {
       return {
@@ -52,10 +52,20 @@ const TabStack: React.FC = () => {
     }
     return null
   }, [fontScale])
-  const [{ useNotifications }, { enableImplicitInvitations, enableReuseConnections }, logger] = useServices([
+  const [
+    { useNotifications },
+    { enableImplicitInvitations, enableReuseConnections },
+    logger,
+    // Injectable stacks
+    HomeStack,
+    CredentialStack,
+  ] = useServices([
     TOKENS.NOTIFICATIONS,
     TOKENS.CONFIG,
     TOKENS.UTIL_LOGGER,
+    // Injectable stacks
+    TOKENS.STACK_HOME,
+    TOKENS.STACK_CREDENTIAL,
   ])
   const notifications = useNotifications({})
   const { t } = useTranslation()
@@ -67,6 +77,10 @@ const TabStack: React.FC = () => {
   const { agent } = useAgent()
   const navigation = useNavigation<StackNavigationProp<TabStackParams>>()
   const showLabels = fontScale * TabTheme.tabBarTextStyle.fontSize < 18
+
+  // Check if floating tab bar variant is enabled from modular theme
+  const isFloatingTabBar = modularTabTheme.variant === 'floating'
+
   const styles = StyleSheet.create({
     tabBarIcon: {
       flex: 1,
@@ -132,17 +146,35 @@ const TabStack: React.FC = () => {
     }
   }, [store.deepLink, agent, store.authentication.didAuthenticate, handleDeepLink])
 
+  // Build tab bar style from modular theme with floating support
+  const tabBarStyleFromModular = useMemo(() => {
+    if (isFloatingTabBar) {
+      return {
+        ...modularTabTheme.style,
+        position: 'absolute' as const,
+        bottom: modularTabTheme.style.bottom ?? 16,
+        left: modularTabTheme.style.left ?? 16,
+        right: modularTabTheme.style.right ?? 16,
+        borderRadius: modularTabTheme.style.borderRadius ?? 32,
+        borderTopWidth: 0,
+        paddingBottom: 0,
+      }
+    }
+    return {
+      ...TabTheme.tabBarStyle,
+      ...modularTabTheme.style,
+    }
+  }, [isFloatingTabBar, modularTabTheme.style, TabTheme.tabBarStyle])
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: NavigationTheme.colors.primary }} edges={['left', 'right', 'top']}>
       <Tab.Navigator
         initialRouteName={TabStacks.HomeStack}
         screenOptions={{
           unmountOnBlur: true,
-          tabBarStyle: {
-            ...TabTheme.tabBarStyle,
-          },
-          tabBarActiveTintColor: TabTheme.tabBarActiveTintColor,
-          tabBarInactiveTintColor: TabTheme.tabBarInactiveTintColor,
+          tabBarStyle: tabBarStyleFromModular,
+          tabBarActiveTintColor: modularTabTheme.colors.activeTintColor || TabTheme.tabBarActiveTintColor,
+          tabBarInactiveTintColor: modularTabTheme.colors.inactiveTintColor || TabTheme.tabBarInactiveTintColor,
           header: () => null,
         }}
       >

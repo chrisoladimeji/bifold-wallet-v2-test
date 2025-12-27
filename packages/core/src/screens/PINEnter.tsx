@@ -32,6 +32,7 @@ import { useLockout } from '../hooks/lockout'
 import usePreventScreenCapture from '../hooks/screen-capture'
 import { BifoldError } from '../types/error'
 import { testIdWithKey } from '../utils/testable'
+import { ThemedBackground } from '../modules/theme/components/ThemedBackground'
 
 interface PINEnterProps {
   setAuthenticated: (status: boolean) => void
@@ -270,7 +271,6 @@ const PINEnter: React.FC<PINEnterProps> = ({ setAuthenticated }) => {
       height: '100%',
       padding: 20,
       justifyContent: 'space-between',
-      backgroundColor: ColorPalette.brand.primaryBackground,
     },
     buttonContainer: {
       width: '100%',
@@ -372,8 +372,9 @@ const PINEnter: React.FC<PINEnterProps> = ({ setAuthenticated }) => {
   ])
 
   return (
-    <ScreenWrapper keyboardActive>
-      <View style={style.screenContainer}>
+    <ThemedBackground screenId="onboarding" style={{ flex: 1 }}>
+      <ScreenWrapper keyboardActive>
+        <View style={style.screenContainer}>
         <View>
           {PINScreensConfig.useNewPINDesign && (
             <ThemedText variant="bold" style={style.appTitle}>
@@ -515,7 +516,8 @@ const PINEnter: React.FC<PINEnterProps> = ({ setAuthenticated }) => {
         />
       ) : null}
       {devModalVisible ? <DeveloperModal onBackPressed={onBackPressed} /> : null}
-    </ScreenWrapper>
+      </ScreenWrapper>
+    </ThemedBackground>
   )
 }
 
