@@ -71,7 +71,7 @@ const generateDigiCredOnboardingWorkflow = (
   const { servedPenalty } = state.loginAttempt
   const { didAuthenticate } = state.authentication
   const { enableWalletNaming } = state.preferences
-  const { showPreface, enablePushNotifications } = config
+  const { showPreface } = config
 
   // DigiCred onboarding workflow - skips the tutorial/carousel step
   // Using actual screen name values from Screens enum
@@ -89,11 +89,11 @@ const generateDigiCredOnboardingWorkflow = (
     // Biometry
     { name: Screens.Biometry, completed: didConsiderBiometry },
     // Push notifications
-    { name: Screens.PushNotifications, completed: !enablePushNotifications || (didConsiderPushNotifications && !!enablePushNotifications) },
+    { name: Screens.PushNotifications, completed:  (didConsiderPushNotifications) },
     // Name wallet
     { name: Screens.NameWallet, completed: didNameWallet || !enableWalletNaming },
     // Attempt lockout
-    { name: Screens.AttemptLockout, completed: servedPenalty !== false },
+    { name: Screens.AttemptLockout, completed: servedPenalty },
     // Authentication
     { name: Screens.EnterPIN, completed: didAuthenticate || !didCreatePIN },
     // Agent initialization

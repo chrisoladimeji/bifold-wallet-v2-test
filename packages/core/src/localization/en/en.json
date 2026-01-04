@@ -567,7 +567,11 @@
     "OpenSettings": "Open settings",
     "Title": "Use Push Notifications",
     "Subtitle": "Be notified when you receive:",
-    "Enable": "Enable"
+    "Enable": "Enable",
+    "Item1": "New credential offers",
+    "Item2": "New proof requests",
+    "Item3": "Updates to your credentials",
+    "Item4": "New messages"
   },
   "CredentialDetails": {
     "Id": "Id:",
@@ -1121,5 +1125,6 @@
       "title": "Your Credential Wallet",
       "description": "Safe and secure"
     }
-  }
+  },
+
 }

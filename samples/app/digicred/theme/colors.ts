@@ -44,6 +44,7 @@ export const DigiCredColors = {
     error: '#FF6B6B',
     subtitle: '#B5B3BC',
     homePrimary: '#F2F0FF',
+    onboardingSubtitle: '#B5B3BC',
   },
 
   // Toggle colors

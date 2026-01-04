@@ -220,7 +220,7 @@ website or our use of that information – please click here to view the `}
             </View>
 
             <DigiCredButton
-              title={'Continue'}
+              title={'CONTINUE'}
               onPress={onSubmitPressed}
               disabled={!checked && !hasPreviouslyAgreed}
               testID={testIdWithKey('Continue')}

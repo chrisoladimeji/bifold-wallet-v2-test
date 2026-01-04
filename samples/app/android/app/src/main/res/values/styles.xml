@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
     <style name="Theme.LaunchScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/spash</item>
+        <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowDisablePreview">true</item>
     </style>

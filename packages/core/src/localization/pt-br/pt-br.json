@@ -519,7 +519,14 @@
     "InstructionsOne": "Open the app's settings (PT-BR)",
     "InstructionsTwo": "Tap Notifications (PT-BR)",
     "InstructionsThree": "Enable notifications (PT-BR)",
-    "OpenSettings": "Open settings (PT-BR)"
+    "OpenSettings": "Open settings (PT-BR)",
+    "Title": "Usar notificações push",
+    "Subtitle": "Receba uma notificação quando você receber:",
+    "Item1": "Novas ofertas de credenciais",
+    "Item2": "Novas solicitações de prova",
+    "Item3": "Atualizações nas suas credenciais",
+    "Item4": "Novas mensagens",
+    "Enable": "Ativar"
   },
   "CredentialDetails": {
     "Id": "Id:",

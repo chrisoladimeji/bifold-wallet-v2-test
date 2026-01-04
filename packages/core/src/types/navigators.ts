@@ -136,11 +136,11 @@ export type OnboardingStackParams = {
   [Screens.Onboarding]: undefined
   [Screens.Terms]: undefined
   [Screens.AttemptLockout]: undefined
+  [Screens.Biometry]: undefined
+  [Screens.PushNotifications]: undefined
   [Screens.CreatePIN]: { setAuthenticated: (status: boolean) => void } | undefined
   [Screens.EnterPIN]: { setAuthenticated: (status: boolean) => void } | undefined
-  [Screens.Biometry]: undefined
   [Screens.NameWallet]: undefined
-  [Screens.PushNotifications]: undefined
 }
 
 export type HomeNoChannelParams = {

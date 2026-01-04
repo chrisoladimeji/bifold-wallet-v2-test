@@ -549,7 +549,14 @@
     "InstructionsOne": "Ouvrez les paramètres de l'application",
     "InstructionsTwo": "Pressez Notifications",
     "InstructionsThree": "Activer les notifications",
-    "OpenSettings": "Ouvrir les paramètres"
+    "OpenSettings": "Ouvrir les paramètres",
+    "Title": "Utiliser les notifications push",
+    "Subtitle": "Recevez une notification lorsque vous recevez :",
+    "Item1": "De nouvelles offres d'identifiants",
+    "Item2": "De nouvelles demandes de preuve",
+    "Item3": "Des mises à jour concernant vos identifiants",
+    "Item4": "De nouveaux messages",
+    "Enable": "Activer"
   },
   "CredentialDetails": {
     "Id": "Identifiant :",

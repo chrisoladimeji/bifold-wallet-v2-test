@@ -73,28 +73,23 @@ const PINCreate: React.FC<PINCreateProps> = ({ setAuthenticated }) => {
     [setWalletPIN, setAuthenticated, dispatch, t]
   )
 
-  // Handle first PIN input change - auto advance to confirm field
   const handlePINChange = useCallback((value: string) => {
     setPIN(value)
     setError(null)
     if (value.length === minPINLength) {
-      // Auto-advance to confirm field
       setTimeout(() => {
         confirmInputRef.current?.focus()
       }, 100)
     }
   }, [])
 
-  // Handle confirm PIN input change - auto submit when complete and matching
   const handlePINConfirmChange = useCallback((value: string) => {
     setPINConfirm(value)
     setError(null)
     if (value.length === minPINLength && PIN.length === minPINLength) {
       if (value === PIN) {
-        // PINs match, auto-submit
         passcodeCreate(PIN)
       } else {
-        // PINs don't match
         setError(t('PINCreate.PINsDoNotMatch'))
       }
     }
@@ -117,7 +112,6 @@ const PINCreate: React.FC<PINCreateProps> = ({ setAuthenticated }) => {
     await passcodeCreate(PIN)
   }, [PIN, PINConfirm, passcodeCreate, t])
 
-  const isButtonDisabled = isLoading || PIN.length < minPINLength || PINConfirm.length < minPINLength
 
   return (
     <GradientBackground>
@@ -129,7 +123,10 @@ const PINCreate: React.FC<PINCreateProps> = ({ setAuthenticated }) => {
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
         >
-          <CardModal centered>
+          <CardModal
+            centered
+            style={styles.cardModal}
+          >
             <Text style={styles.title}>
               {t('PINCreate.CardTitle')}
             </Text>
@@ -147,6 +144,7 @@ const PINCreate: React.FC<PINCreateProps> = ({ setAuthenticated }) => {
               autoFocus
               testID={testIdWithKey('EnterPIN')}
               accessibilityLabel={t('PINCreate.EnterPIN')}
+              customStyle={styles.inputCustomStyle}
             />
 
             <DigiCredInput
@@ -159,6 +157,7 @@ const PINCreate: React.FC<PINCreateProps> = ({ setAuthenticated }) => {
               maxLength={6}
               testID={testIdWithKey('ReenterPIN')}
               accessibilityLabel={t('PINCreate.ReenterPIN')}
+              customStyle={styles.inputCustomStyle}
             />
 
             {error && (
@@ -166,12 +165,14 @@ const PINCreate: React.FC<PINCreateProps> = ({ setAuthenticated }) => {
             )}
 
             <DigiCredButton
-              title={t('Global.Continue')}
+              title={'CONTINUE'}
               onPress={handleContinue}
-              disabled={isButtonDisabled}
               loading={isLoading}
               testID={testIdWithKey('Continue')}
               accessibilityLabel={t('Global.Continue')}
+              variant="primary"
+              customStyle={styles.buttonCustomStyle}
+              customTextStyle={styles.buttonTextCustomStyle}
             />
           </CardModal>
         </ScrollView>
@@ -187,25 +188,76 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 16,
   },
+  cardModal: {
+    backgroundColor: DigiCredColors.homeNoChannels.itemBackground,
+    justifyContent: 'center',
+    borderRadius: 16,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.48,
+    shadowRadius: 12,
+    elevation: 8,
+    width: '98%',
+  },
   title: {
-    fontSize: 22,
-    fontWeight: '600',
-    color: DigiCredColors.text.primary,
+    fontSize: 18,
+    fontWeight: '400',
+    color: DigiCredColors.toggle.thumb,
     marginBottom: 12,
+    lineHeight: 24,
+    fontFamily: 'Open Sans',
   },
   subtitle: {
-    fontSize: 14,
-    color: DigiCredColors.text.secondary,
-    lineHeight: 20,
-    marginBottom: 24,
+    fontSize: 16,
+    fontFamily: 'Open Sans',
+    color: DigiCredColors.text.onboardingSubtitle,
+    lineHeight: 24,
+    marginBottom: 15,
   },
   errorText: {
     color: DigiCredColors.text.error,
     fontSize: 14,
     marginBottom: 16,
     textAlign: 'center',
+  },
+  inputCustomStyle: {
+    width: '93%',
+    height: 45,
+    borderRadius: 25,
+    borderWidth: 1.5,
+    backgroundColor: 'transparent',
+    paddingHorizontal: 16,
+    marginVertical: 10,
+    fontSize: 16,
+    borderColor: DigiCredColors.toggle.thumb,
+    alignSelf: 'center',
+  },
+  buttonCustomStyle: {
+    display: 'flex',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 25,
+    backgroundColor: DigiCredColors.button.continueButton,
+    minWidth: 154,
+    height: 48,
+    opacity: 1,
+    alignSelf: 'flex-start',
+    marginTop: 20,
+  },
+  buttonTextCustomStyle: {
+    fontFamily: 'Open Sans',
+    fontSize: 16,
+    fontWeight: '700',
+    lineHeight: 24,
+    color: DigiCredColors.text.primary,
+    textTransform: 'none',
+    letterSpacing: 0,
   },
 })
 
