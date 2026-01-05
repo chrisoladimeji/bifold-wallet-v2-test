@@ -271,7 +271,7 @@
 
 ### Patch Changes
 
-- 4d2e589: swapped logo in qr loading splash
+- 4d2e589: swapped logo in qr loading `splash`
 - ab196c9: changed accessibility labels in the actions slider in the chat screen
 
 ## 2.1.5

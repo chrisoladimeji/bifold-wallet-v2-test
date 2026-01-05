@@ -4,6 +4,8 @@ import React from 'react'
 import {
   TOKENS,
   useServices,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   HomeStackParams,
   Screens,
 } from '@bifold/core'

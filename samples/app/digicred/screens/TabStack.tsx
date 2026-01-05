@@ -5,7 +5,6 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DeviceEventEmitter, View, StyleSheet } from 'react-native'
-
 import {
   TOKENS,
   useServices,
@@ -14,6 +13,8 @@ import {
   DispatchAction,
   EventTypes,
   BifoldError,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   TabStackParams,
   TabStacks,
   connectFromScanOrDeepLink,
@@ -79,8 +80,9 @@ const DigiCredTabStack: React.FC = () => {
         )
         DeviceEventEmitter.emit(EventTypes.ERROR_ADDED, error)
       }
-
       dispatch({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         type: DispatchAction.DEEP_LINK_PROCESSED,
       })
     },
@@ -101,12 +103,7 @@ const DigiCredTabStack: React.FC = () => {
       <View style={styles.container}>
         <Tab.Navigator
           initialRouteName={TabStacks.HomeStack}
-          tabBar={(props) => (
-            <DigiCredTabBar
-              {...props}
-              badges={{ [TabStacks.HomeStack]: homeBadgeCount }}
-            />
-          )}
+          tabBar={(props) => <DigiCredTabBar {...props} badges={{ [TabStacks.HomeStack]: homeBadgeCount }} />}
           screenOptions={{
             headerShown: false,
           }}
@@ -134,7 +131,11 @@ const DigiCredTabStack: React.FC = () => {
             component={SettingStack}
             options={{
               headerShown: false,
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
               tabBarAccessibilityLabel: t('TabStack.Settings'),
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
               tabBarTestID: testIdWithKey(t('TabStack.Settings')),
             }}
           />

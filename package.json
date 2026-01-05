@@ -70,6 +70,7 @@
   },
   "dependencies": {
     "react-native-network-info": "^5.2.2",
-    "react-native-qrcode-svg": "^6.3.21"
+    "react-native-qrcode-svg": "^6.3.21",
+    "react-native-vector-icons": "^10.3.0"
   }
 }

@@ -8860,7 +8860,7 @@ __metadata:
     react-native-tcp-socket: "npm:~6.0.6"
     react-native-toast-message: "npm:~2.1.10"
     react-native-uuid: "npm:~2.0.3"
-    react-native-vector-icons: "npm:~10.0.3"
+    react-native-vector-icons: "npm:^10.3.0"
     react-native-vision-camera: "npm:~4.3.2"
     react-native-webrtc: "npm:^124.0.4"
     react-native-webview: "npm:~13.10.7"
@@ -8891,6 +8891,7 @@ __metadata:
     prettier: "npm:~2.8.8"
     react-native-network-info: "npm:^5.2.2"
     react-native-qrcode-svg: "npm:^6.3.21"
+    react-native-vector-icons: "npm:^10.3.0"
     ts-node: "npm:~10.0.0"
     typescript: "npm:~5.5.4"
     typescript-eslint: "npm:~7.18.0"
@@ -18501,6 +18502,21 @@ __metadata:
   version: 2.0.3
   resolution: "react-native-uuid@npm:2.0.3"
   checksum: 10c0/d94bccc28936c2dea081ab404f90b0c968092013af4d428b8e74bf407d6098ad5410914f77a903ad1296cce364fc85d27d8dfd70d22ec48d8cf1b7edc8803a8d
+  languageName: node
+  linkType: hard
+
+"react-native-vector-icons@npm:^10.3.0":
+  version: 10.3.0
+  resolution: "react-native-vector-icons@npm:10.3.0"
+  dependencies:
+    prop-types: "npm:^15.7.2"
+    yargs: "npm:^16.1.1"
+  bin:
+    fa-upgrade.sh: bin/fa-upgrade.sh
+    fa5-upgrade: bin/fa5-upgrade.sh
+    fa6-upgrade: bin/fa6-upgrade.sh
+    generate-icon: bin/generate-icon.js
+  checksum: 10c0/247804affcf74906062ed088d755c3d4632e3f2b62c38226ccb05e2a8dc42414c2378040a4acb474704bed09cd06cb285770c765ffff67fb2d3b896cd46e76ca
   languageName: node
   linkType: hard
 
