@@ -206,7 +206,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ messageProps }) => {
             right: {
               backgroundColor: 'transparent',
               marginLeft: 0,
-              marginRight: 0,
+              marginRight: '5%',
               padding: 0,
             },
           }}
