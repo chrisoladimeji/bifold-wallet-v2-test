@@ -230,7 +230,7 @@
     "Subheader": "Secure your Aries wallet",
     "Explainer": {
       "PrimaryHeading": "Secure your Wallet",
-      "PINReminder": "On the following screen you will be asked to set up a strong <b>personal identification number</b> (PIN).",
+      "PINReminder": "On the following screen you will be asked to set up a strong personal identification number (PIN).",
       "WhyNeedPin": {
         "Header": "Why you need a PIN",
         "Paragraph": "Your PIN is an important security feature:",
@@ -240,7 +240,7 @@
     },
     "InfoBox": {
       "title": "Remember your PIN",
-      "message": "Make sure you remember your PIN\nIf you forget it you will need to setup the wallet again and re-add your cards."
+      "message": "Make sure you remember your PIN. If you forget it you will need to setup the wallet again and re-add your cards."
     },
     "Message": {
       "CrossPatternValidation": "A pattern of cross was detected in your PIN. Please try again.",
@@ -461,14 +461,14 @@
     "Initial": {
       "Title": "Do you want to log your wallet activity?",
       "Description": {
-        "Header": "This History section can list when:\n",
-        "PointA": "You have <b>shared information</b> with a verifier",
+        "Header": "This History section can list when:",
+        "PointA": "You have shared information with a verifier",
         "PointAAxs": "You have shared information with a verifier",
-        "PointB": "A card is <b>accepted, revoked or expired</b>",
+        "PointB": "A card is accepted, revoked or expired",
         "PointBAxs": "A card is accepted, revoked or expired",
-        "PointC": "You have updated your <b>PIN</b>",
+        "PointC": "You have updated your PIN",
         "PointCAxs": "You have updated your PIN",
-        "Footer": "\nYour wallet activity will <b>only be stored on your device</b>, and you can choose how often it is automatically deleted.",
+        "Footer": "Your wallet activity will only be stored on your device, and you can choose how often it is automatically deleted.",
         "FooterAxs": "Your wallet activity will only be stored on your device, and you can choose how often it is automatically deleted."
       },
       "Button": {
@@ -478,7 +478,7 @@
       }
     },
     "Button": "Sort/Filter",
-    "NoHistory": "You haven't used any cards yet.\n\nEach time you add or use a card, that activity will be saved here.",
+    "NoHistory": "You haven't used any cards yet. Each time you add or use a card, that activity will be saved here.",
     "CardTitle": {
       "CardAccepted": "Card accepted:",
       "CardDeclined": "Card declined:",
@@ -536,7 +536,7 @@
   },
   "WhatAreContacts": {
     "Title": "What are Contacts?",
-    "Preamble": "Contacts are people or organizations you've interacted with.\n\nYou're connected over a secure and private line that no one but you or them can see. Nothing is shared without your permission.\n\nYou can:",
+    "Preamble": "Contacts are people or organizations you've interacted with. You're connected over a secure and private line that no one but you or them can see. Nothing is shared without your permission. You can:",
     "ListItemDirectMessage": "Direct message your Contacts",
     "ListItemNewCredentials": "Get offered new credentials",
     "ListItemNotifiedOfUpdates": "Get notified of updates to your credentials issued by them",
@@ -643,7 +643,7 @@
     "ScanOnlySpecial3": "Bifold Wallet currently doesn't support adding digital credential by scanning or taking photos of physical ones.",
     "WhereToUseLink": "See where you can use Bifold Wallet",
     "BadQRCode": "QR Code Not Recognized",
-    "BadQRCodeDescription": "Ths QR code scanned doesn't work with Bifold Wallet. Bifold Wallet only works with participating services.\n\nIt currently can't add digital credentials by taking photos of physical ones.",
+    "BadQRCodeDescription": "Ths QR code scanned doesn't work with Bifold Wallet. Bifold Wallet only works with participating services. It currently can't add digital credentials by taking photos of physical ones.",
     "ErrorDetails": "Scan error details",
     "ShowDetails": "Show error details",
     "NoDetails": "No error details available"
@@ -994,7 +994,7 @@
     "CharCountTitle": "Character count exceeded",
     "CharCountDescription": "You've exceeded the maximum character count of 50 characters. Please reduce your character count.",
     "EmptyNameTitle": "Wallet name can't be empty",
-    "EmptyNameDescription": "This is the name people see when connecting with you.\n\nPlease enter a wallet name."
+    "EmptyNameDescription": "This is the name people see when connecting with you. Please enter a wallet name."
   },
   "RenameContact": {
     "ThisContactName": "This contact name is only displayed in your Contacts List.",
@@ -1002,11 +1002,11 @@
     "CharCountTitle": "Character count exceeded",
     "CharCountDescription": "You've exceeded the maximum character count of 50 characters. Please reduce your character count.",
     "EmptyNameTitle": "Contact name can't be empty",
-    "EmptyNameDescription": "This is the name you will see for this Contact in your Contacts list.\n\nPlease enter a contact name."
+    "EmptyNameDescription": "This is the name you will see for this Contact in your Contacts list. Please enter a contact name."
   },
   "NetInfo": {
     "NoInternetConnectionTitle": "No internet connection",
-    "NoInternetConnectionMessage": "You're unable to access services using Bifold or receive credentials until you're back online.\n\nPlease check your internet connection."
+    "NoInternetConnectionMessage": "You're unable to access services using Bifold or receive credentials until you're back online. Please check your internet connection."
   },
   "Onboarding": {
     "SkipA11y": "Skip introduction to Aries Bifold"
@@ -1127,6 +1127,5 @@
       "title": "Your Credential Wallet",
       "description": "Safe and secure"
     }
-  },
-
+  }
 }
